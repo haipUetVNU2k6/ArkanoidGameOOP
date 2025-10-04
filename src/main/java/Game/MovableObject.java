@@ -8,8 +8,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 public abstract class MovableObject extends  GameObject{
-    private  int dx;
-    private  int dy;
+    protected   int dx;
+    protected int dy;
 
     /*
      **Constructor

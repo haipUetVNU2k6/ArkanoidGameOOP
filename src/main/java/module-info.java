@@ -9,6 +9,6 @@ module com.example.arkanoidgameoop {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
 
-    opens com.example.arkanoidgameoop to javafx.fxml;
-    exports com.example.arkanoidgameoop;
+    opens Game to javafx.fxml;
+    exports Game;
 }
