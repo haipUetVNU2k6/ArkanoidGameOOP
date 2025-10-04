@@ -1,13 +1,8 @@
-package Game;
+package Game.Object;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-public abstract class MovableObject extends  GameObject{
+
+public abstract class MovableObject extends GameObject {
     protected   int dx;
     protected int dy;
 

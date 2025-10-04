@@ -1,13 +1,10 @@
 package Game;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
+import Game.Object.MovableObject;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-public class Paddle extends MovableObject{
+
+public class Paddle extends MovableObject {
     private int speed;
     private String currentPowerUp;
 
