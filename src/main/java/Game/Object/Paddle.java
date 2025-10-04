@@ -1,6 +1,6 @@
-package Game;
+package Game.Object;
 
-import Game.Object.MovableObject;
+import Game.AbstractObject.MovableObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -8,10 +8,10 @@ public class Paddle extends MovableObject {
     private int speed;
     private String currentPowerUp;
 
-    public Paddle(int x,int y,int width,int height,int speed,String currentPowerUp) {
+    public Paddle(int x,int y,int width,int height,int speed) {
         super(x,y,width,height,0,0);
         this.speed = speed;
-        this.currentPowerUp = currentPowerUp;
+        this.currentPowerUp = null;
     }
 
     public int getSpeed() {

@@ -1,9 +1,9 @@
-package Game.Object;
+package Game.AbstractObject;
 
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class MovableObject extends GameObject {
-    protected   int dx;
+    protected int dx;
     protected int dy;
 
     /*

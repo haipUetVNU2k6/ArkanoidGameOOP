@@ -10,8 +10,8 @@ module Game {
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
 
-    opens Game to javafx.fxml;
-    exports Game;
+    exports Game.AbstractObject;
+    opens Game.AbstractObject to javafx.fxml;
     exports Game.Object;
     opens Game.Object to javafx.fxml;
 }
