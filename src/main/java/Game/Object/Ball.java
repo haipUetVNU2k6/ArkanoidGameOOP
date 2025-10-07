@@ -2,6 +2,7 @@ package Game.Object;
 
 import Game.AbstractObject.GameObject;
 import Game.AbstractObject.MovableObject;
+import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 public class Ball extends  MovableObject{
@@ -29,12 +30,14 @@ public class Ball extends  MovableObject{
     public void setDirectionY(int y) {
         this.directionY = y;
     }
-    public void bounceOff(GameObject brick) {
+    public void bounceOff() {
        this.directionX = -directionX;
        dx = speed*directionX;
     }
 
-    public boolean  checkCollision(GameObject other ) {
+    public boolean  checkCollision(GameObject paddle) {
+        if(this.x <= 0) return true;
+        if(this.y <= 0)
         return true;
     }
     @Override
