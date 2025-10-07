@@ -15,3 +15,4 @@ module Game {
     exports Game.Object;
     opens Game.Object to javafx.fxml;
 }
+//test
