@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.arkanoidgameoop.controller.PlayingCtrl"
+            prefWidth="600" prefHeight="800" stylesheets="@../css/style.css">
+    <children>
+        <Pane fx:id="gamePane" layoutX="0" layoutY="0" prefWidth="600" prefHeight="800">
+            <!-- nodes (ball/paddle/bricks) added programmatically -->
+        </Pane>
+
+        <Label fx:id="scoreLabel" text="Score: 0" layoutX="10" layoutY="10" styleClass="hud-label"/>
+        <!-- We need to trigger controller initialization after scene set: use onMouseEntered hack to call onCreate -->
+        <AnchorPane onMouseEntered="#onCreate" />
+    </children>
+</AnchorPane>

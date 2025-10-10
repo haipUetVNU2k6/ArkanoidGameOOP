@@ -10,11 +10,12 @@ module Game {
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
 
-    exports Game.AbstractObject;
-    opens Game.AbstractObject to javafx.fxml;
-    exports Game.Object;
-    opens Game.Object to javafx.fxml;
+    // mở cho JavaFX có thể load FXML và truy cập controller
+    opens com.example.arkanoidgameoop.controller to javafx.fxml;
+    opens com.example.arkanoidgameoop.model to javafx.fxml;
 
+    // export package cho bên ngoài dùng
     exports com.example.arkanoidgameoop;
-    opens com.example.arkanoidgameoop to javafx.fxml;
+    exports com.example.arkanoidgameoop.controller;
+    exports com.example.arkanoidgameoop.model;
 }
