@@ -32,7 +32,7 @@ public class PlayingCtrl {
     }
 
     @FXML
-    private void onCreate() {
+    public void onCreate() {
         // initialize manager and nodes
         gm = new GameManager();
         rebuildNodes();

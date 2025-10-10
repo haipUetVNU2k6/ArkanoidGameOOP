@@ -26,3 +26,22 @@
     -fx-font-size: 16px;
     -fx-padding: 6;
 }
+
+#paddle {
+    -fx-fill: dodgerblue;
+    -fx-stroke: navy;
+    -fx-stroke-width: 2;
+}
+
+#ball {
+    -fx-fill: red;
+    -fx-stroke: darkred;
+    -fx-stroke-width: 1;
+}
+
+#brick {
+    -fx-fill: orange;
+    -fx-stroke: brown;
+    -fx-stroke-width: 1;
+}
+

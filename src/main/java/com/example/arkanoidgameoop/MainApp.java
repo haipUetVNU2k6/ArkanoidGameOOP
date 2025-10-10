@@ -30,18 +30,39 @@ public class MainApp extends Application {
         primaryStage.show();
     }
 
+//    public static void showPlaying() throws Exception {
+//        FXMLLoader loader = new FXMLLoader(
+//                MainApp.class.getResource("/com/example/arkanoidgameoop/fxml/playing.fxml")
+//        );
+//        Parent root = loader.load();
+//        Scene scene = new Scene(root, GameManager.WIDTH, GameManager.HEIGHT);
+//        scene.getStylesheets().add(
+//                MainApp.class.getResource("/com/example/arkanoidgameoop/css/style.css").toExternalForm()
+//        );
+//        primaryStage.setScene(scene);
+//        primaryStage.show();
+//    }
+
     public static void showPlaying() throws Exception {
         FXMLLoader loader = new FXMLLoader(
                 MainApp.class.getResource("/com/example/arkanoidgameoop/fxml/playing.fxml")
         );
         Parent root = loader.load();
+
+        // Lấy controller
+        com.example.arkanoidgameoop.controller.PlayingCtrl ctrl = loader.getController();
+
         Scene scene = new Scene(root, GameManager.WIDTH, GameManager.HEIGHT);
         scene.getStylesheets().add(
                 MainApp.class.getResource("/com/example/arkanoidgameoop/css/style.css").toExternalForm()
         );
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        // Gọi onCreate() sau khi stage đã show
+        ctrl.onCreate();
     }
+
 
     public static void showPause() throws Exception {
         FXMLLoader loader = new FXMLLoader(
