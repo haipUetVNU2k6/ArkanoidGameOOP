@@ -5,9 +5,19 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 public class Brick extends GameObject {
     private int hitPoints;
-    private String type;
+    private int type;
 
-    public Brick(int x,int y,int height,int width,int hitPoints,String type) {
+    /**
+     * Constructor Brick
+     *
+     * @param x       Coordinate-x
+     * @param y       Coordinate-y
+     * @param height  object's height
+     * @param width   object's width
+     * @param hitPoints  object's hit points
+     * @param type       object id
+     */
+    public Brick(int x,int y,int height,int width,int hitPoints,int type) {
         super(x,y,height,width);
         this.hitPoints = hitPoints;
         this.type = type;
@@ -20,17 +30,22 @@ public class Brick extends GameObject {
         this.hitPoints = point;
     }
 
-    public String getType() {
+    public int getType() {
         return this.type;
     }
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
-    public void takeHit() {
-        this.hitPoints = this.hitPoints - 1;
+    public void takeHit(int amout) {
+        this.hitPoints = this.hitPoints - amout;
     }
 
+    /**
+     * Check brick is Destroyed
+     *
+     * @return if hisPoints <= 0 return true ,else return false
+     */
     public boolean isDestroyed() {
         if(this.hitPoints < 1)  return true;
         else return false;
@@ -43,7 +58,7 @@ public class Brick extends GameObject {
     }
     @Override
     public void update() {
-
+           if(isDestroyed()) return;
     }
     public static void main(String[] args) {
 

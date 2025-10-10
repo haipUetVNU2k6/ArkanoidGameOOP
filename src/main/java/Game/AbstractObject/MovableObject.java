@@ -3,14 +3,14 @@ package Game.AbstractObject;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class MovableObject extends GameObject {
-    protected int dx;
-    protected int dy;
+    protected double dx;
+    protected double dy;
 
     /*
      **Constructor
      * @param dx,dy
      */
-    public MovableObject(int x,int y,int width,int height,int dx,int dy) {
+    public MovableObject(double x,double y,double width,double height,double dx,double dy) {
         super(x,y,width,height);
         this.dx = dx;
         this.dy = dy;
@@ -20,8 +20,8 @@ public abstract class MovableObject extends GameObject {
      ** Move()
      */
     public void move() {
-        int x = getX();
-        int y = getY();
+        double x = getX();
+        double y = getY();
         setX(x+dx);
         setY(y+dy);
     }

@@ -8,7 +8,7 @@ public class Paddle extends MovableObject {
     private int speed;
     private String currentPowerUp;
 
-    public Paddle(int x,int y,int width,int height,int speed) {
+    public Paddle(double x,double y,double width,double height,int speed) {
         super(x,y,width,height,0,0);
         this.speed = speed;
         this.currentPowerUp = null;

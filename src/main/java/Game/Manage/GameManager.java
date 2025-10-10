@@ -44,8 +44,10 @@ public class GameManager  {
         if(gameState == GameState.PLAYING) {
             this.paddle.update();
             this.ball.update();
-
+            //  if va cham bien tren Screen : bounceoff() -> tham so nen la gi?
+            //
         }
+
 
     }
 

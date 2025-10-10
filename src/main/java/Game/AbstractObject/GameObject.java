@@ -3,16 +3,16 @@ package Game.AbstractObject;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class GameObject {
-    private int x;
-    private int y;
-    private int width;
-    private int height;
+    private double x;
+    private double y;
+    private double width;
+    private double height;
 
     /*
      ** Constructor
      * @param x,y,width,height
      */
-    public GameObject(int x,int y,int width,int height) {
+    public GameObject(double x,double y,double width,double height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -22,35 +22,35 @@ public abstract class GameObject {
      ** Get and set
      */
 
-    public int getX() {
+    public double getX() {
         return this.x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return this.y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public int getWidth() {
+    public double getWidth() {
         return this.width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(double width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return this.height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 

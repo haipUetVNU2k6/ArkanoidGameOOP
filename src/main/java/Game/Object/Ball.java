@@ -6,39 +6,32 @@ import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 public class Ball extends  MovableObject{
-    private  int speed;
-    private int directionX;
-    private int directionY;
+    private int speed;
+    private double directionX;
+    private double directionY;
 
-    public Ball(int x,int y,int radius,int speed,int directionX,int directionY) {
+    public Ball(double x,double y,double radius,int speed,double directionX,double directionY) {
         super(x,y,2*radius,2*radius,directionX*speed,directionY*speed);
         this.speed = speed;
         this.directionX = directionX;
         this.directionY = directionY;
     }
 
-    public int getDirectionX() {
+    public double getDirectionX() {
         return this.directionX;
     }
-    public void setDirectionX(int x) {
+    public void setDirectionX(double x) {
         this.directionX = x;
     }
 
-    public int getDirectionY() {
+    public double getDirectionY() {
         return this.directionY;
     }
-    public void setDirectionY(int y) {
+    public void setDirectionY(double y) {
         this.directionY = y;
     }
-    public void bounceOff() {
-       this.directionX = -directionX;
-       dx = speed*directionX;
-    }
+    public void bounceOff(GameObject object) {
 
-    public boolean  checkCollision(GameObject paddle) {
-        if(this.x <= 0) return true;
-        if(this.y <= 0)
-        return true;
     }
     @Override
     public  void render(GraphicsContext gc) {
