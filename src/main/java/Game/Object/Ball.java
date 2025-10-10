@@ -1,51 +1,28 @@
 package Game.Object;
 
-import Game.AbstractObject.GameObject;
 import Game.AbstractObject.MovableObject;
-import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-public class Ball extends  MovableObject{
-    private  int speed;
-    private int directionX;
-    private int directionY;
+import javafx.geometry.Rectangle2D;
 
-    public Ball(int x,int y,int radius,int speed,int directionX,int directionY) {
-        super(x,y,2*radius,2*radius,directionX*speed,directionY*speed);
-        this.speed = speed;
-        this.directionX = directionX;
-        this.directionY = directionY;
+public class Ball extends MovableObject {
+
+    public Ball(double x, double y, int width, int height, double dx, double dy) {
+        super(x, y, width, height, dx, dy);
     }
 
-    public int getDirectionX() {
-        return this.directionX;
-    }
-    public void setDirectionX(int x) {
-        this.directionX = x;
-    }
-
-    public int getDirectionY() {
-        return this.directionY;
-    }
-    public void setDirectionY(int y) {
-        this.directionY = y;
-    }
-    public void bounceOff() {
-       this.directionX = -directionX;
-       dx = speed*directionX;
-    }
-
-    public boolean  checkCollision(GameObject paddle) {
-        if(this.x <= 0) return true;
-        if(this.y <= 0)
-        return true;
-    }
     @Override
-    public  void render(GraphicsContext gc) {
-        gc.setFill(Color.RED);
-        gc.fillRect(getX(), getY(), getHeight(), getWidth());
+    public void update() {
+        move();
     }
-    public static void main(String[] args) {
 
+    @Override
+    public void render(GraphicsContext gc) {
+        gc.setFill(Color.RED);
+        gc.fillOval(x, y, width, height);
+    }
+
+    public Rectangle2D getBounds() {
+        return new Rectangle2D(x, y, width, height);
     }
 }

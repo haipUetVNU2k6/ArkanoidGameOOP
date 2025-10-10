@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.arkanoidgameoop.MainController"
+            prefWidth="600" prefHeight="800">
+
+    <Canvas fx:id="gameCanvas" width="600" height="800" />
+
+</AnchorPane>

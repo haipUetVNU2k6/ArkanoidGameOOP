@@ -3,53 +3,45 @@ package Game.Object;
 import Game.AbstractObject.MovableObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.geometry.Rectangle2D;
+import Game.Manage.GameManager;
 
 public class Paddle extends MovableObject {
+
     private int speed;
-    private String currentPowerUp;
 
-    public Paddle(int x,int y,int width,int height,int speed) {
-        super(x,y,width,height,0,0);
-        this.speed = speed;
-        this.currentPowerUp = null;
-    }
-
-    public int getSpeed() {
-        return this.speed;
-    }
-    public void setSpeed(int speed) {
+    public Paddle(double x, double y, int width, int height, int speed) {
+        super(x, y, width, height, 0, 0);
         this.speed = speed;
     }
 
-    public String getCurrentPowerUp() {
-        return this.currentPowerUp;
+    @Override
+    public void update() {
+        move();
+
+        if (x < 0) x = 0;
+        if (x + width > GameManager.WIDTH) x = GameManager.WIDTH - width;
     }
-    public void setCurrentPowerUp(String current) {
-        this.currentPowerUp = current;
+
+    @Override
+    public void render(GraphicsContext gc) {
+        gc.setFill(Color.BLUE);
+        gc.fillRect(x, y, width, height);
     }
 
     public void moveLeft() {
         dx = -speed;
         move();
         dx = 0;
-
     }
 
     public void moveRight() {
         dx = speed;
         move();
-        dx = 0 ;
+        dx = 0;
     }
 
-    public void applyPowerUp(String newPowerUp) {
-        this.currentPowerUp = newPowerUp;
-    }
-    @Override
-    public  void render(GraphicsContext gc) {
-        gc.setFill(Color.BLUE);
-        gc.fillRect(getX(), getY(), getWidth(), getHeight());
-    }
-    public static void main(String[] args) {
-
+    public Rectangle2D getBounds() {
+        return new Rectangle2D(x, y, width, height);
     }
 }

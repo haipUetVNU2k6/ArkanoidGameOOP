@@ -14,5 +14,7 @@ module Game {
     opens Game.AbstractObject to javafx.fxml;
     exports Game.Object;
     opens Game.Object to javafx.fxml;
+
+    exports com.example.arkanoidgameoop;
+    opens com.example.arkanoidgameoop to javafx.fxml;
 }
-//test

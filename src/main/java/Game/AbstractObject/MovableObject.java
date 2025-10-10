@@ -1,40 +1,24 @@
 package Game.AbstractObject;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public abstract class MovableObject extends GameObject {
-    protected int dx;
-    protected int dy;
+    protected double dx, dy;
 
-    /*
-     **Constructor
-     * @param dx,dy
-     */
-    public MovableObject(int x,int y,int width,int height,int dx,int dy) {
-        super(x,y,width,height);
+    public MovableObject(double x, double y, int width, int height, double dx, double dy) {
+        super(x, y, width, height);
         this.dx = dx;
         this.dy = dy;
     }
 
-    /*
-     ** Move()
-     */
     public void move() {
-        int x = getX();
-        int y = getY();
-        setX(x+dx);
-        setY(y+dy);
+        x += dx;
+        y += dy;
     }
 
+    public abstract void update();
 
-    @Override
-    public void update() {
-        move();
-    }
-
-    @Override
-    public abstract void render(GraphicsContext gc);
-    public static void main(String[] args) {
-
-    }
+    // Getters and setters for velocity
+    public double getDx() { return dx; }
+    public double getDy() { return dy; }
+    public void setDx(double dx) { this.dx = dx; }
+    public void setDy(double dy) { this.dy = dy; }
 }
