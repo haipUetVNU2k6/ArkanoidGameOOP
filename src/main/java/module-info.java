@@ -1,4 +1,4 @@
-module Game {
+module ArkanoidGameOOP {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -10,8 +10,5 @@ module Game {
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
 
-    exports Game.AbstractObject;
-    opens Game.AbstractObject to javafx.fxml;
-    exports Game.Object;
-    opens Game.Object to javafx.fxml;
+    opens Game to javafx.graphics;
 }
