@@ -5,10 +5,9 @@ import Game.AbstractObject.MovableObject;
 import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
 public class Ball extends  MovableObject{
     private int speed;
-    private double directionX;
-    private double directionY;
     public  enum Direction{
         top,down,
         left,right,none;
@@ -16,22 +15,6 @@ public class Ball extends  MovableObject{
     public Ball(double x,double y,double radius,int speed,double directionX,double directionY) {
         super(x,y,2*radius,2*radius,directionX*speed,directionY*speed);
         this.speed = speed;
-        this.directionX = directionX;
-        this.directionY = directionY;
-    }
-
-    public double getDirectionX() {
-        return this.directionX;
-    }
-    public void setDirectionX(double x) {
-        this.directionX = x;
-    }
-
-    public double getDirectionY() {
-        return this.directionY;
-    }
-    public void setDirectionY(double y) {
-        this.directionY = y;
     }
 
     /**
@@ -64,9 +47,7 @@ public class Ball extends  MovableObject{
            double pXRec = (rec.getX() + rec.getWidth())/2;
            double pYRec = (rec.getY() + rec.getHeight())/2;
 
-           if(overlapX == this.getWidth() && overlapY == this.getHeight() && ballTop > recTop) {
-               return Direction.none;
-           }
+           
            if(overlapX >= overlapY) {
                if(pYBall >= pYRec) return Direction.top;
                else return Direction.down;
@@ -81,23 +62,47 @@ public class Ball extends  MovableObject{
         Direction dir = this.intersect(obj);
            switch (dir) {
                case top:
-                   this.directionY = -this.directionY;
+                   this.setDirectionY(-getDirectionY());
                    break;
                case down:
-                   this.directionY = -this.directionY;
+                   this.setDirectionY(-getDirectionY());
                    break;
                case right:
-                   this.directionX = - this.directionX;
+                   this.setDirectionX(-getDirectionX());
                    break;
                case left:
-                   this.directionX = - this.directionX;
+                   this.setDirectionX(-getDirectionX());
                    break;
            }
+    }
+
+    @Override
+    public void move() {
+        //System.out.println(getDirectionY());
+        if(getX() < 0 || getX() >GameManager.WIDTH) {
+            setDirectionX(-getDirectionX());
+        }
+        else if(getY() < 0 ) {
+
+            setDirectionY(-getDirectionY());
+        }
+        else if(getY() >= GameManager.HEIGHT){
+
+            return;
+        }
+        //System.out.println(getX()+","+getY()+","+getDirectionX() + ","+getDirectionY());
+        setX(getX() + getDirectionX()*speed);
+        setY(getY() + getDirectionY()*speed);
+    }
+
+    @Override
+    public void update() {
+        move();
     }
     @Override
     public  void render(GraphicsContext gc) {
         gc.setFill(Color.RED);
-        gc.fillRect(getX(), getY(), getHeight(), getWidth());
+        gc.fillOval(getX(), getY(), getHeight(), getWidth());
     }
     public static void main(String[] args) {
 

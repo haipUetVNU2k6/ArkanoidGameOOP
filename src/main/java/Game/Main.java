@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Main extends Application {
-
+    public static boolean start = false;
     private final Set<KeyCode> activeKeys = new HashSet<>();
 
     @Override
@@ -38,12 +38,14 @@ public class Main extends Application {
             @Override
             public void handle(long now) {
                 // Input handling
-                if (activeKeys.contains(KeyCode.LEFT) || activeKeys.contains(KeyCode.A)) {
+                if (activeKeys.contains(KeyCode.LEFT)) {
                     gameManager.getPaddle().moveLeft();
-                } else if (activeKeys.contains(KeyCode.RIGHT) || activeKeys.contains(KeyCode.D)) {
+                } else if (activeKeys.contains(KeyCode.RIGHT)) {
                     gameManager.getPaddle().moveRight();
-                } else {
-                    gameManager.getPaddle().stop();
+                }
+                  else if(GameManager.start == false && activeKeys.contains(KeyCode.ENTER)) {
+                      gameManager.getBall().setDirectionY(-1);
+                      GameManager.start = true;
                 }
 
                 // Update game state

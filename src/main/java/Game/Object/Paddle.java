@@ -47,44 +47,41 @@ public class Paddle extends MovableObject {
         if(getX() < 0 ) {
             setX(0);
         }
-        else if(getX()>GameManager.WIDTH) {
-            setX(GameManager.WIDTH);
+        else if(getX()+getWidth()>GameManager.WIDTH) {
+            setX(GameManager.WIDTH-getWidth());
         }
-        else setX(getX() + dx);
+        else setX(getX() + getDirectionX());
     }
 
     /**
      * Paddle move Left,move Right update Paddle(newX,newY)
      *
      */
-    /*public void moveLeft() {
-        dx = -speed;
-        move();
-        dx = 0;
-
-    }
-
-    public void moveRight() {
-        dx = speed;
-        move();
-        dx = 0 ;
-    }*/
-
     public void moveLeft() {
-        dx = -speed;
+        setDirectionX(-speed);
+        move();
+        setDirectionX(0);
+
     }
 
     public void moveRight() {
-        dx = speed;
+        setDirectionX(speed);
+        move();
+        setDirectionX(0);
     }
-    public void stop() {
-        dx = 0 ;
-    }
+
+
 
 
     public void applyPowerUp(String newPowerUp) {
         this.currentPowerUp = newPowerUp;
     }
+
+    @Override
+    public void update() {
+        move();
+    }
+
     @Override
     public  void render(GraphicsContext gc) {
         gc.setFill(Color.BLUE);

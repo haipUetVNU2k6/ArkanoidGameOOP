@@ -1,36 +1,46 @@
 package Game.AbstractObject;
 
+import Game.Object.Ball;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class MovableObject extends GameObject {
-    protected double dx;
-    protected double dy;
+    private double directionX;
+    private double directionY;
 
     /*
      **Constructor
      * @param dx,dy
      */
-    public MovableObject(double x,double y,double width,double height,double dx,double dy) {
+    public MovableObject(double x,double y,double width,double height,double directionX,double directionY) {
         super(x,y,width,height);
-        this.dx = dx;
-        this.dy = dy;
+        this.directionX = directionX;
+        this.directionY = directionY;
+    }
+
+    public  double getDirectionX() {
+        return directionX;
+    }
+
+    public void setDirectionX(double dx) {
+        directionX = dx;
+    }
+
+    public  double getDirectionY() {
+        return directionY;
+    }
+
+    public void setDirectionY(double dy) {
+        directionY = dy;
     }
 
     /*
      ** Move()
      */
-    public void move() {
-        double x = getX();
-        double y = getY();
-        setX(x+dx);
-        setY(y+dy);
-    }
+    public abstract void move();
 
 
     @Override
-    public void update() {
-        move();
-    }
+    public abstract void update();
 
     @Override
     public abstract void render(GraphicsContext gc);
