@@ -1,6 +1,7 @@
 package Game.Object;
 
 import Game.AbstractObject.MovableObject;
+import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -8,6 +9,15 @@ public class Paddle extends MovableObject {
     private int speed;
     private String currentPowerUp;
 
+    /**
+     * Constructor Paddle
+     *
+     * @param x  Coordinate-x
+     * @param y   Coordinate-y
+     * @param width  Paddle's width
+     * @param height  Paddle's height
+     * @param speed   Paddle's speed
+     */
     public Paddle(double x,double y,double width,double height,int speed) {
         super(x,y,width,height,0,0);
         this.speed = speed;
@@ -28,6 +38,25 @@ public class Paddle extends MovableObject {
         this.currentPowerUp = current;
     }
 
+    /**
+     * update Paddle if x < 0 -> set x= 0 or if x> Width(screen)  -> x = width
+     * otherwise x = x + dx
+     */
+    @Override
+    public void move() {
+        if(getX() < 0 ) {
+            setX(0);
+        }
+        else if(getX()>GameManager.WIDTH) {
+            setX(GameManager.WIDTH);
+        }
+        else setX(getX() + dx);
+    }
+
+    /**
+     * Paddle move Left,move Right update Paddle(newX,newY)
+     *
+     */
     public void moveLeft() {
         dx = -speed;
         move();

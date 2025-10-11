@@ -34,15 +34,57 @@ public class Ball extends  MovableObject{
         this.directionY = y;
     }
 
-    public Direction intersect(GameObject obj) {
-        double overlapTop = obj.getY() + obj.getHeight() - (this.getY() - this.getHeight());
-        double overlapDown = obj.getY() - (this.getY()+this.getHeight());
-        double overlapLeft = obj.getX() - (this.getX()+this.getWidth());
-        double overlapRight = obj.getX() + obj.getWidth() - (this.getX() - this.getWidth());
+    /**
+     * Xac dinh huong tiep xuc ball va vat the obj
+     *
+     * @param rec   vat the ball va cham
+     * @return Direction:Huong tiep xuc
+     */
+    public Direction intersect(GameObject rec) {
+           // recTop : duong thang phia tren tao len HCN
+           double recTop = rec.getY();
+           double recDown = rec.getY() + rec.getHeight();
+           double recLeft = rec.getX();
+           double recRight = rec.getX() + rec.getWidth();
+
+           // ballTop: duong thang phia tren tao len ball
+           double ballTop = this.getY() + this.getHeight();
+           double ballDown = this.getX();
+           double ballleft = this.getX();
+           double ballRight = this.getX() + this.getWidth();
+
+           // xac dinh vung chong lan(giao nhau) -> mo sang ben phai chieu duong truc Ox -> lay Min,nguoc lai voi bien trai lay Max
+           //overlapX = bien phai - bien trai = max(ballRight,recRight) - min(ballLeft,recLeft).
+           double overlapX = Math.min(ballRight,recRight) -  Math.max(ballleft,recLeft);
+           double overlapY = Math.min(ballTop,recTop)  - Math.max(ballDown,recDown);
+
+           // overlapX > overlapY -> top/down -> tâm obj < tâm ball -> top
+           double pXBall = (this.getX() + this.getWidth())/2;
+           double pYBall = (this.getY() + this.getHeight())/2;
+           double pXRec = (rec.getX() + rec.getWidth())/2;
+           double pYRec = (rec.getY() + rec.getHeight())/2;
+
+           if(overlapX >= overlapY) {
+               if(pYBall >= pYRec) return Direction.top;
+               else return Direction.down;
+           }
+           else {
+               if(pXBall >= pXRec) return Direction.right;
+               else return Direction.left;
+           }
     }
 
     public void bounceOff(Direction dir) {
-
+           switch (dir) {
+               case top:
+                   this.directionY = -this.directionY;
+               case down:
+                   this.directionY = -this.directionY;
+               case right:
+                   this.directionX = - this.directionX;
+               case left:
+                   this.directionX = - this.directionX;
+           }
     }
     @Override
     public  void render(GraphicsContext gc) {
