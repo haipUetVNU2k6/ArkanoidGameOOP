@@ -57,7 +57,7 @@ public class Paddle extends MovableObject {
      * Paddle move Left,move Right update Paddle(newX,newY)
      *
      */
-    public void moveLeft() {
+    /*public void moveLeft() {
         dx = -speed;
         move();
         dx = 0;
@@ -68,7 +68,19 @@ public class Paddle extends MovableObject {
         dx = speed;
         move();
         dx = 0 ;
+    }*/
+
+    public void moveLeft() {
+        dx = -speed;
     }
+
+    public void moveRight() {
+        dx = speed;
+    }
+    public void stop() {
+        dx = 0 ;
+    }
+
 
     public void applyPowerUp(String newPowerUp) {
         this.currentPowerUp = newPowerUp;

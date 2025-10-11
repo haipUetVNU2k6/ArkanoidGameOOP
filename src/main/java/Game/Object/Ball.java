@@ -9,9 +9,9 @@ public class Ball extends  MovableObject{
     private int speed;
     private double directionX;
     private double directionY;
-    public enum Direction{
+    public  enum Direction{
         top,down,
-        left,right;
+        left,right,none;
     }
     public Ball(double x,double y,double radius,int speed,double directionX,double directionY) {
         super(x,y,2*radius,2*radius,directionX*speed,directionY*speed);
@@ -49,7 +49,7 @@ public class Ball extends  MovableObject{
 
            // ballTop: duong thang phia tren tao len ball
            double ballTop = this.getY() + this.getHeight();
-           double ballDown = this.getX();
+           double ballDown = this.getY();
            double ballleft = this.getX();
            double ballRight = this.getX() + this.getWidth();
 
@@ -64,6 +64,9 @@ public class Ball extends  MovableObject{
            double pXRec = (rec.getX() + rec.getWidth())/2;
            double pYRec = (rec.getY() + rec.getHeight())/2;
 
+           if(overlapX == this.getWidth() && overlapY == this.getHeight() && ballTop > recTop) {
+               return Direction.none;
+           }
            if(overlapX >= overlapY) {
                if(pYBall >= pYRec) return Direction.top;
                else return Direction.down;
@@ -74,16 +77,21 @@ public class Ball extends  MovableObject{
            }
     }
 
-    public void bounceOff(Direction dir) {
+    public void bounceOf(GameObject obj) {
+        Direction dir = this.intersect(obj);
            switch (dir) {
                case top:
                    this.directionY = -this.directionY;
+                   break;
                case down:
                    this.directionY = -this.directionY;
+                   break;
                case right:
                    this.directionX = - this.directionX;
+                   break;
                case left:
                    this.directionX = - this.directionX;
+                   break;
            }
     }
     @Override

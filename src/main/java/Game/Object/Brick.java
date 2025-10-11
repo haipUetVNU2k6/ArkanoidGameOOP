@@ -17,8 +17,8 @@ public class Brick extends GameObject {
      * @param hitPoints  object's hit points
      * @param type       object id
      */
-    public Brick(int x,int y,int height,int width,int hitPoints,int type) {
-        super(x,y,height,width);
+    public Brick(int x,int y,int width,int height,int hitPoints,int type) {
+        super(x,y,width,height);
         this.hitPoints = hitPoints;
         this.type = type;
     }
