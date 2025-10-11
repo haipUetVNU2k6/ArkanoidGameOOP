@@ -35,7 +35,7 @@ public class GameManager  {
         this.gameState = GameState.PLAYING;
         this.paddle = new Paddle(WIDTH/2-50,HEIGHT-50,100,20,3);
         double radius = 5;
-        this.ball   = new Ball(paddle.getX()+paddle.getWidth()/2,paddle.getY()-2*radius,radius,5,0,0);
+        this.ball   = new Ball(paddle.getX()+paddle.getWidth()/2,paddle.getY()-2*radius,radius,1.3,0,0);
         this.scores = 0;
         this.lives = 3;
 
@@ -56,7 +56,6 @@ public class GameManager  {
             checkCollision();
             this.paddle.update();
             this.ball.update();
-            System.out.println(ball.getDirectionY());
             //System.out.println(bricks.size());
            /* if(bricks.isEmpty()) {
                 gameState = GameState.WIN;
@@ -74,6 +73,7 @@ public class GameManager  {
         if(start == true) {
 
             ball.bounceOf(paddle);
+
         }
 
         //Ball va Brick
@@ -84,13 +84,15 @@ public class GameManager  {
         }*/
         Iterator<Brick> iterator = bricks.iterator();
         while (iterator.hasNext()) {
-            Brick obj = iterator.next();
-            // Giả sử có một hàm kiểm tra va chạm thực sự
-                ball.bounceOf(obj);
-                obj.takeHit(1);
-                if (obj.isDestroyed()) {
-                    iterator.remove(); // Xóa an toàn bằng iterator
-                    scores += 10; // Nên cộng điểm ở đây
+                Brick brick = iterator.next();
+                ball.bounceOf(brick);
+                if(ball.isCollision == true) {
+                    brick.takeHit(1);
+                    ball.isCollision = false;
+                }
+                if (brick.isDestroyed()) {
+                    iterator.remove();
+                    scores += 10;
                 }
             }
 

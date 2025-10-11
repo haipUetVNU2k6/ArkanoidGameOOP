@@ -45,6 +45,7 @@ public class Main extends Application {
                 }
                   else if(GameManager.start == false && activeKeys.contains(KeyCode.ENTER)) {
                       gameManager.getBall().setDirectionY(-1);
+                      gameManager.getBall().setDirectionX(1.2);
                       GameManager.start = true;
                 }
 
