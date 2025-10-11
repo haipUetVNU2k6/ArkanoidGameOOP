@@ -25,23 +25,13 @@ public class MainApp extends Application {
         scene.getStylesheets().add(
                 MainApp.class.getResource("/com/example/arkanoidgameoop/css/style.css").toExternalForm()
         );
+        scene.getStylesheets().add(
+                MainApp.class.getResource("/com/example/arkanoidgameoop/css/menu.css").toExternalForm()
+        );
         primaryStage.setTitle("Arkanoid Game");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-//    public static void showPlaying() throws Exception {
-//        FXMLLoader loader = new FXMLLoader(
-//                MainApp.class.getResource("/com/example/arkanoidgameoop/fxml/playing.fxml")
-//        );
-//        Parent root = loader.load();
-//        Scene scene = new Scene(root, GameManager.WIDTH, GameManager.HEIGHT);
-//        scene.getStylesheets().add(
-//                MainApp.class.getResource("/com/example/arkanoidgameoop/css/style.css").toExternalForm()
-//        );
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
-//    }
 
     public static void showPlaying() throws Exception {
         FXMLLoader loader = new FXMLLoader(
