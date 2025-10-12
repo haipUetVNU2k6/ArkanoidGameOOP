@@ -18,11 +18,11 @@ public class GameView {
 
     public void render(GraphicsContext gc) {
         // Clear screen
-       /* gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);*/
-        InputStream i = GameView.class.getResourceAsStream("/image/background.png");
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
+        /*InputStream i = GameView.class.getResourceAsStream("/image/background.png");
         Image img = new Image(i);
-        gc.drawImage(img,0,0,GameManager.WIDTH,GameManager.HEIGHT);
+        gc.drawImage(img,0,0,GameManager.WIDTH,GameManager.HEIGHT);*/
 
         if (gameManager.getGameState() == GameManager.GameState.PLAYING) {
             // Render objects

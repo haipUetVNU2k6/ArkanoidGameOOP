@@ -16,8 +16,8 @@ public class GameManager  {
     private int scores;
     private int lives;
     private GameState gameState;
-    public  static final int HEIGHT = 800;
-    public  static final int WIDTH  = 600;
+    public  static final double HEIGHT = 600;
+    public  static final double WIDTH  = 800;
     public  String powerUp;
     public enum GameState {
         MENU,
@@ -42,7 +42,7 @@ public class GameManager  {
         int x=0,y=0;
         for(int i=0;i<5;++i) {
             for(int j=0;j<10;++j) {
-                Brick newBrick = new Brick(x + j*60,y + i*80,60,80,1,1);
+                Brick newBrick = new Brick(x + j*(GameManager.WIDTH/10),y + i*(GameManager.HEIGHT/10),40,30,1,1);
                 bricks.add(newBrick);
             }
 
