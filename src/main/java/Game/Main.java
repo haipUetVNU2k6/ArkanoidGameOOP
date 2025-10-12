@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Main extends Application {
-    public static boolean start = false;
     private final Set<KeyCode> activeKeys = new HashSet<>();
 
     @Override
@@ -57,7 +56,6 @@ public class Main extends Application {
                 gameView.render(gc);
             }
         }.start();
-
         primaryStage.setTitle("Arkanoid OOP");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
