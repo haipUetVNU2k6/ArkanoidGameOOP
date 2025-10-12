@@ -1,8 +1,14 @@
 package Game.Object;
 
 import Game.AbstractObject.GameObject;
+import Game.GameView;
+import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+
+import java.io.InputStream;
+
 public class Brick extends GameObject {
     private int hitPoints;
     private int type;
@@ -53,8 +59,9 @@ public class Brick extends GameObject {
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.GREEN);
-        gc.fillRect(getX(),getY(),getWidth(),getHeight());
+        InputStream i = Brick.class.getResourceAsStream("/image/block.png");
+        Image img = new Image(i);
+        gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
     }
     @Override
     public void update() {

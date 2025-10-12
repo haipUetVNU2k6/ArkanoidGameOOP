@@ -3,8 +3,12 @@ package Game.Object;
 import Game.AbstractObject.GameObject;
 import Game.AbstractObject.MovableObject;
 import Game.Manage.GameManager;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+
+import java.io.InputStream;
 
 public class Ball extends  MovableObject{
     private double speed;
@@ -116,6 +120,9 @@ public class Ball extends  MovableObject{
         gc.fillOval(getX(), getY(), getHeight(), getWidth());
     }
     public static void main(String[] args) {
-
+        Ball ball = new Ball(GameManager.WIDTH/2-50,GameManager.HEIGHT-50,5,1.8,0,0);
+        Canvas canvas = new Canvas(GameManager.WIDTH, GameManager.HEIGHT);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        ball.render(gc);
     }
 }

@@ -57,9 +57,9 @@ public class GameManager  {
             this.paddle.update();
             this.ball.update();
             //System.out.println(bricks.size());
-           /* if(bricks.isEmpty()) {
+           if(bricks.isEmpty()) {
                 gameState = GameState.WIN;
-            }*/
+            }
         }
         else {
             return ;
