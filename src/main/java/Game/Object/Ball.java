@@ -106,9 +106,10 @@ public class Ball extends  MovableObject{
             return;
         }
         //System.out.println(getX()+","+getY()+","+getDirectionX() + ","+getDirectionY());
-        setX(getX() + getDirectionX()*speed);
-        setY(getY() + getDirectionY()*speed);
-    }
+            setX(getX() + getDirectionX()*speed);
+            setY(getY() + getDirectionY()*speed);
+        }
+
 
     @Override
     public void update() {

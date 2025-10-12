@@ -62,6 +62,8 @@ public class Brick extends GameObject {
         InputStream i = Brick.class.getResourceAsStream("/image/block.png");
         Image img = new Image(i);
         gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
+        /*gc.setFill(Color.GREEN);
+        gc.fillRect(getX(),getY(),getWidth(),getHeight());*/
     }
     @Override
     public void update() {

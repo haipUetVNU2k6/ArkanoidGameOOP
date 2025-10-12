@@ -41,7 +41,7 @@ public class GameManager  {
 
         int x=0,y=0;
         for(int i=0;i<5;++i) {
-            for(int j=0;j<10;++j) {
+            for(int j=0;j<5;++j) {
                 Brick newBrick = new Brick(x + j*(GameManager.WIDTH/10),y + i*(GameManager.HEIGHT/10),40,30,1,1);
                 bricks.add(newBrick);
             }
@@ -74,6 +74,17 @@ public class GameManager  {
 
             ball.bounceOf(paddle);
 
+        }
+        else {
+            System.out.println(ball.getX()+","+ paddle.getX()+"," +paddle.getWidth());
+            double paddleOldX = ball.getX() - paddle.getWidth()/2;
+            double diff = paddle.getX() - paddleOldX;
+            if(diff>0) {
+                ball.setX(ball.getX() + paddle.getSpeed());
+            }
+            else if(diff<0){
+                ball.setX(ball.getX() - paddle.getSpeed());
+            }
         }
 
         //Ball va Brick
