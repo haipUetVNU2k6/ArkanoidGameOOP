@@ -1,23 +1,29 @@
 package com.example.arkanoidgameoop.model;
 
-public class Ball extends MovableObject {
-    public double radius;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
-    public Ball(double x, double y, double radius) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.width = radius*2;
-        this.height = radius*2;
-        // initial velocity
-        this.vx = 200;
-        this.vy = -200;
+public class Ball extends MovableObject {
+    private Image ballImage;
+
+    public Ball(double x, double y, int width, int height, double dx, double dy) {
+        super(x, y, width, height, dx, dy);
+
+        ballImage = new Image(getClass().getResourceAsStream("/com/example/arkanoidgameoop/images/ball/ball.png"));
     }
 
-    public void reset(double cx, double cy) {
-        this.x = cx - radius;
-        this.y = cy - radius;
-        this.vx = 200;
-        this.vy = -200;
+    @Override
+    public void update() {
+        move();
+    }
+
+    @Override
+    public void render(GraphicsContext gc) {
+        gc.drawImage(ballImage, x, y, width, height);
+    }
+
+    public Rectangle2D getBounds() {
+        return new Rectangle2D(x, y, width, height);
     }
 }

@@ -1,0 +1,19 @@
+thiết kế kiến trúc GamePrj:
+    1. -controller: xử lý thao tác người chơi
+        if (tapX) -> playerMoveLeft;
+    2. gameManager: chuyển đổi giữa các state
+        menu <-> playing <-> pause <-> gameOver
+
+       -> có thể gọi là gameStateManager
+       các Object được tạo ra trong từng state cụ thể
+
+
+
+
+->next time: tìm hiểu cách làm việc giữa playingControll và playingState;
+
+các đối tượng được tạo ra ở state,
+sau đó state cập nhật nó (moving),    <-- controll được sử dụng trong bước này như một remote (vì controll được nhận input người dùng, rồi gọi hành động của Object)
+và rồi render ra các Object đó
+
+GameStateManager sẽ luân chuyển giữa các state.

@@ -50,7 +50,7 @@ public class MainApp extends Application {
         primaryStage.show();
 
         // Gọi onCreate() sau khi stage đã show
-        ctrl.onCreate();
+        ctrl.initialize();
     }
 
 

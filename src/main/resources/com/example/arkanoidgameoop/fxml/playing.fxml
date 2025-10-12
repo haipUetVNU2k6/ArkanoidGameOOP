@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.arkanoidgameoop.controller.PlayingCtrl"
-            prefWidth="600" prefHeight="800" stylesheets="@../css/style.css">
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="800" prefWidth="600" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.arkanoidgameoop.controller.PlayingCtrl">
+
     <children>
-        <Pane fx:id="gamePane" layoutX="0" layoutY="0" prefWidth="600" prefHeight="800"/>
-        <Label fx:id="scoreLabel" text="Score: 0" layoutX="10" layoutY="10" styleClass="hud-label"/>
+      <ImageView fitHeight="800.0" fitWidth="600.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/ball/ddc.png" />
+         </image>
+      </ImageView>
+        <Canvas fx:id="gameCanvas" height="800" layoutX="0" layoutY="0" width="600" />
     </children>
 </AnchorPane>
