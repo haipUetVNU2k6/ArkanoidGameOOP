@@ -9,6 +9,7 @@ module Game {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
+    requires javafx.base;
     //requires Game;
 
     // Mở cho JavaFX có thể load FXML và truy cập controller

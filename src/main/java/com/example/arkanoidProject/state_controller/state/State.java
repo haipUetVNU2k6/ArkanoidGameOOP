@@ -6,14 +6,9 @@ import javafx.scene.layout.Pane;
 public abstract class State {
     public abstract void update();
     public abstract void render();
-    public abstract Pane getUI(); // mỗi State phải có giao diện riêng
+    public abstract Pane getUI();
 
-    public void handleKeyPressed(KeyEvent event) {
-        // Mặc định không làm gì, override trong state con nếu cần
-    }
+    public void handleKeyPressed(KeyEvent event) {}
 
-    // Xử lý phím thả
-    public void handleKeyReleased(KeyEvent event) {
-        // Mặc định không làm gì, override trong state con nếu cần
-    }
+    public  void handleKeyReleased(KeyEvent event) {}
 }

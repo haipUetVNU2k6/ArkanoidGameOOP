@@ -1,5 +1,6 @@
 package com.example.arkanoidProject;
 
+import com.example.arkanoidProject.state_controller.state.PauseState;
 import com.example.arkanoidProject.state_controller.state.PlayState;
 import com.example.arkanoidProject.state_controller.state.StateStack;
 import com.example.arkanoidProject.state_controller.state.MenuState;
@@ -17,6 +18,7 @@ public class MainApp extends Application {
 
     public static MenuState menuState = new MenuState();
     public static PlayState playState = new PlayState();
+    public static PauseState pauseState = new PauseState();
 
     @Override
     public void start(Stage primaryStage) {

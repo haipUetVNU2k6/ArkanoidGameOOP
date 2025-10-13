@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="800" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="com.example.arkanoidProject.state_controller.controller.MenuCtrl">
+<AnchorPane prefHeight="800" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17"
+            fx:controller="com.example.arkanoidProject.state_controller.controller.MenuCtrl">
     <children>
         <!-- Background image -->
         <ImageView fitHeight="800.0" fitWidth="600.0" pickOnBounds="true">

@@ -1,23 +1,26 @@
 package com.example.arkanoidProject.state_controller.state;
 
 import com.example.arkanoidProject.state_controller.state.State;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+
 public class PauseState extends State {
-    private VBox overlay;
+    private Pane root;
 
     public PauseState() {
-        overlay = new VBox();
-        overlay.setPrefSize(600, 800);
-        overlay.setAlignment(Pos.CENTER);
-        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
-
-        Label paused = new Label("Game Paused");
-        paused.setStyle("-fx-text-fill: white; -fx-font-size: 32px;");
-        overlay.getChildren().add(paused);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/fxml/pause.fxml"));
+            root = loader.load();
+//            root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/css/style.css").toExternalForm());
+//            root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/css/pause.css").toExternalForm());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -28,6 +31,6 @@ public class PauseState extends State {
 
     @Override
     public Pane getUI() {
-        return overlay;
+        return root;
     }
 }

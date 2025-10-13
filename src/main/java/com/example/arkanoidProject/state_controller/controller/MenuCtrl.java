@@ -1,19 +1,15 @@
 package com.example.arkanoidProject.state_controller.controller;
 
-import com.example.arkanoidProject.state_controller.state.StateStack;
+import com.example.arkanoidProject.MainApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
-import static com.example.arkanoidProject.MainApp.playState;
-import static com.example.arkanoidProject.MainApp.stateStack;
 
 public class MenuCtrl {
     @FXML
     private void onPLay(ActionEvent event) {
         System.out.println("PLAY button clicked");
-//        currentState.setCurrentState(playState);
-        stateStack.pop();
-        stateStack.push(playState);
+        MainApp.stateStack.pop();
+        MainApp.stateStack.push(MainApp.playState);
 
     }
 
