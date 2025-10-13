@@ -1,40 +1,54 @@
 package com.example.arkanoidProject.state_controller.state;
 
+import com.example.arkanoidProject.MainApp;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MenuState extends State{
-    public void update() {}
-
-    private Scene scene;
+public class MenuState extends State {
+    private Pane root;
 
     public MenuState() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    MenuState.class.getResource("/com/example/arkanoidProject/fxml/menu.fxml")
-            );
-            Parent root = loader.load();
-
-            this.scene = new Scene(root, 600, 800);
-            this.scene.getStylesheets().add(
-                    MenuState.class.getResource("/com/example/arkanoidProject/css/style.css").toExternalForm()
-            );
-            this.scene.getStylesheets().add(
-                    MenuState.class.getResource("/com/example/arkanoidProject/css/menu.css").toExternalForm()
-            );
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/fxml/menu.fxml"));
+            root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/css/style.css").toExternalForm());
+            root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/css/menu.css").toExternalForm());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void render(Stage primaryStage) {
-        primaryStage.setTitle("Arkanoid Game");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    @Override
+    public void handleKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            System.out.println("MenuState: Nhấn Enter để Play");
+            // Chuyển sang PlayState
+            MainApp.stateStack.pop();
+            MainApp.stateStack.push(MainApp.playState);
+        } else if (event.getCode() == KeyCode.ESCAPE) {
+            System.out.println("MenuState: Thoát game");
+            System.exit(0);
+        }
     }
 
+    @Override
+    public void update() {
+    }
+
+    @Override
+    public void render() {
+    }
+
+    @Override
+    public Pane getUI() {
+        return root;
+    }
 }
+

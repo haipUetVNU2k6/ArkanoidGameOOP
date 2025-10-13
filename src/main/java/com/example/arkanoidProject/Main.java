@@ -1,14 +1,8 @@
 package com.example.arkanoidProject;
 
-import com.example.arkanoidProject.state_controller.state.CurrentState;
+import com.example.arkanoidProject.state_controller.state.StateStack;
 import com.example.arkanoidProject.state_controller.state.MenuState;
 import com.example.arkanoidProject.state_controller.state.PlayState;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-import java.util.Scanner;
 
 import java.util.Scanner;
 
@@ -19,7 +13,7 @@ public class Main {
         MenuState ms = new MenuState();
         PlayState ps = new PlayState();
 
-        CurrentState cs = new CurrentState();
+        StateStack cs = new StateStack();
         //cs.setCurState(ms);
 
 
