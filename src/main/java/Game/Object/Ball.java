@@ -11,8 +11,12 @@ import javafx.scene.paint.Color;
 import java.io.InputStream;
 
 public class Ball extends  MovableObject{
+    public static double r = 10;
+    public static double startX = Paddle.startX+Paddle.WIDTH/2;
+    public static double startY = Paddle.startY - 2 * r;
     private double speed;
     public boolean isCollision = false;
+    public static Image img = new Image(Brick.class.getResourceAsStream("/image/ball.png"));
     public  enum Direction{
         top,down,
         left,right,none;
@@ -23,10 +27,10 @@ public class Ball extends  MovableObject{
     }
 
     /**
-     * Xac dinh huong tiep xuc ball va vat the obj
+     * Xac dinh huong tiep xuc ball va vat the obj.
      *
-     * @param rec   vat the ball va cham
-     * @return Direction:Huong tiep xuc
+     * @param rec   vat the ball va cham.
+     * @return Direction:Huong tiep xuc.
      */
     public Direction intersect(GameObject rec) {
 
@@ -117,8 +121,13 @@ public class Ball extends  MovableObject{
     }
     @Override
     public  void render(GraphicsContext gc) {
-        gc.setFill(Color.RED);
-        gc.fillOval(getX(), getY(), getHeight(), getWidth());
+        if(img != null) {
+            gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
+        }
+        else {
+            gc.setFill(Color.RED);
+            gc.fillOval(getX(), getY(), getHeight(), getWidth());
+        }
     }
     public static void main(String[] args) {
         Ball ball = new Ball(GameManager.WIDTH/2-50,GameManager.HEIGHT-50,5,1.8,0,0);
