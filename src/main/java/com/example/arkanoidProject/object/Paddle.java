@@ -1,0 +1,4 @@
+package com.example.arkanoidProject.object;
+
+public class Paddle {
+}

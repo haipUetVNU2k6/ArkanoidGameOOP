@@ -9,13 +9,15 @@ module Game {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
+    //requires Game;
 
-    // mở cho JavaFX có thể load FXML và truy cập controller
-    opens com.example.arkanoidgameoop.controller to javafx.fxml;
-    opens com.example.arkanoidgameoop.model to javafx.fxml;
+    // Mở cho JavaFX có thể load FXML và truy cập controller
+    opens com.example.arkanoidProject.state_controller.controller to javafx.fxml;
+    opens com.example.arkanoidProject.object to javafx.fxml;
 
-    // export package cho bên ngoài dùng
-    exports com.example.arkanoidgameoop;
-    exports com.example.arkanoidgameoop.controller;
-    exports com.example.arkanoidgameoop.model;
+    // Export package cho bên ngoài dùng
+    exports com.example.arkanoidProject;
+    exports com.example.arkanoidProject.state_controller.controller;
+    exports com.example.arkanoidProject.state_controller.state;
+    exports com.example.arkanoidProject.object;
 }

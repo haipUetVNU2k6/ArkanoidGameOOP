@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="600.0">
+    <children>
+        <ImageView fitHeight="800.0" fitWidth="600.0" pickOnBounds="true">
+            <image>
+                <Image url="@../images/wallhaven-xe85ko_3840x2400.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>
