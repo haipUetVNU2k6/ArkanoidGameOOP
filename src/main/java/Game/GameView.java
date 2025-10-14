@@ -1,9 +1,13 @@
 package Game;
 
 import Game.Manage.GameManager;
+import Game.Object.Ball;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.io.InputStream;
 
 public class GameView {
     private GameManager gameManager;
@@ -14,8 +18,12 @@ public class GameView {
 
     public void render(GraphicsContext gc) {
         // Clear screen
-        gc.setFill(Color.BLACK);
+        /*gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
+        InputStream i = GameView.class.getResourceAsStream("/image/background.png");
+        Image img = new Image(i);
+        gc.drawImage(img,0,0,GameManager.WIDTH,GameManager.HEIGHT);*/
+        gc.clearRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
 
         if (gameManager.getGameState() == GameManager.GameState.PLAYING) {
             // Render objects

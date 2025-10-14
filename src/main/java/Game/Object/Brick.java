@@ -1,23 +1,29 @@
 package Game.Object;
 
 import Game.AbstractObject.GameObject;
+import Game.GameView;
+import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+
+import java.io.InputStream;
+
 public class Brick extends GameObject {
     private int hitPoints;
     private int type;
-
+    public static Image img = new Image(Brick.class.getResourceAsStream("/image/block.png"));
     /**
-     * Constructor Brick
+     * Constructor Brick.
      *
-     * @param x       Coordinate-x
-     * @param y       Coordinate-y
-     * @param height  object's height
-     * @param width   object's width
-     * @param hitPoints  object's hit points
-     * @param type       object id
+     * @param x       Coordinate-x.
+     * @param y       Coordinate-y.
+     * @param height  object's height.
+     * @param width   object's width.
+     * @param hitPoints  object's hit points.
+     * @param type       object id.
      */
-    public Brick(int x,int y,int width,int height,int hitPoints,int type) {
+    public Brick(double x,double y,double width,double height,int hitPoints,int type) {
         super(x,y,width,height);
         this.hitPoints = hitPoints;
         this.type = type;
@@ -53,8 +59,13 @@ public class Brick extends GameObject {
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.GREEN);
-        gc.fillRect(getX(),getY(),getWidth(),getHeight());
+       if(img != null) {
+           gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
+       }
+       else {
+           gc.setFill(Color.GREEN);
+           gc.fillRect(getX(),getY(),getWidth(),getHeight());
+       }
     }
     @Override
     public void update() {

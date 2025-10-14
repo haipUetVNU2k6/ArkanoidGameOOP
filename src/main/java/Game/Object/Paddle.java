@@ -3,11 +3,17 @@ package Game.Object;
 import Game.AbstractObject.MovableObject;
 import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class Paddle extends MovableObject {
+    public static double startX = GameManager.WIDTH/2 - 50;
+    public static double startY = GameManager.HEIGHT - 50;
+    public static double WIDTH = 100;
+    public static double HEIGHT = 20;
     private int speed;
     private String currentPowerUp;
+    public static Image img = new Image(Brick.class.getResourceAsStream("/image/paddle.png"));
 
     /**
      * Constructor Paddle
@@ -84,9 +90,15 @@ public class Paddle extends MovableObject {
 
     @Override
     public  void render(GraphicsContext gc) {
-        gc.setFill(Color.BLUE);
-        gc.fillRect(getX(), getY(), getWidth(), getHeight());
+        if(img != null) {
+            gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
+        }
+        else {
+            gc.setFill(Color.BLUE);
+            gc.fillRect(getX(), getY(), getWidth(), getHeight());
+        }
     }
+
     public static void main(String[] args) {
 
     }

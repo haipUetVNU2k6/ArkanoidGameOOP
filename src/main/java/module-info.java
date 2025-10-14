@@ -10,5 +10,6 @@ module ArkanoidGameOOP {
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
 
+
     opens Game to javafx.graphics;
 }

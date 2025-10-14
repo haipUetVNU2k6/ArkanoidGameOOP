@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Main extends Application {
-    public static boolean start = false;
     private final Set<KeyCode> activeKeys = new HashSet<>();
 
     @Override
@@ -27,8 +26,9 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         StackPane root = new StackPane(canvas);
+        root.getStyleClass().add("game-container");
         Scene scene = new Scene(root);
-
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         // Handle keyboard input
         scene.setOnKeyPressed(event -> activeKeys.add(event.getCode()));
         scene.setOnKeyReleased(event -> activeKeys.remove(event.getCode()));
@@ -49,14 +49,13 @@ public class Main extends Application {
                       GameManager.start = true;
                 }
 
-                // Update game state
+                // Update game state.
                 gameManager.updateGame();
 
                 // Render the game
                 gameView.render(gc);
             }
         }.start();
-
         primaryStage.setTitle("Arkanoid OOP");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

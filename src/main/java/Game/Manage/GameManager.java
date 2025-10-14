@@ -16,8 +16,8 @@ public class GameManager  {
     private int scores;
     private int lives;
     private GameState gameState;
-    public  static final int HEIGHT = 800;
-    public  static final int WIDTH  = 600;
+    public  static final double HEIGHT = 600;
+    public  static final double WIDTH  = 800;
     public  String powerUp;
     public enum GameState {
         MENU,
@@ -31,18 +31,17 @@ public class GameManager  {
         startGame();
     }
     public void startGame() {
-       // this.bricks.clear();
+        this.bricks.clear();
         this.gameState = GameState.PLAYING;
-        this.paddle = new Paddle(WIDTH/2-50,HEIGHT-50,100,20,3);
-        double radius = 5;
-        this.ball   = new Ball(paddle.getX()+paddle.getWidth()/2,paddle.getY()-2*radius,radius,1.3,0,0);
+        this.paddle = new Paddle(Paddle.startX,Paddle.startY,Paddle.WIDTH,Paddle.HEIGHT,3);
+        double radius = 10;
+        this.ball   = new Ball(Ball.startX,Ball.startY,Ball.r,1.3,0,0);
         this.scores = 0;
         this.lives = 3;
 
-        int x=0,y=0;
-        for(int i=0;i<5;++i) {
+        for(int i=0;i<8;++i) {
             for(int j=0;j<10;++j) {
-                Brick newBrick = new Brick(x + j*60,y + i*80,60,80,1,1);
+                Brick newBrick = new Brick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30,1,1);
                 bricks.add(newBrick);
             }
 
@@ -57,9 +56,9 @@ public class GameManager  {
             this.paddle.update();
             this.ball.update();
             //System.out.println(bricks.size());
-           /* if(bricks.isEmpty()) {
+           if(bricks.isEmpty()) {
                 gameState = GameState.WIN;
-            }*/
+            }
         }
         else {
             return ;
@@ -74,6 +73,17 @@ public class GameManager  {
 
             ball.bounceOf(paddle);
 
+        }
+        else {
+            System.out.println(ball.getX()+","+ paddle.getX()+"," +paddle.getWidth());
+            double paddleOldX = ball.getX() - paddle.getWidth()/2;
+            double diff = paddle.getX() - paddleOldX;
+            if(diff>0) {
+                ball.setX(ball.getX() + paddle.getSpeed());
+            }
+            else if(diff<0){
+                ball.setX(ball.getX() - paddle.getSpeed());
+            }
         }
 
         //Ball va Brick
@@ -99,8 +109,15 @@ public class GameManager  {
         //Ball va 4 edge screen top/left/right
 
         if(ball.getY() >= HEIGHT) {
-            gameState = GameState.GAME_OVER;
-            return;
+            if(this.lives > 0 ) {
+                startGame();
+                this.lives = this.lives - 1;
+                start = false;
+            }
+            else {
+                gameState = GameState.GAME_OVER;
+                return;
+            }
         }
     }
 
