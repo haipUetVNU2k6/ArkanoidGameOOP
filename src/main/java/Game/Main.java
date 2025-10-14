@@ -49,7 +49,7 @@ public class Main extends Application {
                       GameManager.start = true;
                 }
 
-                // Update game state
+                // Update game state.
                 gameManager.updateGame();
 
                 // Render the game
