@@ -1,37 +1,42 @@
 package com.example.arkanoidProject.object;
 
-import javafx.scene.Node;
-import javafx.scene.shape.Shape;
+import com.example.arkanoidProject.util.SpriteAnimation;
+import javafx.scene.canvas.GraphicsContext;
 
-public abstract class GameObject {
-    protected Node node;
+public class GameObject {
+    protected double x, y;
+    protected double width, height;
 
-    public Node getNode() {
-        return node;
+    protected SpriteAnimation spriteAnimation;
+
+    public GameObject(double x, double y, double width, double height, SpriteAnimation spriteAnimation) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.spriteAnimation = spriteAnimation;
     }
 
-    public double getX() {
-        return node.getLayoutX();
-    }
-
-    public double getY() {
-        return node.getLayoutY();
-    }
-
-    public void setX(double x) {
-        node.setLayoutX(x);
-    }
-
-    public void setY(double y) {
-        node.setLayoutY(y);
-    }
-
-    public boolean isColliding(GameObject other) {
-        if (this.node instanceof Shape && other.node instanceof Shape) {
-            Shape shape1 = (Shape) this.node;
-            Shape shape2 = (Shape) other.node;
-            return Shape.intersect(shape1, shape2).getBoundsInLocal().getWidth() != -1;
+    public void update(double dt) {
+        if (spriteAnimation != null) {
+            spriteAnimation.update(dt);
         }
-        return false;
     }
+
+    public void render(GraphicsContext gc) {
+        if (spriteAnimation != null) {
+            spriteAnimation.render(gc, x, y,
+                    width / spriteAnimation.getFrameWidth(),
+                    height / spriteAnimation.getFrameHeight());
+        }
+    }
+
+    // getter/setter
+    public double getX() { return x; }
+    public double getY() { return y; }
+    public void setX(double x) { this.x = x; }
+    public void setY(double y) { this.y = y; }
+
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
 }

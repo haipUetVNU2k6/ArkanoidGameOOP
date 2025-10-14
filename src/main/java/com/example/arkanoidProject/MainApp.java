@@ -16,12 +16,16 @@ public class MainApp extends Application {
     //public static Stage stage;
     public static StateStack stateStack = new StateStack();
 
-    public static MenuState menuState = new MenuState();
-    public static PlayState playState = new PlayState();
-    public static PauseState pauseState = new PauseState();
+    public static MenuState menuState;
+    public static PlayState playState;
+    public static PauseState pauseState;
 
     @Override
     public void start(Stage primaryStage) {
+        menuState = new MenuState();
+        playState = new PlayState();
+        pauseState = new PauseState();
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Arkanoid Game");
         primaryStage.show();

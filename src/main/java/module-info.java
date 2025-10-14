@@ -10,6 +10,7 @@ module Game {
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
     requires javafx.base;
+    requires java.desktop;
     //requires Game;
 
     // Mở cho JavaFX có thể load FXML và truy cập controller

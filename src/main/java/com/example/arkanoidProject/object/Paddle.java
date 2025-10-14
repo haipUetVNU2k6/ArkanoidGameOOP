@@ -1,34 +1,48 @@
 package com.example.arkanoidProject.object;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import com.example.arkanoidProject.util.SpriteAnimation;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 
-public class Paddle extends MovableObject {
-    public static final double WIDTH = 100;
-    public static final double HEIGHT = 15;
-    public static final double SPEED = 5;
+import java.util.HashSet;
+import java.util.Set;
 
-    public Paddle(double x, double y) {
-        Rectangle rect = new Rectangle(WIDTH, HEIGHT);
-        rect.setFill(Color.BLUE);
-        node = rect;
-        setX(x);
-        setY(y);
+public class Paddle extends MoveableObject {
+
+    private double screenWidth;
+    private Set<KeyCode> keysPressed = new HashSet<>();
+
+    private double speed = 400;
+
+    public Paddle(double x, double y, double width, double height, Image spriteSheet, int frameCount, int frameWidth, int frameHeight, double frameDuration, double screenWidth) {
+        super(x, y, width, height,
+                new SpriteAnimation(spriteSheet, frameWidth, frameHeight, frameCount, 1, frameDuration));
+        this.screenWidth = screenWidth;
     }
 
-    public void moveLeft() {
-        dx = -SPEED;
+    @Override
+    public void update(double dt) {
+        super.update(dt);
+
+        // Cập nhật vận tốc theo phím nhấn
+        velocityX = 0;
+        if (keysPressed.contains(KeyCode.LEFT)) {
+            velocityX = -speed;
+        } else if (keysPressed.contains(KeyCode.RIGHT)) {
+            velocityX = speed;
+        }
+
+        // Giới hạn di chuyển trong màn hình
+        if (x < 0) x = 0;
+        if (x + width > screenWidth) x = screenWidth - width;
     }
 
-    public void moveRight() {
-        dx = SPEED;
+    // Quản lý phím nhấn từ controller bên ngoài
+    public void pressKey(KeyCode key) {
+        keysPressed.add(key);
     }
 
-    public void stop() {
-        dx = 0;
-    }
-
-    public Rectangle getRectangle() {
-        return (Rectangle) node;
+    public void releaseKey(KeyCode key) {
+        keysPressed.remove(key);
     }
 }

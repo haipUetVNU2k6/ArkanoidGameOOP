@@ -1,32 +1,50 @@
 package com.example.arkanoidProject.object;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import com.example.arkanoidProject.util.SpriteAnimation;
+import javafx.scene.image.Image;
 
-public class Ball extends MovableObject {
-    public static final double RADIUS = 10;
+public class Ball extends MoveableObject {
 
-    public Ball(double x, double y) {
-        Circle circle = new Circle(RADIUS);
-        circle.setFill(Color.WHITE);
-        node = circle;
-        setX(x);
-        setY(y);
+    private double screenWidth, screenHeight; // Giới hạn màn hình để xử lý va chạm
 
-        // Initial direction
-        dx = 3;
-        dy = -3;
+    public Ball(double x, double y, double diameter, Image spriteSheet, int frameCount, int frameWidth,
+                int frameHeight, double frameDuration, double screenWidth, double screenHeight) {
+        super(x, y, diameter, diameter,
+                new SpriteAnimation(spriteSheet, frameWidth, frameHeight, frameCount, 2, frameDuration));
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+
+        // Vận tốc mặc định
+        this.velocityX = 200;
+        this.velocityY = -200;
     }
 
-    public void bounceX() {
-        dx = -dx;
+    @Override
+    public void update(double dt) {
+        super.update(dt);
+
+        // Va chạm biên trái/phải màn hình
+        if (x <= 0) {
+            x = 0;
+            velocityX = -velocityX;
+        }
+        if (x + width >= screenWidth) {
+            x = screenWidth - width;
+            velocityX = -velocityX;
+        }
+
+        // Va chạm biên trên
+        if (y <= 0) {
+            y = 0;
+            velocityY = -velocityY;
+        }
+
+        // Va chạm biên dưới (thua game hoặc mất life, ở đây chỉ bounce lại tạm)
+        if (y + height >= screenHeight) {
+            y = screenHeight - height;
+            velocityY = -velocityY;
+        }
     }
 
-    public void bounceY() {
-        dy = -dy;
-    }
-
-    public Circle getCircle() {
-        return (Circle) node;
-    }
+    // Hàm va chạm với paddle hoặc brick có thể thêm ở đây (nếu muốn)
 }
