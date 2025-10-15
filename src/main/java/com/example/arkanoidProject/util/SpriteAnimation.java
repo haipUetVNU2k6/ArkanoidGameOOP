@@ -3,38 +3,46 @@ package com.example.arkanoidProject.util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * Class quản lý animation từ sprite sheet dạng grid.
- * Hỗ trợ update frame theo thời gian và render frame hiện tại lên canvas.
+ * Sprite animation đơn giản theo hàng: mỗi hàng đại diện cho 1 animation.
  */
 public class SpriteAnimation {
     private final Image spriteSheet;
     private final int frameWidth, frameHeight;
     private final int columns, rows;
-    private final int totalFrames;
+    private final double defaultFrameDuration;
 
     private int currentFrame = 0;
-    private double frameDuration; // thời gian 1 frame (giây)
+    private int currentRow = 0;
+
     private double timer = 0;
+    private double frameDuration;
     private boolean loop = true;
     private boolean running = true;
 
+    private Runnable onFinished;
+
+    private final Map<String, Integer> rowMap = new HashMap<>();
+
     /**
-     * @param spriteSheet ảnh sprite sheet chứa nhiều frame theo dạng lưới
-     * @param frameWidth  chiều rộng 1 frame
-     * @param frameHeight chiều cao 1 frame
-     * @param columns     số cột frame trên sprite sheet
-     * @param rows        số hàng frame trên sprite sheet
-     * @param frameDuration thời gian hiển thị 1 frame (giây)
+     * @param spriteSheet ảnh sprite sheet
+     * @param frameWidth  chiều rộng mỗi frame
+     * @param frameHeight chiều cao mỗi frame
+     * @param columns     số cột (frame) mỗi hàng
+     * @param rows        số hàng (animation)
+     * @param frameDuration thời gian hiển thị mỗi frame (giây)
      */
     public SpriteAnimation(Image spriteSheet, int frameWidth, int frameHeight,
-                           int columns, int rows, double frameDuration) {
+                                   int columns, int rows, double frameDuration) {
         this.spriteSheet = spriteSheet;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
         this.columns = columns;
         this.rows = rows;
-        this.totalFrames = columns * rows;
+        this.defaultFrameDuration = frameDuration;
         this.frameDuration = frameDuration;
     }
 
@@ -45,32 +53,24 @@ public class SpriteAnimation {
         if (!running) return;
 
         timer += dt;
-        if (timer >= frameDuration) {
+        while (timer >= frameDuration) {
             timer -= frameDuration;
             currentFrame++;
-            if (currentFrame >= totalFrames) {
+            if (currentFrame >= columns) {
                 if (loop) {
                     currentFrame = 0;
                 } else {
-                    currentFrame = totalFrames - 1;
+                    currentFrame = columns - 1;
                     running = false;
+                    if (onFinished != null) onFinished.run();
                 }
             }
         }
     }
 
-    /**
-     * Render frame hiện tại lên GraphicsContext tại vị trí (x, y) với scale.
-     *
-     * @param gc     GraphicsContext để vẽ
-     * @param x      vị trí x trên canvas
-     * @param y      vị trí y trên canvas
-     * @param scaleX tỉ lệ phóng theo chiều ngang
-     * @param scaleY tỉ lệ phóng theo chiều dọc
-     */
     public void render(GraphicsContext gc, double x, double y, double scaleX, double scaleY) {
-        int frameX = (currentFrame % columns) * frameWidth;
-        int frameY = (currentFrame / columns) * frameHeight;
+        int frameX = currentFrame * frameWidth;
+        int frameY = currentRow * frameHeight;
 
         gc.drawImage(spriteSheet,
                 frameX, frameY,
@@ -79,66 +79,54 @@ public class SpriteAnimation {
                 frameWidth * scaleX, frameHeight * scaleY);
     }
 
-    // --- Các method tiện ích ---
 
-    public void start() {
-        running = true;
+    /**
+     * Chuyển sang animation tại hàng (theo index).
+     */
+    public void setRow(int row) {
+        if (row >= 0 && row < rows && row != currentRow) {
+            this.currentRow = row;
+            this.currentFrame = 0;
+            this.timer = 0;
+            this.running = true;
+        }
     }
 
-    public void stop() {
-        running = false;
+    /**
+     * Đăng ký tên cho hàng.
+     */
+    public void mapRow(String name, int rowIndex) {
+        if (rowIndex >= 0 && rowIndex < rows) {
+            rowMap.put(name, rowIndex);
+        }
     }
 
+    /**
+     * Chuyển sang animation theo tên.
+     */
+    public void setAnimation(String name) {
+        Integer row = rowMap.get(name);
+        if (row != null) setRow(row);
+    }
+
+    // Tiện ích
+    public void setLoop(boolean loop) { this.loop = loop; }
+    public void setFrameDuration(double seconds) { this.frameDuration = seconds; }
     public void reset() {
         currentFrame = 0;
         timer = 0;
         running = true;
     }
+    public void stop() { running = false; }
+    public void play() { running = true; }
+    public boolean isRunning() { return running; }
 
-    public boolean isRunning() {
-        return running;
-    }
+    public void setOnFinished(Runnable r) { this.onFinished = r; }
 
-    public int getCurrentFrame() {
-        return currentFrame;
-    }
-
-    public void setCurrentFrame(int frame) {
-        if (frame >= 0 && frame < totalFrames) {
-            this.currentFrame = frame;
-            this.timer = 0;
-        }
-    }
-
-    public double getFrameDuration() {
-        return frameDuration;
-    }
-
-    public void setFrameDuration(double frameDuration) {
-        this.frameDuration = frameDuration;
-    }
-
-    public boolean isLoop() {
-        return loop;
-    }
-
-    public void setLoop(boolean loop) {
-        this.loop = loop;
-    }
-
-    public int getTotalFrames() {
-        return totalFrames;
-    }
-
-    public int getFrameWidth() {
-        return frameWidth;
-    }
-
-    public int getFrameHeight() {
-        return frameHeight;
-    }
-
-    public Image getSpriteSheet() {
-        return spriteSheet;
-    }
+    // Getter
+    public int getCurrentFrame() { return currentFrame; }
+    public int getCurrentRow() { return currentRow; }
+    public int getFrameWidth() { return frameWidth; }
+    public int getFrameHeight() { return frameHeight; }
+    public Image getSpriteSheet() { return spriteSheet; }
 }

@@ -15,7 +15,7 @@ Button {
     -fx-background-color: #2980b9;
     -fx-text-fill: white;
     -fx-font-weight: normal;
-    -fx-font-size: 14px;
+    -fx-font-size: 6px;
     -fx-background-radius: 6;
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
@@ -31,7 +31,7 @@ Button:hover {
 
 /* Style cho Label */
 Label {
-    -fx-font-size: 28px;
+    -fx-font-size: 10   px;
     -fx-font-weight: bold;
     -fx-text-fill: #ecf0f1;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0, 1, 1);

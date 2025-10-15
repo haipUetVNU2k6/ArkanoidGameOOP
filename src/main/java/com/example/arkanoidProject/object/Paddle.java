@@ -14,9 +14,10 @@ public class Paddle extends MoveableObject {
 
     private double speed = 400;
 
-    public Paddle(double x, double y, double width, double height, Image spriteSheet, int frameCount, int frameWidth, int frameHeight, double frameDuration, double screenWidth) {
+    public Paddle(double x, double y, double width, double height, Image spriteSheet, int columns, int rows,
+                  int frameWidth, int frameHeight, double frameDuration, double screenWidth) {
         super(x, y, width, height,
-                new SpriteAnimation(spriteSheet, frameWidth, frameHeight, frameCount, 1, frameDuration));
+                new SpriteAnimation(spriteSheet, frameWidth, frameHeight, columns, rows, frameDuration));
         this.screenWidth = screenWidth;
     }
 

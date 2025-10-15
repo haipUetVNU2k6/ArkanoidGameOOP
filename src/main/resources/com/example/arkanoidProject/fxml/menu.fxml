@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17"
-            fx:controller="com.example.arkanoidProject.state_controller.controller.MenuCtrl">
-    <children>
-        <!-- Background image -->
-        <ImageView fitHeight="800.0" fitWidth="600.0" pickOnBounds="true">
-            <image>
-                <Image url="@../images/wallhaven-6ljyd6_3840x2400.png" />
-            </image>
-        </ImageView>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.arkanoidProject.state_controller.controller.MenuCtrl"
+            prefWidth="900" prefHeight="600"
+            stylesheets="@../css/menu.css"
+            fx:id="root">
 
-        <!-- StackPane để căn giữa VBox -->
-        <StackPane prefHeight="800.0" prefWidth="600.0">
-            <children>
-                <VBox alignment="CENTER" spacing="60">
-                    <children>
-                        <Label text="ARKANOID">
-                            <VBox.margin>
-                                <Insets bottom="80.0" /> <!-- cách nút PLAY 80px -->
-                            </VBox.margin>
-                        </Label>
-                        <Button onAction="#onPLay" text="PLAY" />
-                        <Button onAction="#onSetting" text="SETTING" />
-                        <Button onAction="#onExit" text="EXIT" />
-                    </children>
-                    <padding>
-                        <Insets top="-100.0" />
-                    </padding>
-                </VBox>
-            </children>
-        </StackPane>
-    </children>
+    <!-- Tiêu đề -->
+    <Text fx:id="title" text="ARKANOID" layoutX="250" layoutY="150" styleClass="title-text"/>
+
+    <!-- VBox chứa các nút menu -->
+    <VBox spacing="25" layoutX="350" layoutY="220" alignment="CENTER">
+
+        <Button text="Start Game" fx:id="btnStart" styleClass="menu-button" onAction="#onPLay"/>
+        <Button text="High Scores" fx:id="btnScores" styleClass="menu-button" onAction="#onHighScores"/>
+        <Button text="Settings" fx:id="btnSettings" styleClass="menu-button" onAction="#onSetting"/>
+        <Button text="Exit" fx:id="btnExit" styleClass="menu-button" onAction="#onExit"/>
+    </VBox>
+
+    <!-- Footer thông tin nhỏ -->
+    <Text text="© 2025 - Your Studio Name" layoutX="350" layoutY="580" styleClass="footer-text" />
+
 </AnchorPane>

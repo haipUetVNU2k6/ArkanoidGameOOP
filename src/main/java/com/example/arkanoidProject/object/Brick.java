@@ -7,9 +7,10 @@ public class Brick extends GameObject {
 
     private boolean destroyed = false;
 
-    public Brick(double x, double y, double width, double height, Image spriteSheet, int frameCount, int frameWidth, int frameHeight, double frameDuration) {
+    public Brick(double x, double y, double width, double height, Image spriteSheet, int frameWidth, int frameHeight,
+                 int columns, int rows, double frameDuration) {
         super(x, y, width, height,
-                new SpriteAnimation(spriteSheet, frameWidth, frameHeight, frameCount, 1, frameDuration));
+                new SpriteAnimation(spriteSheet, frameWidth, frameHeight, columns, rows, frameDuration));
     }
 
     @Override

@@ -25,13 +25,14 @@ public class GameObject {
 
     public void render(GraphicsContext gc) {
         if (spriteAnimation != null) {
-            spriteAnimation.render(gc, x, y,
-                    width / spriteAnimation.getFrameWidth(),
-                    height / spriteAnimation.getFrameHeight());
+            double scaleX = width / spriteAnimation.getFrameWidth();
+            double scaleY = height / spriteAnimation.getFrameHeight();
+            double scale = Math.min(scaleX, scaleY); // tránh méo hình
+            spriteAnimation.render(gc, x, y, scale, scale);
         }
     }
 
-    // getter/setter
+    // Getter / Setter
     public double getX() { return x; }
     public double getY() { return y; }
     public void setX(double x) { this.x = x; }
@@ -39,4 +40,11 @@ public class GameObject {
 
     public double getWidth() { return width; }
     public double getHeight() { return height; }
+    public void setWidth(double width) { this.width = width; }
+    public void setHeight(double height) { this.height = height; }
+
+    public SpriteAnimation getSpriteAnimation() { return spriteAnimation; }
+    public void setSpriteAnimation(SpriteAnimation spriteAnimation) {
+        this.spriteAnimation = spriteAnimation;
+    }
 }

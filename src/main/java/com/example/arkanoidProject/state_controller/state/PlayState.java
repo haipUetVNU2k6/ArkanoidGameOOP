@@ -1,5 +1,6 @@
 package com.example.arkanoidProject.state_controller.state;
 
+import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
@@ -46,9 +47,8 @@ public class PlayState extends State {
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/paddle.png").toExternalForm());
             Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
 
-            ball = new Ball(300, 400, 32, ballSprite, 10, 32, 32, 0.1, WIDTH, HEIGHT);
-            //ball = new Ball(300, 400, 32, ballSprite, 4, 32, 32, 0.1, WIDTH, HEIGHT);
-            paddle = new Paddle(250, 750, 100, 30, paddleSprite, 1, 100, 30, 0.1, WIDTH);
+            ball = new Ball(300, 400, 32, ballSprite, 10, 1, 50, 53, 0.1, WIDTH, HEIGHT);
+            paddle = new Paddle(250, 750, 100, 30, paddleSprite, 3, 1, 34, 24, 0.1, WIDTH);
 
             int brickRows = 5;
             int brickCols = 10;
@@ -58,7 +58,7 @@ public class PlayState extends State {
             for (int row = 0; row < brickRows; row++) {
                 for (int col = 0; col < brickCols; col++) {
                     Brick brick = new Brick(col * brickWidth + 10, row * brickHeight + 10, brickWidth, brickHeight,
-                            brickSprite, 1, brickWidth, brickHeight, 1.0);
+                            brickSprite, 31, 18, 9, 1,0.1);
                     bricks.add(brick);
                 }
             }
@@ -133,6 +133,9 @@ public class PlayState extends State {
         }
         if (event.getCode() == KeyCode.D) {
             rightPressed = true;
+        }
+        if (event.getCode() == KeyCode.ESCAPE) {
+            MainApp.stateStack.push(MainApp.pauseState);
         }
     }
 

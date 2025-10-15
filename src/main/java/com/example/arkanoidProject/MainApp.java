@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
     public static StackPane root = new StackPane(); // chứa nhiều layer UI
-    public static Scene scene = new Scene(root, 600, 800);
+    public static Scene scene = new Scene(root, 900, 600);
     //public static Stage stage;
     public static StateStack stateStack = new StateStack();
 

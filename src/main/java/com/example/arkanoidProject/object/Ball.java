@@ -7,17 +7,27 @@ public class Ball extends MoveableObject {
 
     private double screenWidth, screenHeight; // Giới hạn màn hình để xử lý va chạm
 
-    public Ball(double x, double y, double diameter, Image spriteSheet, int frameCount, int frameWidth,
-                int frameHeight, double frameDuration, double screenWidth, double screenHeight) {
+    public Ball(double x, double y, double diameter, Image spriteSheet, int columns, int rows,
+                int frameWidth, int frameHeight, double frameDuration,
+                double screenWidth, double screenHeight) {
+
         super(x, y, diameter, diameter,
-                new SpriteAnimation(spriteSheet, frameWidth, frameHeight, frameCount, 2, frameDuration));
+                new SpriteAnimation(
+                        spriteSheet,
+                        frameWidth,
+                        frameHeight,
+                        columns,
+                        rows,
+                        frameDuration));
+
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
-        // Vận tốc mặc định
         this.velocityX = 200;
         this.velocityY = -200;
     }
+
+
 
     @Override
     public void update(double dt) {

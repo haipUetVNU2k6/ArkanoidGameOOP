@@ -1,43 +1,45 @@
-.button {
-    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
+/* Nền gradient tối */
+#root {
+    -fx-background-image: url("../images/bg.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+
+.title-text {
+    -fx-font-family: "Segoe UI Black", "Arial Black", sans-serif;
+    -fx-font-size: 72px;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #0ff, #08f);
+    -fx-effect: dropshadow(gaussian, rgba(0, 255, 255, 0.9), 25, 0.3, 0, 0);
+    -fx-stroke: rgba(0, 200, 255, 0.6);
+    -fx-stroke-width: 1.5;
+    -fx-opacity: 1.0;
+    -fx-text-alignment: center;
+}
+
+.menu-button {
+    -fx-background-color: linear-gradient(to right, #0080ff, #0055cc);
     -fx-text-fill: white;
-    -fx-background-color: linear-gradient(to bottom, #4a90e2, #357ABD);
-    -fx-background-radius: 15;
-    -fx-padding: 12 60 12 60;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 6, 0.7, 0, 3);
-    -fx-border-color: #1b4f72;
-    -fx-border-radius: 15;
-    -fx-border-width: 2;
-    -fx-transition: all 0.3s ease;
-    -fx-alignment: center;
-}
-
-.button:hover {
-    -fx-background-color: linear-gradient(to bottom, #6aa6f8, #4a7ecf);
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 10, 0.8, 0, 4);
-}
-
-.button:pressed {
-    -fx-background-color: linear-gradient(to bottom, #2f5a96, #1f4170);
-    -fx-translate-y: 3;
-    -fx-scale-x: 0.95;
-    -fx-scale-y: 0.95;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.9), 12, 0.9, 0, 2);
-}
-
-.label {
-    -fx-font-family: "Orbitron", "Segoe UI", sans-serif; /* Orbitron: font kiểu sci-fi nếu có */
-    -fx-font-size: 48px;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-text-fill: linear-gradient(to bottom, #ffffff, #cce6ff); /* Chữ có gradient trắng-xanh nhạt */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 8, 0.6, 0, 2); /* Đổ bóng để nổi bật trên ảnh */
-    -fx-alignment: center;
-    -fx-padding: 20 0 10 0;
-    -fx-letter-spacing: 2px; /* Tăng khoảng cách giữa các chữ */
-    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-padding: 14 45 14 45;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 6, 0.1, 0, 3);
+    -fx-transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+    -fx-background-color: linear-gradient(to right, #00bfff, #0080ff);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 235, 255, 0.9), 14, 0.4, 0, 6);
+}
+
+
+.footer-text {
+    -fx-fill: #666;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI";
 }
