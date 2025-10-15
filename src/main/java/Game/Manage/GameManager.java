@@ -1,6 +1,6 @@
 package Game.Manage;
 
-import Game.Level.LevelOne;
+import Game.Level.*;
 import Game.Main;
 import Game.Object.Ball;
 import Game.Object.Brick;
@@ -17,6 +17,7 @@ public class GameManager  {
     private int scores;
     private int lives;
     private GameState gameState;
+    private Map map;
     public  static final double HEIGHT = 600;
     public  static final double WIDTH  = 800;
     public  String powerUp;
@@ -46,8 +47,8 @@ public class GameManager  {
 //            }
 //
 //        }
-        LevelOne level1 = new LevelOne();
-        bricks = level1.getMap1();
+        map = new MapOne();
+        bricks = map.getMap();
     }
 
     public void updateGame() {
