@@ -75,7 +75,7 @@ public class GameManager  {
 
         }
         else {
-            System.out.println(ball.getX()+","+ paddle.getX()+"," +paddle.getWidth());
+          //  System.out.println(ball.getX()+","+ paddle.getX()+"," +paddle.getWidth());
             double paddleOldX = ball.getX() - paddle.getWidth()/2;
             double diff = paddle.getX() - paddleOldX;
             if(diff>0) {
@@ -110,8 +110,12 @@ public class GameManager  {
 
         if(ball.getY() >= HEIGHT) {
             if(this.lives > 0 ) {
+                int tmpScore = this.scores;
+                int tmpLives = this.lives;
                 startGame();
-                this.lives = this.lives - 1;
+                System.out.println(this.lives);
+                this.scores = tmpScore;
+                this.lives = tmpLives - 1;
                 start = false;
             }
             else {
