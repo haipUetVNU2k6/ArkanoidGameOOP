@@ -129,6 +129,16 @@ public class Ball extends  MovableObject{
             gc.fillOval(getX(), getY(), getHeight(), getWidth());
         }
     }
+
+    @Override
+    public void reset() {
+        setX(Ball.startX);
+        setY(Ball.startY);
+        setWidth( 2 * Ball.r);
+        setHeight( 2 * Ball.r);
+        setDirectionX(0);
+        setDirectionY(0);
+    }
     public static void main(String[] args) {
         Ball ball = new Ball(GameManager.WIDTH/2-50,GameManager.HEIGHT-50,5,1.8,0,0);
         Canvas canvas = new Canvas(GameManager.WIDTH, GameManager.HEIGHT);

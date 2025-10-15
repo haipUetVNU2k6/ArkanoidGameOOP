@@ -99,6 +99,14 @@ public class Paddle extends MovableObject {
         }
     }
 
+    @Override
+    public void reset() {
+        setX(Paddle.startX);
+        setY(Paddle.startY);
+        setWidth(Paddle.WIDTH);
+        setHeight(Paddle.HEIGHT);
+
+    }
     public static void main(String[] args) {
 
     }
