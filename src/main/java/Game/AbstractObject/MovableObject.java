@@ -44,6 +44,9 @@ public abstract class MovableObject extends GameObject {
 
     @Override
     public abstract void render(GraphicsContext gc);
+
+    @Override
+    public abstract  void reset();
     public static void main(String[] args) {
 
     }
