@@ -1,11 +1,13 @@
 package Game.Manage;
 
+import Game.Level.*;
 import Game.Main;
 import Game.Object.*;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
+
 
 public class GameManager  {
     public static boolean start = false;
@@ -15,6 +17,7 @@ public class GameManager  {
     private int scores;
     private int lives;
     private GameState gameState;
+    private Map map;
     public  static final double HEIGHT = 600;
     public  static final double WIDTH  = 800;
     public  String powerUp;
@@ -33,31 +36,19 @@ public class GameManager  {
         this.bricks.clear();
         this.gameState = GameState.PLAYING;
         this.paddle = new Paddle(Paddle.startX,Paddle.startY,Paddle.WIDTH,Paddle.HEIGHT,3);
-        double radius = 10;
         this.ball   = new Ball(Ball.startX,Ball.startY,Ball.r,1.3,0,0);
         this.scores = 0;
         this.lives = 3;
 
-        for(int i=0;i<8;++i) {
-            for(int j=0;j<10;++j) {
-                Random generator = new Random();
-                int in = 1 + generator.nextInt(3);
-                Brick newBrick = null;
-                switch (in) {
-                    case 1:
-                        newBrick = new NormalBrick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
-                        break;
-                    case 2:
-                        newBrick = new TNT(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
-                        break;
-                    case 3:
-                        newBrick = new ObsidianBrick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
-                        break;
-                } 
-                bricks.add(newBrick);
-            }
-
-        }
+//        for(int i=0;i<8;++i) {
+//            for(int j=0;j<10;++j) {
+//                Brick newBrick = new Brick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30,1,1);
+//                bricks.add(newBrick);
+//            }
+//
+//        }
+        map = new MapOne();
+        bricks = map.getMap();
     }
 
     public void updateGame() {

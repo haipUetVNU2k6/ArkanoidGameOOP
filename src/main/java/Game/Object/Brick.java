@@ -66,6 +66,12 @@ public class Brick extends GameObject {
     public void update() {
            if(isDestroyed()) return;
     }
+
+    @Override
+    public void reset() {
+        return; //chua biet lam gi
+    }
+
     public static void main(String[] args) {
 
     }

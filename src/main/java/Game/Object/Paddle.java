@@ -13,7 +13,7 @@ public class Paddle extends MovableObject {
     public static double HEIGHT = 20;
     private int speed;
     private String currentPowerUp;
-    public static Image img = new Image(Paddle.class.getResourceAsStream("/image/paddle.png"));
+    public static Image img = new Image(Brick.class.getResourceAsStream("/image/paddle.png"));
 
     /**
      * Constructor Paddle
@@ -99,6 +99,14 @@ public class Paddle extends MovableObject {
         }
     }
 
+    @Override
+    public void reset() {
+        setX(Paddle.startX);
+        setY(Paddle.startY);
+        setWidth(Paddle.WIDTH);
+        setHeight(Paddle.HEIGHT);
+
+    }
     public static void main(String[] args) {
 
     }
