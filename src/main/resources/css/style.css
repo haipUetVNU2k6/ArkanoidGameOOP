@@ -1,0 +1,8 @@
+/* File: style.css */
+
+.game-container {
+
+    /* -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #1a237e 0%, #000000 100%);*/
+     -fx-background-image: url("../image/background.png");
+     -fx-background-size: cover;
+}
