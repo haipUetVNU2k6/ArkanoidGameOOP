@@ -10,7 +10,6 @@ public class NormalBrick extends Brick {
     public static final Image img  = new Image(NormalBrick.class.getResourceAsStream("/image/normalBrick.png"));
     public NormalBrick(double x,double y,double width,double height) {
         super(x,y,width,height,1,id);
-
     }
     @Override
     public void render(GraphicsContext gc) {

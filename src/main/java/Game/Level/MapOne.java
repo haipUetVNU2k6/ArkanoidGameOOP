@@ -20,10 +20,10 @@ public class MapOne extends Map{
                     case 1:
                         newBrick = new NormalBrick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
                         break;
-                    case 2:
+                    case 3:
                         newBrick = new TNT(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
                         break;
-                    case 3:
+                    case 2:
                         newBrick = new StrongBrick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
                         break;
                 }

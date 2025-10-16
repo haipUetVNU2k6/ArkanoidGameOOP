@@ -11,6 +11,7 @@ module ArkanoidGameOOP {
     requires javafx.graphics;
 
 
+
     opens Game to javafx.graphics;
     opens Game.View to javafx.graphics;
 }
