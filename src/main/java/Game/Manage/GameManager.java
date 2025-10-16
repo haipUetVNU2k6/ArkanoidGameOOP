@@ -36,7 +36,7 @@ public class GameManager  {
         this.bricks.clear();
         this.gameState = GameState.PLAYING;
         this.paddle = new Paddle(Paddle.startX,Paddle.startY,Paddle.WIDTH,Paddle.HEIGHT,3);
-        this.ball   = new Ball(Ball.startX,Ball.startY,Ball.r,1.3,0,0);
+        this.ball   = new Ball(Ball.startX,Ball.startY,Ball.r,2.5,0,0);
         this.scores = 0;
         this.lives = 3;
 
@@ -105,7 +105,7 @@ public class GameManager  {
                 }
                 if (brick.isDestroyed()) {
                     // TNT no
-                    if (brick instanceof TNT) {
+                    if (brick.id == 3) {
                         double bx = brick.getX();
                         double by = brick.getY();
                         double bw = brick.getWidth();

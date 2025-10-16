@@ -11,7 +11,7 @@ import java.io.InputStream;
 
 public class Brick extends GameObject {
     private int hitPoints;
-    protected Image img;
+    protected int id;
     /*new Image(Brick.class.getResourceAsStream("/image/brick.png"));*/
 
     /**
@@ -53,15 +53,7 @@ public class Brick extends GameObject {
     }
 
     @Override
-    public void render(GraphicsContext gc) {
-       if(img != null) {
-           gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
-       }
-       else {
-           gc.setFill(Color.GREEN);
-           gc.fillRect(getX(),getY(),getWidth(),getHeight());
-       }
-    }
+    public void render(GraphicsContext gc) {}
     @Override
     public void update() {
            if(isDestroyed()) return;
