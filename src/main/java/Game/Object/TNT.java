@@ -8,7 +8,7 @@ public class TNT extends Brick {
     public static final int  id =3;
     public static final Image img  = new Image(NormalBrick.class.getResourceAsStream("/image/tnt.png"));
     public TNT(double x,double y,double width,double height) {
-        super(x, y, width, height, 2);
+        super(x, y, width, height,1,id);
 
     }
     @Override

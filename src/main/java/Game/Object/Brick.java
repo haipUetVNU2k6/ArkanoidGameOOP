@@ -4,9 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class Brick extends GameObject {
     private int hitPoints;
-    protected int id;
-    /*new Image(Brick.class.getResourceAsStream("/image/brick.png"));*/
-
+    private int id;
     /**
      * Constructor Brick.
      *
@@ -15,11 +13,12 @@ public class Brick extends GameObject {
      * @param height  object's height.
      * @param width   object's width.
      * @param hitPoints  object's hit points.
-     * @param type       object id: 1 la normal, 2 la TNT, 3 la obsidian.
+     * @param id      object id: 1 la normal, 2 la TNT, 3 la obsidian.
      */
-    public Brick(double x,double y,double width,double height,int hitPoints) {
+    public Brick(double x,double y,double width,double height,int hitPoints,int id) {
         super(x, y, width, height);
         this.hitPoints = hitPoints;
+        this.id = id;
     }
 
 
@@ -33,6 +32,10 @@ public class Brick extends GameObject {
 
     public void takeHit(int amount) {
         this.hitPoints = this.hitPoints - amount;
+    }
+
+    public int getId() {
+        return id;
     }
 
     /**

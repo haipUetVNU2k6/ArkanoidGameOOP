@@ -4,10 +4,8 @@ import Game.Manage.GameManager;
 import Game.Object.Brick;
 import Game.Object.NormalBrick;
 import Game.Object.TNT;
-import Game.Object.ObsidianBrick;
+import Game.Object.StrongBrick;
 import java.util.Random;
-
-import java.util.ArrayList;
 
 public class MapOne extends Map{
     private static int id = 1;
@@ -26,7 +24,7 @@ public class MapOne extends Map{
                         newBrick = new TNT(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
                         break;
                     case 3:
-                        newBrick = new ObsidianBrick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
+                        newBrick = new StrongBrick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30);
                         break;
                 }
                 this.getMap().add(newBrick);

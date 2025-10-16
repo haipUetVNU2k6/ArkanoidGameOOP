@@ -74,6 +74,9 @@ public class Ball extends  MovableObject{
 
     public void bounceOf(GameObject obj) {
         Direction dir = this.intersect(obj);
+        if(obj instanceof Paddle && dir != Direction.down) {
+            return;
+        }
            switch (dir) {
                case top:
                    this.setDirectionY(-getDirectionY());

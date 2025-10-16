@@ -36,7 +36,7 @@ public class GameManager  {
         this.bricks.clear();
         this.gameState = GameState.PLAYING;
         this.paddle = new Paddle(Paddle.startX,Paddle.startY,Paddle.WIDTH,Paddle.HEIGHT,3);
-        this.ball   = new Ball(Ball.startX,Ball.startY,Ball.r,2.5,0,0);
+        this.ball   = new Ball(Ball.startX,Ball.startY,Ball.r,1.3,0,0);
         this.scores = 0;
         this.lives = 3;
 
@@ -105,7 +105,7 @@ public class GameManager  {
                 }
                 if (brick.isDestroyed()) {
                     // TNT no
-                    if (brick.id == 3) {
+                    if (brick.getId() == 3) {
                         double bx = brick.getX();
                         double by = brick.getY();
                         double bw = brick.getWidth();
@@ -114,7 +114,7 @@ public class GameManager  {
                             if (b != brick) {
                                 if (b.getX() >= bx - bw && b.getX() <= bx + bw &&
                                         b.getY() >= by - bh && b.getY() <= by + bh) {
-                                    b.takeHit(2);
+                                    b.takeHit(b.getHitPoints());
                                 }
                             }
                         }
@@ -128,9 +128,10 @@ public class GameManager  {
 
         if(ball.getY() >= HEIGHT) {
             if(this.lives > 0 ) {
-                startGame();
-                this.lives = this.lives - 1;
-                start = false;
+               paddle.reset();
+               ball.reset();
+               start = false;
+               this.lives--;
             }
             else {
                 gameState = GameState.GAME_OVER;
