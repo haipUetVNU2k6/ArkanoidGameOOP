@@ -9,17 +9,16 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.example.arkanoidProject.state_controller.controller.MenuCtrl"
-           prefHeight="800" prefWidth="100"
-           stylesheets="@../css/menu.css"
+           stylesheets="@../css/test.css"
            fx:id="root">
 
-    <VBox spacing="25" alignment="CENTER">
+    <VBox spacing="40" alignment="CENTER">
 
         <!-- Tiêu đề -->
 
         <Text fx:id="title" text="ARKANOID" styleClass="title-text">
             <VBox.margin>
-                <Insets top="0" right="0" bottom="60" left="0"/>
+                <Insets top="0" right="0" bottom="100" left="0"/>
             </VBox.margin>
         </Text>
 

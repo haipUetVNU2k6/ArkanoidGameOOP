@@ -13,16 +13,12 @@ public class StateStack {
         if (!MainApp.root.getChildren().contains(state.getUI())) {
             MainApp.root.getChildren().add(state.getUI());
         }
-        MainApp.primaryStage.sizeToScene();
-        MainApp.primaryStage.centerOnScreen();
     }
 
     public void pop() {
         if (!stateStack.isEmpty()) {
             State top = stateStack.pop();
             MainApp.root.getChildren().remove(top.getUI());
-            MainApp.primaryStage.sizeToScene();
-            MainApp.primaryStage.centerOnScreen();
         }
     }
 

@@ -23,7 +23,7 @@ public class MenuCtrl {
 
     @FXML
     public void initialize() {
-        ParticleCanvas bgCanvas = new ParticleCanvas(800, 600, 100);
+        ParticleCanvas bgCanvas = new ParticleCanvas(MainApp.WIDTH, MainApp.HEIGHT, 800);
         root.getChildren().add(0, bgCanvas);
         // Hiệu ứng lấp lánh cho tiêu đề
         Timeline titleAnimation = new Timeline(

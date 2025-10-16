@@ -11,8 +11,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
-//    public static final int WIDTH = 1200;
-//    public static final int HEIGHT = 900;
+    public static final int WIDTH = 1200;
+    public static final int HEIGHT = 900;
 
     public static Stage primaryStage;
 
@@ -40,6 +40,10 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Arkanoid Game");
         primaryStage.show();
+        primaryStage.setWidth(WIDTH);
+        primaryStage.setHeight(HEIGHT);
+        primaryStage.setResizable(false);
+        primaryStage.centerOnScreen();
 
 
         // Bắt đầu với MenuState
