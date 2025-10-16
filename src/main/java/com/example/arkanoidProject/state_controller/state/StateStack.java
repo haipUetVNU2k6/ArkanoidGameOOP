@@ -10,7 +10,9 @@ public class StateStack {
     public void push(State state) {
         stateStack.push(state);
         // Thêm giao diện vào root
-        MainApp.root.getChildren().add(state.getUI());
+        if (!MainApp.root.getChildren().contains(state.getUI())) {
+            MainApp.root.getChildren().add(state.getUI());
+        }
         MainApp.primaryStage.sizeToScene();
         MainApp.primaryStage.centerOnScreen();
     }

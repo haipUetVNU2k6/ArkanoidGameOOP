@@ -5,14 +5,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.canvas.Canvas?>
 
-<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="900.0"
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           prefHeight="800.0" prefWidth="900.0"
+           stylesheets="@../css/play.css"
+           fx:id="root"
            fx:controller="com.example.arkanoidProject.state_controller.controller.PlayCtrl">
-
-    <ImageView fitHeight="800.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="false">
-        <image>
-            <Image url="@../images/playBg.png" />
-        </image>
-    </ImageView>
 
     <Canvas fx:id="gameCanvas" width="600" height="800" />
 
