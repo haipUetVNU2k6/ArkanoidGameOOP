@@ -1,40 +1,44 @@
-/* Background gradient animated simulation */
-#rootPane {
-    -fx-background-color: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+
+/* Style cho ImageView */
+ImageView {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 6, 0, 0, 2);
+    -fx-opacity: 0.9;
 }
 
-/* Title text style */
-.title-text {
-    -fx-font-family: "Arial Black", Gadget, sans-serif;
-    -fx-font-size: 56px;
-    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #00fff7, #0077ff);
-    -fx-effect: dropshadow(gaussian, #00e5ff, 10, 0.5, 0, 0);
-    -fx-stroke: #00e5ff;
-    -fx-stroke-width: 1.5;
+/* Style cho HBox */
+HBox {
+    -fx-padding: 10 0 10 0;
 }
 
-/* Menu buttons */
-.menu-button {
-    -fx-background-color: #1e90ff;
+/* Style cho tất cả Button */
+Button {
+    -fx-background-color: #2980b9;
     -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 12;
-    -fx-padding: 10 25 10 25;
+    -fx-font-weight: normal;
+    -fx-font-size: 6px;
+    -fx-background-radius: 6;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0.3, 0, 3);
-    -fx-alignment: center-left;
-    -fx-graphic-text-gap: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
+    -fx-padding: 6 18 6 18;
+    -fx-transition: background-color 0.2s ease;
 }
 
-.menu-button:hover {
-    -fx-background-color: #3399ff;
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-    -fx-effect: dropshadow(gaussian, #00e5ff, 12, 0.7, 0, 4);
+/* Hover hiệu ứng cho Button */
+Button:hover {
+    -fx-background-color: #3498db;
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.3), 6, 0, 0, 0);
 }
 
-/* Icon size inside buttons */
-.menu-button > .graphic > ImageView {
-    -fx-effect: dropshadow(gaussian, #00e5ff, 8, 0.6, 0, 0);
+/* Style cho Label */
+Label {
+    -fx-font-size: 10   px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ecf0f1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0, 1, 1);
+    -fx-font-family: "Arial Black", Gadget, sans-serif;
+
+    /* Giữ nguyên vị trí theo layoutX và layoutY */
+    -fx-alignment: top-left;
+    -fx-text-alignment: left;
+    -fx-wrap-text: false;
 }

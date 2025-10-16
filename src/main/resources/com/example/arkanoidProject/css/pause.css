@@ -1,44 +1,35 @@
-
-/* Style cho ImageView */
-ImageView {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 6, 0, 0, 2);
-    -fx-opacity: 0.9;
+/* Nền overlay mờ đen */
+.overlay {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-pref-width: 900;
+    -fx-pref-height: 600;
 }
 
-/* Style cho HBox */
-HBox {
-    -fx-padding: 10 0 10 0;
+/* Tiêu đề PAUSED */
+.pause-title {
+    -fx-font-family: "Segoe UI Black", "Arial Black", sans-serif;
+    -fx-font-size: 80px;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #ff5555, #ff0000);
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.8), 30, 0.5, 0, 0);
+    -fx-text-alignment: center;
 }
 
-/* Style cho tất cả Button */
-Button {
-    -fx-background-color: #2980b9;
+/* Nút bấm */
+.pause-button {
+    -fx-background-color: linear-gradient(to right, #ff4444, #aa0000);
     -fx-text-fill: white;
-    -fx-font-weight: normal;
-    -fx-font-size: 6px;
-    -fx-background-radius: 6;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
-    -fx-padding: 6 18 6 18;
-    -fx-transition: background-color 0.2s ease;
-}
-
-/* Hover hiệu ứng cho Button */
-Button:hover {
-    -fx-background-color: #3498db;
-    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.3), 6, 0, 0, 0);
-}
-
-/* Style cho Label */
-Label {
-    -fx-font-size: 10   px;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-text-fill: #ecf0f1;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0, 1, 1);
-    -fx-font-family: "Arial Black", Gadget, sans-serif;
+    -fx-background-radius: 25;
+    -fx-padding: 15 60 15 60;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 5, 0.2, 0, 3);
+    -fx-transition: all 0.25s ease;
+}
 
-    /* Giữ nguyên vị trí theo layoutX và layoutY */
-    -fx-alignment: top-left;
-    -fx-text-alignment: left;
-    -fx-wrap-text: false;
+.pause-button:hover {
+    -fx-background-color: linear-gradient(to right, #ff6666, #cc2222);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.9), 12, 0.4, 0, 6);
 }

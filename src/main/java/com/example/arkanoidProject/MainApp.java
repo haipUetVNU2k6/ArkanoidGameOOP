@@ -11,9 +11,18 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
+//    public static final int WIDTH = 1200;
+//    public static final int HEIGHT = 900;
+
+    public static Stage primaryStage;
+
+
     public static StackPane root = new StackPane(); // chứa nhiều layer UI
-    public static Scene scene = new Scene(root, 900, 600);
-    //public static Stage stage;
+//    public static Scene scene = new Scene(root, WIDTH, HEIGHT);
+
+    public static Scene scene = new Scene(root);
+
+
     public static StateStack stateStack = new StateStack();
 
     public static MenuState menuState;
@@ -21,7 +30,9 @@ public class MainApp extends Application {
     public static PauseState pauseState;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
+        primaryStage = stage;
+
         menuState = new MenuState();
         playState = new PlayState();
         pauseState = new PauseState();
@@ -29,6 +40,7 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Arkanoid Game");
         primaryStage.show();
+
 
         // Bắt đầu với MenuState
         stateStack.push(menuState);

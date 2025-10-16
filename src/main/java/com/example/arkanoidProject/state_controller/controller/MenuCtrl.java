@@ -2,17 +2,18 @@ package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.util.ParticleCanvas;
 import com.example.arkanoidProject.MainApp;
+import com.sun.tools.javac.Main;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class MenuCtrl {
     @FXML
-    private AnchorPane root;
+    private StackPane root;
 
     @FXML
     private Text title;
@@ -71,7 +72,6 @@ public class MenuCtrl {
         System.out.println("PLAY button clicked");
         MainApp.stateStack.pop();
         MainApp.stateStack.push(MainApp.playState);
-
     }
 
     @FXML

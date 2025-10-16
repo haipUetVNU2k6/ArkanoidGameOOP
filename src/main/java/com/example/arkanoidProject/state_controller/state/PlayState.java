@@ -135,6 +135,7 @@ public class PlayState extends State {
             rightPressed = true;
         }
         if (event.getCode() == KeyCode.ESCAPE) {
+            lastTime = 0;
             MainApp.stateStack.push(MainApp.pauseState);
         }
     }

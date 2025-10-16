@@ -18,6 +18,7 @@ public class MoveableObject extends GameObject {
         y += velocityY * dt;
     }
 
+
     public double getVelocityX() { return velocityX; }
     public double getVelocityY() { return velocityY; }
     public void setVelocityX(double velocityX) { this.velocityX = velocityX; }

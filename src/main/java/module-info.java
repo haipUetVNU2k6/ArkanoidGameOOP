@@ -11,6 +11,7 @@ module Game {
     requires javafx.graphics;
     requires javafx.base;
     requires java.desktop;
+    requires jdk.compiler;
     //requires Game;
 
     // Mở cho JavaFX có thể load FXML và truy cập controller

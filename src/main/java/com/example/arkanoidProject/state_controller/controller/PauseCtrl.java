@@ -6,17 +6,18 @@ import javafx.fxml.FXML;
 
 public class PauseCtrl {
     @FXML
-    private void clickResume(ActionEvent event) {
+    private void onResume(ActionEvent event) {
+        System.out.println("resume Click");
         MainApp.stateStack.pop();
     }
 
     @FXML
-    private void clickSetting(ActionEvent event) {
+    private void onSetting(ActionEvent event) {
         System.out.println("click on Setting");
     }
 
     @FXML
-    private void clickMenu(ActionEvent event) {
+    private void onMenu(ActionEvent event) {
         MainApp.stateStack.pop();
         MainApp.stateStack.push(MainApp.menuState);
     }

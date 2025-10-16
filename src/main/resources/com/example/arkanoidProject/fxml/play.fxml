@@ -2,17 +2,18 @@
 
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.canvas.Canvas?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="600.0"
-            fx:controller="com.example.arkanoidProject.state_controller.controller.PlayCtrl">
-    <children>
-        <ImageView fitHeight="800.0" fitWidth="600.0" pickOnBounds="true">
-            <image>
-                <Image url="@../images/wallhaven-xe85ko_3840x2400.png" />
-            </image>
-        </ImageView>
-        <Canvas fx:id="gameCanvas" width="600" height="800" />
-    </children>
-</AnchorPane>
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="900.0"
+           fx:controller="com.example.arkanoidProject.state_controller.controller.PlayCtrl">
+
+    <ImageView fitHeight="800.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="false">
+        <image>
+            <Image url="@../images/playBg.png" />
+        </image>
+    </ImageView>
+
+    <Canvas fx:id="gameCanvas" width="600" height="800" />
+
+</StackPane>
