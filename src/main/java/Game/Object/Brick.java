@@ -1,13 +1,6 @@
 package Game.Object;
 
-import Game.AbstractObject.GameObject;
-import Game.GameView;
-import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-
-import java.io.InputStream;
 
 public class Brick extends GameObject {
     private int hitPoints;

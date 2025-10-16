@@ -1,6 +1,5 @@
-package Game.AbstractObject;
+package Game.Object;
 
-import Game.Object.Ball;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class MovableObject extends GameObject {

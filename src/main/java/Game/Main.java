@@ -1,7 +1,7 @@
 package Game;
 
 import Game.Manage.GameManager;
-import Game.GameView;
+import Game.View.GameView;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;

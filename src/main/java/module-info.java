@@ -12,4 +12,5 @@ module ArkanoidGameOOP {
 
 
     opens Game to javafx.graphics;
+    opens Game.View to javafx.graphics;
 }
