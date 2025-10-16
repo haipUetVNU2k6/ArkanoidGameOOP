@@ -1,22 +1,22 @@
 /* Nền overlay mờ đen */
 .overlay {
-    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-color: rgba(0, 0, 0, 0.5);
     -fx-pref-width: 900;
     -fx-pref-height: 600;
 }
 
-/* Tiêu đề PAUSED */
+/* Tiêu đề PAUSED màu vàng */
 .pause-title {
     -fx-font-family: "Segoe UI Black", "Arial Black", sans-serif;
     -fx-font-size: 80px;
-    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #ff5555, #ff0000);
-    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.8), 30, 0.5, 0, 0);
+    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #ffcc33, #cc9900);
+    -fx-effect: dropshadow(gaussian, rgba(204, 153, 0, 0.8), 30, 0.5, 0, 0);
     -fx-text-alignment: center;
 }
 
-/* Nút bấm */
+/* Nút bấm màu vàng */
 .pause-button {
-    -fx-background-color: linear-gradient(to right, #ff4444, #aa0000);
+    -fx-background-color: linear-gradient(to right, #ffcc33, #cc9900); /* vàng tươi đến vàng đậm */
     -fx-text-fill: white;
     -fx-font-size: 22px;
     -fx-font-weight: bold;
@@ -28,8 +28,8 @@
 }
 
 .pause-button:hover {
-    -fx-background-color: linear-gradient(to right, #ff6666, #cc2222);
+    -fx-background-color: linear-gradient(to right, #ffdd55, #ddb933); /* vàng sáng hơn khi hover */
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
-    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.9), 12, 0.4, 0, 6);
+    -fx-effect: dropshadow(gaussian, rgba(255, 204, 51, 0.9), 12, 0.4, 0, 6);
 }

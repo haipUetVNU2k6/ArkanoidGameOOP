@@ -16,8 +16,6 @@ public class PauseState extends State {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/fxml/pause.fxml"));
             root = loader.load();
-//            root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/css/style.css").toExternalForm());
-//            root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/css/pause.css").toExternalForm());
         } catch (IOException e) {
             e.printStackTrace();
         }

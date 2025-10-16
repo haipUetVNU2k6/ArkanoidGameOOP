@@ -1,45 +1,35 @@
-/* Nền gradient tối */
-#root {
-    -fx-background-image: url("../images/bg.png");
-    -fx-background-size: cover;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
+/* Nền overlay mờ đen */
+.overlay {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-pref-width: 900;
+    -fx-pref-height: 600;
 }
 
-
-.title-text {
+/* Tiêu đề PAUSED */
+.pause-title {
     -fx-font-family: "Segoe UI Black", "Arial Black", sans-serif;
-    -fx-font-size: 70px;
-    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #0ff, #08f);
-    -fx-effect: dropshadow(gaussian, rgba(0, 255, 255, 0.9), 25, 0.3, 0, 0);
-    -fx-stroke: rgba(0, 200, 255, 0.6);
-    -fx-stroke-width: 1.5;
-    -fx-opacity: 1.0;
+    -fx-font-size: 80px;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #ff5555, #ff0000);
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.8), 30, 0.5, 0, 0);
     -fx-text-alignment: center;
 }
 
-.menu-button {
-    -fx-background-color: linear-gradient(to right, #0080ff, #0055cc);
+/* Nút bấm */
+.pause-button {
+    -fx-background-color: linear-gradient(to right, #ff4444, #aa0000);
     -fx-text-fill: white;
-    -fx-font-size: 60px;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-background-radius: 20;
-    -fx-padding: 14 45 14 45;
+    -fx-background-radius: 25;
+    -fx-padding: 15 60 15 60;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 6, 0.1, 0, 3);
-    -fx-transition: all 0.3s ease;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 5, 0.2, 0, 3);
+    -fx-transition: all 0.25s ease;
 }
 
-.menu-button:hover {
-    -fx-background-color: linear-gradient(to right, #00bfff, #0080ff);
+.pause-button:hover {
+    -fx-background-color: linear-gradient(to right, #ff6666, #cc2222);
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
-    -fx-effect: dropshadow(gaussian, rgba(0, 235, 255, 0.9), 14, 0.4, 0, 6);
-}
-
-
-.footer-text {
-    -fx-fill: #666;
-    -fx-font-size: 13px;
-    -fx-font-family: "Segoe UI";
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.9), 12, 0.4, 0, 6);
 }
