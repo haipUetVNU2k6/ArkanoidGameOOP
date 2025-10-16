@@ -1,7 +1,7 @@
 package Game;
 
 import Game.Manage.GameManager;
-import Game.GameView;
+import Game.View.GameView;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -64,5 +64,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+
     }
 }

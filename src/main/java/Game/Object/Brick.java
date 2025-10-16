@@ -1,18 +1,10 @@
 package Game.Object;
 
-import Game.AbstractObject.GameObject;
-import Game.GameView;
-import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-
-import java.io.InputStream;
 
 public class Brick extends GameObject {
     private int hitPoints;
-    private int type;
-    public static Image img = new Image(Brick.class.getResourceAsStream("/image/block.png"));
+    private int id;
     /**
      * Constructor Brick.
      *
@@ -21,30 +13,29 @@ public class Brick extends GameObject {
      * @param height  object's height.
      * @param width   object's width.
      * @param hitPoints  object's hit points.
-     * @param type       object id.
+     * @param id      object id: 1 la normal, 2 la TNT, 3 la obsidian.
      */
-    public Brick(double x,double y,double width,double height,int hitPoints,int type) {
-        super(x,y,width,height);
+    public Brick(double x,double y,double width,double height,int hitPoints,int id) {
+        super(x, y, width, height);
         this.hitPoints = hitPoints;
-        this.type = type;
+        this.id = id;
     }
+
 
     public int getHitPoints() {
         return this.hitPoints;
     }
+
     public void setHitPoints(int point) {
         this.hitPoints = point;
     }
 
-    public int getType() {
-        return this.type;
-    }
-    public void setType(int type) {
-        this.type = type;
+    public void takeHit(int amount) {
+        this.hitPoints = this.hitPoints - amount;
     }
 
-    public void takeHit(int amout) {
-        this.hitPoints = this.hitPoints - amout;
+    public int getId() {
+        return id;
     }
 
     /**
@@ -53,20 +44,12 @@ public class Brick extends GameObject {
      * @return if hisPoints <= 0 return true ,else return false
      */
     public boolean isDestroyed() {
-        if(this.hitPoints < 1)  return true;
+        if(this.hitPoints <= 0) return true;
         else return false;
     }
 
     @Override
-    public void render(GraphicsContext gc) {
-       if(img != null) {
-           gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
-       }
-       else {
-           gc.setFill(Color.GREEN);
-           gc.fillRect(getX(),getY(),getWidth(),getHeight());
-       }
-    }
+    public void render(GraphicsContext gc) {}
     @Override
     public void update() {
            if(isDestroyed()) return;
@@ -74,9 +57,12 @@ public class Brick extends GameObject {
 
     @Override
     public void reset() {
-        return;
+        return; //chua biet lam gi
     }
+
     public static void main(String[] args) {
 
     }
 }
+
+

@@ -1,6 +1,5 @@
 package Game.Object;
 
-import Game.AbstractObject.MovableObject;
 import Game.Manage.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

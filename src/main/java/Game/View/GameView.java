@@ -1,13 +1,9 @@
-package Game;
+package Game.View;
 
 import Game.Manage.GameManager;
-import Game.Object.Ball;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
-import java.io.InputStream;
 
 public class GameView {
     private GameManager gameManager;

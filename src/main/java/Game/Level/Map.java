@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public  class Map {
     private ArrayList<Brick> map;
     private int ID;
-    public Map(int id) {
+    public Map() {
         map = new ArrayList<>();
-        ID = id;
+
     }
 
     public ArrayList<Brick> getMap() {

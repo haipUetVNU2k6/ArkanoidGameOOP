@@ -1,14 +1,10 @@
 package Game.Object;
 
-import Game.AbstractObject.GameObject;
-import Game.AbstractObject.MovableObject;
 import Game.Manage.GameManager;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-
-import java.io.InputStream;
 
 public class Ball extends  MovableObject{
     public static double r = 10;
@@ -78,6 +74,9 @@ public class Ball extends  MovableObject{
 
     public void bounceOf(GameObject obj) {
         Direction dir = this.intersect(obj);
+        if(obj instanceof Paddle && dir != Direction.down) {
+            return;
+        }
            switch (dir) {
                case top:
                    this.setDirectionY(-getDirectionY());

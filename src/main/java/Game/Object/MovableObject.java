@@ -1,6 +1,5 @@
-package Game.AbstractObject;
+package Game.Object;
 
-import Game.Object.Ball;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class MovableObject extends GameObject {
@@ -44,9 +43,6 @@ public abstract class MovableObject extends GameObject {
 
     @Override
     public abstract void render(GraphicsContext gc);
-
-    @Override
-    public abstract  void reset();
     public static void main(String[] args) {
 
     }

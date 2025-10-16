@@ -2,15 +2,24 @@ package Game.Manage;
 
 import Game.Level.*;
 import Game.Main;
-import Game.Object.Ball;
-import Game.Object.Brick;
-import Game.Object.Paddle;
+import Game.Object.*;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
 public class GameManager  {
     public static boolean start = false;
+    private Level level;
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
     private Paddle paddle;
     private Ball ball;
     private ArrayList<Brick> bricks = new ArrayList<>();
@@ -39,16 +48,13 @@ public class GameManager  {
         this.ball   = new Ball(Ball.startX,Ball.startY,Ball.r,1.3,0,0);
         this.scores = 0;
         this.lives = 3;
-
-//        for(int i=0;i<8;++i) {
-//            for(int j=0;j<10;++j) {
-//                Brick newBrick = new Brick(j*(GameManager.WIDTH/10),i*(GameManager.HEIGHT/20),80,30,1,1);
-//                bricks.add(newBrick);
-//            }
-//
-//        }
-        map = new MapOne();
-        bricks = map.getMap();
+        level = new Level(1);
+        String path = "/MatrixLevel/matrix";
+        path = path + Integer.toString(level.getId());
+        path = path + ".txt";
+        level.setPath(path);
+        level.loadLevel();
+        this.bricks = level.getBricks();
     }
 
     public void updateGame() {
@@ -78,7 +84,7 @@ public class GameManager  {
 
         }
         else {
-          //  System.out.println(ball.getX()+","+ paddle.getX()+"," +paddle.getWidth());
+           // System.out.println(ball.getX()+","+ paddle.getX()+"," +paddle.getWidth());
             double paddleOldX = ball.getX() - paddle.getWidth()/2;
             double diff = paddle.getX() - paddleOldX;
             if(diff>0) {
@@ -104,6 +110,22 @@ public class GameManager  {
                     ball.isCollision = false;
                 }
                 if (brick.isDestroyed()) {
+                    // TNT no
+                    if (brick.getId() == 2) {
+                        System.out.println("in here.");
+                        double bx = brick.getX();
+                        double by = brick.getY();
+                        double bw = brick.getWidth();
+                        double bh = brick.getHeight();
+                        for (Brick b : bricks) {
+                            if (b != brick) {
+                                if (b.getX() >= bx - bw && b.getX() <= bx + bw &&
+                                        b.getY() >= by - bh && b.getY() <= by + bh) {
+                                    b.takeHit(b.getHitPoints());
+                                }
+                            }
+                        }
+                    }
                     iterator.remove();
                     scores += 10;
                 }
@@ -112,17 +134,11 @@ public class GameManager  {
         //Ball va 4 edge screen top/left/right
 
         if(ball.getY() >= HEIGHT) {
-            if(this.lives > 1 ) {
-                /*int tmpScore = this.scores;
-                int tmpLives = this.lives;
-                startGame();
-                System.out.println(this.lives);
-                this.scores = tmpScore;
-                this.lives = tmpLives - 1;*/
-                paddle.reset();
-                ball.reset();
-                this.lives = this.lives - 1;
-                start = false;
+            if(this.lives > 0 ) {
+               paddle.reset();
+               ball.reset();
+               start = false;
+               this.lives--;
             }
             else {
                 gameState = GameState.GAME_OVER;
