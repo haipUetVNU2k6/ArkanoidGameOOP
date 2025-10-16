@@ -10,7 +10,7 @@ import java.util.Random;
 public class MapOne extends Map{
     private static int id = 1;
     public MapOne() {
-        super(1);
+        super();
         for(int i=0;i<8;++i) {
             for(int j=0;j<10;++j) {
                 Random rand = new Random();
