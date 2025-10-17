@@ -45,27 +45,9 @@ public class MenuCtrl {
         scaleTransition.setAutoReverse(true);  // Quay lại kích thước ban đầu sau khi phóng to
         scaleTransition.play();
 
-        // Hiệu ứng hover cho các nút
-        setupButtonHover(btnStart);
-        setupButtonHover(btnScores);
-        setupButtonHover(btnSettings);
-        setupButtonHover(btnExit);
-
         // Bạn có thể thêm xử lý sự kiện ở đây hoặc trong phương thức riêng
     }
 
-    private void setupButtonHover(Button button) {
-        ScaleTransition stEnter = new ScaleTransition(Duration.millis(200), button);
-        stEnter.setToX(1.1);
-        stEnter.setToY(1.1);
-
-        ScaleTransition stExit = new ScaleTransition(Duration.millis(200), button);
-        stExit.setToX(1.0);
-        stExit.setToY(1.0);
-
-        button.setOnMouseEntered(e -> stEnter.playFromStart());
-        button.setOnMouseExited(e -> stExit.playFromStart());
-    }
 
     @FXML
     private void onPLay(ActionEvent event) {
@@ -80,7 +62,7 @@ public class MenuCtrl {
     }
 
     @FXML
-    private void onSetting(ActionEvent event) {
+    private void onSettings(ActionEvent event) {
         System.out.println("SETTING button clicked");
     }
 

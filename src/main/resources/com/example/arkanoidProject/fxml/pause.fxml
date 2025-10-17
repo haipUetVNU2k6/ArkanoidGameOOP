@@ -13,14 +13,24 @@
     <!-- Background overlay tối -->
     <StackPane styleClass="overlay"/>
 
-    <VBox spacing="30" alignment="CENTER">
+    <!-- Tấm nền chứa các nút -->
+    <StackPane alignment="CENTER">
 
-        <Text text="PAUSED" styleClass="pause-title"/>
+        <!-- Nền màu hoặc khối chữ nhật -->
+        <VBox fx:id="buttonBackground" styleClass="pausePane-background"
+              maxWidth="400" maxHeight="550"/>
 
-        <Button text="Resume" fx:id="btnResume" styleClass="pause-button" onAction="#onResume"/>
-        <Button text="Restart" fx:id="btnSetting" styleClass="pause-button" onAction="#onSetting"/>
-        <Button text="Exit" fx:id="btnMenu" styleClass="pause-button" onAction="#onMenu"/>
+        <!-- Các nút và tiêu đề -->
+        <VBox spacing="30" alignment="CENTER">
 
-    </VBox>
+            <Text text="PAUSED" styleClass="pause-title"/>
+
+            <Button text="Resume" fx:id="btnResume" styleClass="pause-button" onAction="#onResume"/>
+            <Button text="Restart" fx:id="btnRestart" styleClass="pause-button" onAction="#onRestart"/>
+            <Button text="Setting" fx:id="btnSetting" styleClass="pause-button" onAction="#onSetting"/>
+            <Button text="Menu" fx:id="btnMenu" styleClass="pause-button" onAction="#onMenu"/>
+
+        </VBox>
+    </StackPane>
 
 </StackPane>

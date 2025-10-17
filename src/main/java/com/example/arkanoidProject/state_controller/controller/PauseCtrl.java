@@ -12,7 +12,7 @@ public class PauseCtrl {
     }
 
     @FXML
-    private void onSetting(ActionEvent event) {
+    private void onRestart(ActionEvent event) {
         System.out.println("click on Setting");
     }
 
@@ -20,5 +20,10 @@ public class PauseCtrl {
     private void onMenu(ActionEvent event) {
         MainApp.stateStack.pop();
         MainApp.stateStack.push(MainApp.menuState);
+    }
+
+    @FXML
+    private void onSetting(ActionEvent event) {
+        System.out.println("click on Setting");
     }
 }
