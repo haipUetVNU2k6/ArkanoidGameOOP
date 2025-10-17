@@ -20,6 +20,7 @@ public class GameManager  {
     public void setLevel(Level level) {
         this.level = level;
     }
+    private static final GameManager instance = new GameManager();
     private Paddle paddle;
     private Ball ball;
     private ArrayList<Brick> bricks = new ArrayList<>();
@@ -37,9 +38,13 @@ public class GameManager  {
         GAME_OVER,
         WIN;
     }
-    public GameManager() {
+    private GameManager() {
         gameState = GameState.PLAYING;
         startGame();
+    }
+
+    public static GameManager getInstance() {
+        return instance;
     }
     public void startGame() {
         this.bricks.clear();

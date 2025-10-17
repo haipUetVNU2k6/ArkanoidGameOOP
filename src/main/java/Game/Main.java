@@ -19,8 +19,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        GameManager gameManager = new GameManager();
-        GameView gameView = new GameView(gameManager);
+        GameManager gameManager = GameManager.getInstance();
+        GameView gameView = new GameView();
+
 
         Canvas canvas = new Canvas(GameManager.WIDTH, GameManager.HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();

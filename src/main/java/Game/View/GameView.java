@@ -6,19 +6,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class GameView {
-    private GameManager gameManager;
 
-    public GameView(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
+    public GameView() {}
 
     public void render(GraphicsContext gc) {
-        // Clear screen
-        /*gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
-        InputStream i = GameView.class.getResourceAsStream("/image/background.png");
-        Image img = new Image(i);
-        gc.drawImage(img,0,0,GameManager.WIDTH,GameManager.HEIGHT);*/
+        GameManager gameManager = GameManager.getInstance();
         gc.clearRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
 
         if (gameManager.getGameState() == GameManager.GameState.PLAYING) {
