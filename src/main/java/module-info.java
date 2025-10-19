@@ -9,6 +9,7 @@ module ArkanoidGameOOP {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
+    requires java.desktop;
 
 
 
