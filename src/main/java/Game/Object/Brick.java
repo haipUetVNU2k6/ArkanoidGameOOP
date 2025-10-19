@@ -31,7 +31,7 @@ public class Brick extends GameObject {
     }
 
     public void takeHit(int amount) {
-        this.hitPoints = this.hitPoints - amount;
+        this.hitPoints = getHitPoints() - amount;
     }
 
     public int getId() {

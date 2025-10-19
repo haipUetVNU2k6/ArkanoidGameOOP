@@ -63,8 +63,10 @@ public class Ball extends  MovableObject{
            else isCollision = true;
 
            if(overlapX >= overlapY) {
-               if(pYBall >= pYRec) return Direction.top;
-               else return Direction.down;
+               if(pYBall >= pYRec) {
+                   return Direction.down;
+               }
+               else return Direction.top;
            }
            else {
                if(pXBall >= pXRec) return Direction.right;
@@ -74,7 +76,7 @@ public class Ball extends  MovableObject{
 
     public void bounceOf(GameObject obj) {
         Direction dir = this.intersect(obj);
-        if(obj instanceof Paddle && dir != Direction.down) {
+        if(obj instanceof Paddle && dir != Direction.top) {
             return;
         }
            switch (dir) {

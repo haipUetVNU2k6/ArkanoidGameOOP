@@ -121,13 +121,24 @@ public class GameManager  {
                 Brick brick = iterator.next();
                 ball.bounceOf(brick);
                 if(ball.isCollision == true) {
-                    brick.takeHit(1);
+                    switch (brick.getId()) {
+                        case 1:
+                            brick.takeHit(1);
+                            break;
+                        case 2:
+                            brick.takeHit(1);
+                            break;
+                        case 3:
+                            brick.takeHit(1);
+                           // System.out.println(brick.getHitPoints());
+                            break;
+                    }
                     ball.isCollision = false;
                 }
+               // System.out.println(brick.getHitPoints());
                 if (brick.isDestroyed()) {
                     // TNT no
                     if (brick.getId() == 2) {
-                        System.out.println("in here.");
                         double bx = brick.getX();
                         double by = brick.getY();
                         double bw = brick.getWidth();
@@ -141,12 +152,13 @@ public class GameManager  {
                             }
                         }
                     }
+
                     iterator.remove();
                     scores += 10;
                 }
             }
 
-        //Ball va 4 edge screen top/left/right
+        //Ball collision 4 edge screen top/left/right
 
         if(ball.getY() >= HEIGHT) {
             if(this.lives > 0 ) {
