@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Level {
     private int id;
     private String path;
-    public static int maxID = 1;
+    public static int maxID = 2;
 
     public Level(int id) {
         this.id = id;

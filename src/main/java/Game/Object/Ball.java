@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 
 public class Ball extends  MovableObject{
     public static double r = 10;
-    public static double startX = Paddle.startX+Paddle.WIDTH/2f ;
+    public static double startX = Paddle.startX + (double) Paddle.WIDTH/2f ;
     public static double startY = Paddle.startY - 2 * r;
     private double speed;
     public boolean isCollision = false;

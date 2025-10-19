@@ -27,7 +27,6 @@ public class GameManager  {
     private int scores;
     private int lives;
     private GameState gameState;
-    private Map map;
     public  static final double HEIGHT = 600;
     public  static final double WIDTH  = 800;
     public  String powerUp;
@@ -72,7 +71,17 @@ public class GameManager  {
             this.ball.update();
             //System.out.println(bricks.size());
            if(bricks.isEmpty()) {
-                gameState = GameState.WIN;
+               if(level.getId() >= Level.maxID) gameState = GameState.WIN;
+               else {
+                   level.setId(level.getId()+1);
+                   String path = "/MatrixLevel/matrix" + Integer.toString(level.getId()) + ".txt";
+                   level.setPath(path);
+                   level.loadLevel();
+                   paddle.reset();
+                   ball.reset();
+               }
+
+
             }
         }
         else {
