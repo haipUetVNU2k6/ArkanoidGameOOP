@@ -39,25 +39,57 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> activeKeys.add(event.getCode()));
         scene.setOnKeyReleased(event -> activeKeys.remove(event.getCode()));
 
-        // Xử lý di chuột để tạo hiệu ứng hover
+        // Handle  mouse moving
         scene.setOnMouseMoved(e -> {
             if (gameManager.getGameState() == GameManager.GameState.MENU) {
-                menuScene.checkHover(e);
-            } else if (gameManager.getGameState() == GameManager.GameState.SETTINGS) {
-                settingScene.checkHover(e);
-            }
+
+              boolean preStart = menuScene.start.isHover();
+              menuScene.start.setHovering(e);
+              if(preStart == false && menuScene.start.isHover()) {
+                  menuScene.start.setHeight(menuScene.start.getHeight()*1.1);
+                  menuScene.start.setWidth(menuScene.start.getWidth()*1.1);
+              }
+              else if(preStart == true &&  menuScene.start.isHover() == false) {
+                  menuScene.start.setHeight(menuScene.start.getHeight()/1.1);
+                  menuScene.start.setWidth(menuScene.start.getWidth()/1.1);
+              }
+
+                boolean preSetting = menuScene.settings.isHover();
+                menuScene.settings.setHovering(e);
+                if(preSetting == false && menuScene.settings.isHover()) {
+                    menuScene.settings.setHeight(menuScene.settings.getHeight()*1.1);
+                    menuScene.settings.setWidth(menuScene.settings.getWidth()*1.1);
+                }
+                else if(preSetting == true &&  menuScene.settings.isHover() == false) {
+                    menuScene.settings.setHeight(menuScene.settings.getHeight()/1.1);
+                    menuScene.settings.setWidth(menuScene.settings.getWidth()/1.1);
+                }
+
+                boolean preExit = menuScene.exit.isHover();
+                menuScene.exit.setHovering(e);
+                if(preExit == false && menuScene.exit.isHover()) {
+                    menuScene.exit.setHeight(menuScene.exit.getHeight()*1.1);
+                    menuScene.exit.setWidth(menuScene.exit.getWidth()*1.1);
+                }
+                else if(preExit == true &&  menuScene.exit.isHover() == false) {
+                    menuScene.exit.setHeight(menuScene.exit.getHeight()/1.1);
+                    menuScene.exit.setWidth(menuScene.exit.getWidth()/1.1);
+                }
+//           else if (gameManager.getGameState() == GameManager.GameState.SETTINGS) {
+//            settingScene.checkHover(e);
+          }
         });
 
         // Xử lý click chuột
         scene.setOnMouseClicked(e -> {
             switch (gameManager.getGameState()) {
                 case MENU:
-                    if (menuScene.start.isClicked(e)) {
-                        gameManager.startGame(); // Bắt đầu game!
+                   if (menuScene.start.isClicked(e)) {
+                        gameManager.startGame(); // start game!
                     } else if (menuScene.settingClick(e)) {
                         gameManager.setGameState(GameManager.GameState.SETTINGS);
                     } else if (menuScene.exitClick(e)) {
-                        primaryStage.close(); // Đóng ứng dụng
+                        primaryStage.close(); // exit
                     }
                     break;
                 case SETTINGS:
@@ -87,8 +119,6 @@ public class Main extends Application {
                         break;
 
                     case PLAYING:
-                        // --- Toàn bộ logic input và update cũ của bạn
-                        // --- bây giờ được chuyển vào đây
 
                         // Input handling
                         if (activeKeys.contains(KeyCode.LEFT)) {

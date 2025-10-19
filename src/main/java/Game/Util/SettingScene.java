@@ -13,7 +13,7 @@ public class SettingScene {
     public SettingScene() {
         settingBg = new Image(getClass().getResource("/image/background.png").toExternalForm());
 
-        exit = new Button("", 400, 300, 50, 50);
+        exit = new Button("", 400,200, 50, 50);
 
         exit.setImgButton("/image/exit.png");
         exit.setImgHoverButton("/image/exit.png");

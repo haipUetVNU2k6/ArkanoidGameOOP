@@ -14,10 +14,10 @@ public class MenuScene {
     public Button settings;
     public Button exit;
     public MenuScene() {
-        background = new Image(getClass().getResource("/image/background.png").toExternalForm());
+        background = new Image(getClass().getResource("/image/background.jpg").toExternalForm());
         logo = new Image(getClass().getResource("/image/logo.png").toExternalForm());
 
-        start = new Button("", 380, 250,70, 70);
+        start = new Button("", 380, 200,70, 70);
         start.setImgButton("/image/Start.png");
         start.setImgHoverButton("/image/Start.png");
 

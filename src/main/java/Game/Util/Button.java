@@ -18,6 +18,23 @@ public class Button extends Util {
         this.width = width;
         this.height = height;
     }
+
+    public Image getImgButton() {
+        return imgButton;
+    }
+
+    public void setImgButton(Image imgButton) {
+        this.imgButton = imgButton;
+    }
+
+    public Image getImgHoverButton() {
+        return imgHoverButton;
+    }
+
+    public void setImgHoverButton(Image imgHoverButton) {
+        this.imgHoverButton = imgHoverButton;
+    }
+
     public void setImgButton(String link) {
         this.imgButton = new Image(getClass().getResource(link).toExternalForm());
     }
