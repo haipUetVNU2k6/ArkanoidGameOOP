@@ -15,23 +15,23 @@ public class MenuScene {
     public Button exit;
     public MenuScene() {
         background = new Image(getClass().getResource("/image/background.png").toExternalForm());
-        logo = new Image(getClass().getResource("/image/ball.png").toExternalForm());
+        logo = new Image(getClass().getResource("/image/logo.png").toExternalForm());
 
-        start = new Button("Start!", 200.1, 378, 199.8, 41.9);
-        start.setImgButton("/image/ball.png");
-        start.setImgHoverButton("/image/ball.png");
+        start = new Button("", 380, 250,70, 70);
+        start.setImgButton("/image/Start.png");
+        start.setImgHoverButton("/image/Start.png");
 
-        settings = new Button("Settings", 200.1, 450.8, 199.8, 41.9);
-        settings.setImgButton("/image/ball.png");
-        settings.setImgHoverButton("/image/ball.png");
+        settings = new Button("", 380, 350, 70, 70);
+        settings.setImgButton("/image/setting.png");
+        settings.setImgHoverButton("/image/setting.png");
 
-        exit = new Button("Exit", 200.1, 523.8, 199.8, 41.9);
-        exit.setImgButton("/image/ball.png");
-        exit.setImgHoverButton("/image/ball.png");
+        exit = new Button("", 390, 450, 65, 65);
+        exit.setImgButton("/image/exit.png");
+        exit.setImgHoverButton("/image/exit.png");
     }
     public void drawMenuScene(GraphicsContext render) {
-        render.drawImage(background, 0, 0, 600, 650);
-        render.drawImage(logo, 144.7, 84.2, 310.6, 200.1);
+        render.drawImage(background, 0, 0, 800, 600);
+        render.drawImage(logo, 200, 50, 400, 150);
         start.draw(render);
         settings.draw(render);
         exit.draw(render);

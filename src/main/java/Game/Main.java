@@ -96,6 +96,9 @@ public class Main extends Application {
                         } else if (activeKeys.contains(KeyCode.RIGHT)) {
                             gameManager.getPaddle().moveRight();
                         }
+                        else if(activeKeys.contains(KeyCode.ESCAPE)) {
+                            gameManager.setGameState(GameManager.GameState.SETTINGS);
+                        }
 
                         if (GameManager.start == false && activeKeys.contains(KeyCode.ENTER)) {
                             gameManager.getBall().setDirectionY(-1);
