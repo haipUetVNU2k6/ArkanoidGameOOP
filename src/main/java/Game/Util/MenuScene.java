@@ -10,9 +10,9 @@ import javafx.scene.input.MouseEvent;
 public class MenuScene {
     private Image background;
     private Image logo;
-    Button start;
-    Button settings;
-    Button exit;
+    public Button start;
+    public Button settings;
+    public Button exit;
     public MenuScene() {
         background = new Image(getClass().getResource("/image/background.png").toExternalForm());
         logo = new Image(getClass().getResource("/image/ball.png").toExternalForm());
@@ -26,7 +26,7 @@ public class MenuScene {
         settings.setImgHoverButton("/image/ball.png");
 
         exit = new Button("Exit", 200.1, 523.8, 199.8, 41.9);
-        exit.setImgButton("/Start.png");
+        exit.setImgButton("/image/ball.png");
         exit.setImgHoverButton("/image/ball.png");
     }
     public void drawMenuScene(GraphicsContext render) {
@@ -49,7 +49,7 @@ public class MenuScene {
     }
 
     public static void main(String[] args) {
-        
+
     }
 }
 

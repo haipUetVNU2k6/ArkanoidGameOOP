@@ -36,11 +36,12 @@ public class GameManager  {
         PLAYING,
         PAUSED,
         GAME_OVER,
-        WIN;
+        WIN,
+        SETTINGS;
     }
     private GameManager() {
-        gameState = GameState.PLAYING;
-        startGame();
+        gameState = GameState.MENU;
+      //  startGame();
     }
 
     public static GameManager getInstance() {
@@ -152,12 +153,29 @@ public class GameManager  {
         }
     }
 
-    public Paddle getPaddle() { return paddle; }
-    public Ball getBall() { return ball; }
-    public ArrayList<Brick> getBricks() { return bricks; }
-    public int getScore() { return scores; }
-    public int getLives() { return lives; }
-    public GameState getGameState() { return gameState; }
+    public Paddle getPaddle() {
+        return paddle;
+    }
+    public Ball getBall() {
+        return ball;
+    }
+    public ArrayList<Brick> getBricks() {
+        return bricks;
+    }
+    public int getScore() {
+        return scores;
+    }
+    public int getLives() {
+        return lives;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
 
     public static void main(String[] args) {
      GameManager arkanoid  = new GameManager();

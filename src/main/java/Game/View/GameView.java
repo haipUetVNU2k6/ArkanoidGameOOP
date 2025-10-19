@@ -11,7 +11,7 @@ public class GameView {
 
     public void render(GraphicsContext gc) {
         GameManager gameManager = GameManager.getInstance();
-        gc.clearRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
+       // gc.clearRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
 
         if (gameManager.getGameState() == GameManager.GameState.PLAYING) {
             // Render objects
