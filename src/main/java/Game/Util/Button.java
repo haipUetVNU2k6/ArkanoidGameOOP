@@ -70,6 +70,18 @@ public class Button extends Util {
         gc.fillText(text, x + width/2, y + height/2);
     }
 
+    public void scale(MouseEvent e) {
+        boolean preButton = this.isHover();
+        setHovering(e);
+        if(preButton == false && isHover()) {
+            this.setHeight(getHeight()*1.1);
+            this.setWidth(getWidth()*1.1);
+        }
+        else if(preButton == true &&  isHover() == false) {
+            setHeight(getHeight()/1.1);
+            setWidth(getWidth()/1.1);
+        }
+    }
     public static void main(String[] args) {
 
     }

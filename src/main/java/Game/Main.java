@@ -6,14 +6,16 @@ import Game.Util.SettingScene;
 import Game.Util.Button;
 import Game.Util.Util;
 import Game.View.GameView;
-import javafx.animation.AnimationTimer;
+import javafx.animation.*;
 import javafx.application.Application;
+import javafx.beans.value.WritableDoubleValue;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,40 +45,14 @@ public class Main extends Application {
         scene.setOnMouseMoved(e -> {
             if (gameManager.getGameState() == GameManager.GameState.MENU) {
 
-              boolean preStart = menuScene.start.isHover();
-              menuScene.start.setHovering(e);
-              if(preStart == false && menuScene.start.isHover()) {
-                  menuScene.start.setHeight(menuScene.start.getHeight()*1.1);
-                  menuScene.start.setWidth(menuScene.start.getWidth()*1.1);
-              }
-              else if(preStart == true &&  menuScene.start.isHover() == false) {
-                  menuScene.start.setHeight(menuScene.start.getHeight()/1.1);
-                  menuScene.start.setWidth(menuScene.start.getWidth()/1.1);
-              }
-
-                boolean preSetting = menuScene.settings.isHover();
-                menuScene.settings.setHovering(e);
-                if(preSetting == false && menuScene.settings.isHover()) {
-                    menuScene.settings.setHeight(menuScene.settings.getHeight()*1.1);
-                    menuScene.settings.setWidth(menuScene.settings.getWidth()*1.1);
-                }
-                else if(preSetting == true &&  menuScene.settings.isHover() == false) {
-                    menuScene.settings.setHeight(menuScene.settings.getHeight()/1.1);
-                    menuScene.settings.setWidth(menuScene.settings.getWidth()/1.1);
-                }
-
-                boolean preExit = menuScene.exit.isHover();
-                menuScene.exit.setHovering(e);
-                if(preExit == false && menuScene.exit.isHover()) {
-                    menuScene.exit.setHeight(menuScene.exit.getHeight()*1.1);
-                    menuScene.exit.setWidth(menuScene.exit.getWidth()*1.1);
-                }
-                else if(preExit == true &&  menuScene.exit.isHover() == false) {
-                    menuScene.exit.setHeight(menuScene.exit.getHeight()/1.1);
-                    menuScene.exit.setWidth(menuScene.exit.getWidth()/1.1);
-                }
-//           else if (gameManager.getGameState() == GameManager.GameState.SETTINGS) {
-//            settingScene.checkHover(e);
+                menuScene.start.scale(e);
+                menuScene.settings.scale(e);
+                menuScene.exit.scale(e);
+            }
+            else if (gameManager.getGameState() == GameManager.GameState.SETTINGS) {
+            settingScene.exit.scale(e);
+            settingScene.playing.scale(e);
+            settingScene.restart.scale(e);
           }
         });
 
@@ -96,6 +72,13 @@ public class Main extends Application {
                     if (settingScene.exitClicked(e)) {
                         gameManager.setGameState(GameManager.GameState.MENU);
                     }
+                    else if (settingScene.playClicked(e)) {
+                        gameManager.setGameState(GameManager.GameState.PLAYING);
+                }
+                    else if(settingScene.restartClicked(e)) {
+                        gameManager.setGameState(GameManager.GameState.PLAYING);
+                        gameManager.startGame();
+                    }
                     break;
                 // Có thể thêm xử lý click cho GAME_OVER/WIN ở đây
                 // ví dụ: click để quay về MENU
@@ -105,10 +88,7 @@ public class Main extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                // 1. Xóa màn hình một lần duy nhất
                 gc.clearRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
-
-                // 2. Sử dụng switch để "định tuyến"
                 switch (gameManager.getGameState()) {
                     case MENU:
                         menuScene.drawMenuScene(gc);
@@ -123,10 +103,15 @@ public class Main extends Application {
                         // Input handling
                         if (activeKeys.contains(KeyCode.LEFT)) {
                             gameManager.getPaddle().moveLeft();
-                        } else if (activeKeys.contains(KeyCode.RIGHT)) {
+                        }
+                        else if (activeKeys.contains(KeyCode.RIGHT)) {
                             gameManager.getPaddle().moveRight();
                         }
-                        else if(activeKeys.contains(KeyCode.ESCAPE)) {
+                        else {
+
+                            gameManager.getPaddle().stopMoving();
+                        }
+                         if(activeKeys.contains(KeyCode.ESCAPE)) {
                             gameManager.setGameState(GameManager.GameState.SETTINGS);
                         }
 

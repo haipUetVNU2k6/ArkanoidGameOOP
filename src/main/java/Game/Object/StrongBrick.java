@@ -14,7 +14,8 @@ public class StrongBrick extends Brick {
     @Override
     public void render(GraphicsContext gc) {
         if(img != null) {
-            gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
+           if(getHitPoints() == 2) gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
+           else gc.drawImage(NormalBrick.img,getX(),getY(),getWidth(),getHeight());
         }
         else {
             gc.setFill(Color.GREEN);

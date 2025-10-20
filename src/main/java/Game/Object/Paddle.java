@@ -14,6 +14,15 @@ public class Paddle extends MovableObject {
     private String currentPowerUp;
     public static Image img = new Image(Brick.class.getResourceAsStream("/image/paddle.png"));
 
+    public double getOldX() {
+        return oldX;
+    }
+
+    public void setOldX(double oldX) {
+        this.oldX = oldX;
+    }
+
+    private  double oldX;
     /**
      * Constructor Paddle
      *
@@ -27,6 +36,7 @@ public class Paddle extends MovableObject {
         super(x,y,width,height,0,0);
         this.speed = speed;
         this.currentPowerUp = null;
+        this.oldX = x;
     }
 
     public int getSpeed() {
@@ -49,13 +59,17 @@ public class Paddle extends MovableObject {
      */
     @Override
     public void move() {
-        if(getX() < 0 ) {
-            setX(0);
+        setOldX(getX());
+        double newX = getX() + getDirectionX();
+
+        // check
+        if (newX < 0) {
+            setX(0); // Chặn ở 0
+        } else if (newX + getWidth() > GameManager.WIDTH) {
+            setX(GameManager.WIDTH - getWidth());
+        } else {
+            setX(newX);
         }
-        else if(getX()+getWidth()>GameManager.WIDTH) {
-            setX(GameManager.WIDTH-getWidth());
-        }
-        else setX(getX() + getDirectionX());
     }
 
     /**
@@ -64,18 +78,15 @@ public class Paddle extends MovableObject {
      */
     public void moveLeft() {
         setDirectionX(-speed);
-        move();
-        setDirectionX(0);
-
     }
 
     public void moveRight() {
         setDirectionX(speed);
-        move();
-        setDirectionX(0);
     }
 
-
+    public void stopMoving() {
+        setDirectionX(0);
+    }
 
 
     public void applyPowerUp(String newPowerUp) {

@@ -99,7 +99,7 @@ public class Ball extends  MovableObject{
     @Override
     public void move() {
         //System.out.println(getDirectionY());
-        if(getX() < 0 || getX() >GameManager.WIDTH) {
+        if(getX() < 0 || getX()  >GameManager.WIDTH) {
             setDirectionX(-getDirectionX());
         }
         else if(getY() < 0 ) {

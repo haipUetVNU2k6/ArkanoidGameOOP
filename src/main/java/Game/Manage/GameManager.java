@@ -3,6 +3,9 @@ package Game.Manage;
 import Game.Level.*;
 import Game.Main;
 import Game.Object.*;
+import javafx.animation.Animation;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 
 import java.util.ArrayList;
@@ -62,13 +65,53 @@ public class GameManager  {
         this.bricks = level.getBricks();
     }
 
+    public static boolean isStart() {
+        return start;
+    }
+
+    public int getScores() {
+        return scores;
+    }
+
+    public String getPowerUp() {
+        return powerUp;
+    }
+
+    public static void setStart(boolean start) {
+        GameManager.start = start;
+    }
+
+    public void setPaddle(Paddle paddle) {
+        this.paddle = paddle;
+    }
+
+    public void setBall(Ball ball) {
+        this.ball = ball;
+    }
+
+    public void setBricks(ArrayList<Brick> bricks) {
+        this.bricks = bricks;
+    }
+
+    public void setScores(int scores) {
+        this.scores = scores;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public void setPowerUp(String powerUp) {
+        this.powerUp = powerUp;
+    }
+
     public void updateGame() {
         if(gameState == GameState.PLAYING) {
-
-
-            checkCollision();
+           // System.out.println(paddle.getDirectionX()+","+paddle.getDirectionY());
             this.paddle.update();
             this.ball.update();
+
+            checkCollision();
             //System.out.println(bricks.size());
            if(bricks.isEmpty()) {
                if(level.getId() >= Level.maxID) gameState = GameState.WIN;
@@ -79,6 +122,7 @@ public class GameManager  {
                    level.loadLevel();
                    paddle.reset();
                    ball.reset();
+                   start = false;
                }
 
 
@@ -99,14 +143,11 @@ public class GameManager  {
 
         }
         else {
-           // System.out.println(ball.getX()+","+ paddle.getX()+"," +paddle.getWidth());
-            double paddleOldX = ball.getX() - paddle.getWidth()/2;
-            double diff = paddle.getX() - paddleOldX;
-            if(diff>0) {
-                ball.setX(ball.getX() + paddle.getSpeed());
-            }
-            else if(diff<0){
-                ball.setX(ball.getX() - paddle.getSpeed());
+            double diff = paddle.getX() - paddle.getOldX();
+            System.out.println(paddle.getX() + "," + paddle.getOldX());
+           // System.out.println(ball.getX()+","+ paddle.getX()+"," + paddleOldX);
+            if(diff != 0) {
+                ball.setX(ball.getX() + diff);
             }
         }
 
@@ -131,6 +172,7 @@ public class GameManager  {
                         case 3:
                             brick.takeHit(1);
                            // System.out.println(brick.getHitPoints());
+                           // brick = new NormalBrick(brick.getX(),ball.getY(),ball.getWidth(),ball.getHeight());
                             break;
                     }
                     ball.isCollision = false;
@@ -151,6 +193,7 @@ public class GameManager  {
                                 }
                             }
                         }
+
                     }
 
                     iterator.remove();
