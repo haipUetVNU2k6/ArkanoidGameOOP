@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Level {
     private int id;
     private String path;
-    public static int maxID = 1;
+    public static int maxID = 2;
 
     public Level(int id) {
         this.id = id;
@@ -44,10 +44,10 @@ public class Level {
                         case 1:
                             newBrick = new NormalBrick(col*(GameManager.WIDTH/10),row*(GameManager.HEIGHT/20),80,30);
                             break;
-                        case 3:
+                        case 2:
                             newBrick = new TNT(col*(GameManager.WIDTH/10),row*(GameManager.HEIGHT/20),80,30);
                             break;
-                        case 2:
+                        case 3:
                             newBrick = new StrongBrick(col*(GameManager.WIDTH/10),row*(GameManager.HEIGHT/20),80,30);
                             break;
                     }

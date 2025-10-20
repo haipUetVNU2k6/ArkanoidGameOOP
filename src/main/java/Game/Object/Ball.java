@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 
 public class Ball extends  MovableObject{
     public static double r = 10;
-    public static double startX = Paddle.startX+Paddle.WIDTH/2f ;
+    public static double startX = Paddle.startX + (double) Paddle.WIDTH/2f ;
     public static double startY = Paddle.startY - 2 * r;
     private double speed;
     public boolean isCollision = false;
@@ -63,8 +63,10 @@ public class Ball extends  MovableObject{
            else isCollision = true;
 
            if(overlapX >= overlapY) {
-               if(pYBall >= pYRec) return Direction.top;
-               else return Direction.down;
+               if(pYBall >= pYRec) {
+                   return Direction.down;
+               }
+               else return Direction.top;
            }
            else {
                if(pXBall >= pXRec) return Direction.right;
@@ -74,7 +76,7 @@ public class Ball extends  MovableObject{
 
     public void bounceOf(GameObject obj) {
         Direction dir = this.intersect(obj);
-        if(obj instanceof Paddle && dir != Direction.down) {
+        if(obj instanceof Paddle && dir != Direction.top) {
             return;
         }
            switch (dir) {
@@ -97,7 +99,7 @@ public class Ball extends  MovableObject{
     @Override
     public void move() {
         //System.out.println(getDirectionY());
-        if(getX() < 0 || getX() >GameManager.WIDTH) {
+        if(getX() < 0 || getX()  >GameManager.WIDTH) {
             setDirectionX(-getDirectionX());
         }
         else if(getY() < 0 ) {

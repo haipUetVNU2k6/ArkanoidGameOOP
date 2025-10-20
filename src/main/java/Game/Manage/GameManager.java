@@ -3,6 +3,9 @@ package Game.Manage;
 import Game.Level.*;
 import Game.Main;
 import Game.Object.*;
+import javafx.animation.Animation;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 
 import java.util.ArrayList;
@@ -20,13 +23,13 @@ public class GameManager  {
     public void setLevel(Level level) {
         this.level = level;
     }
+    private static final GameManager instance = new GameManager();
     private Paddle paddle;
     private Ball ball;
     private ArrayList<Brick> bricks = new ArrayList<>();
     private int scores;
     private int lives;
     private GameState gameState;
-    private Map map;
     public  static final double HEIGHT = 600;
     public  static final double WIDTH  = 800;
     public  String powerUp;
@@ -35,11 +38,16 @@ public class GameManager  {
         PLAYING,
         PAUSED,
         GAME_OVER,
-        WIN;
+        WIN,
+        SETTINGS;
     }
-    public GameManager() {
-        gameState = GameState.PLAYING;
-        startGame();
+    private GameManager() {
+        gameState = GameState.MENU;
+      //  startGame();
+    }
+
+    public static GameManager getInstance() {
+        return instance;
     }
     public void startGame() {
         this.bricks.clear();
@@ -57,16 +65,67 @@ public class GameManager  {
         this.bricks = level.getBricks();
     }
 
+    public static boolean isStart() {
+        return start;
+    }
+
+    public int getScores() {
+        return scores;
+    }
+
+    public String getPowerUp() {
+        return powerUp;
+    }
+
+    public static void setStart(boolean start) {
+        GameManager.start = start;
+    }
+
+    public void setPaddle(Paddle paddle) {
+        this.paddle = paddle;
+    }
+
+    public void setBall(Ball ball) {
+        this.ball = ball;
+    }
+
+    public void setBricks(ArrayList<Brick> bricks) {
+        this.bricks = bricks;
+    }
+
+    public void setScores(int scores) {
+        this.scores = scores;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public void setPowerUp(String powerUp) {
+        this.powerUp = powerUp;
+    }
+
     public void updateGame() {
         if(gameState == GameState.PLAYING) {
-
-
-            checkCollision();
+           // System.out.println(paddle.getDirectionX()+","+paddle.getDirectionY());
             this.paddle.update();
             this.ball.update();
+
+            checkCollision();
             //System.out.println(bricks.size());
            if(bricks.isEmpty()) {
-                gameState = GameState.WIN;
+               if(level.getId() >= Level.maxID) gameState = GameState.WIN;
+               else {
+                   level.setId(level.getId()+1);
+                   String path = "/MatrixLevel/matrix" + Integer.toString(level.getId()) + ".txt";
+                   level.setPath(path);
+                   level.loadLevel();
+                   paddle.reset();
+                   ball.reset();
+                   start = false;
+               }
+
+
             }
         }
         else {
@@ -84,14 +143,11 @@ public class GameManager  {
 
         }
         else {
-           // System.out.println(ball.getX()+","+ paddle.getX()+"," +paddle.getWidth());
-            double paddleOldX = ball.getX() - paddle.getWidth()/2;
-            double diff = paddle.getX() - paddleOldX;
-            if(diff>0) {
-                ball.setX(ball.getX() + paddle.getSpeed());
-            }
-            else if(diff<0){
-                ball.setX(ball.getX() - paddle.getSpeed());
+            double diff = paddle.getX() - paddle.getOldX();
+            System.out.println(paddle.getX() + "," + paddle.getOldX());
+           // System.out.println(ball.getX()+","+ paddle.getX()+"," + paddleOldX);
+            if(diff != 0) {
+                ball.setX(ball.getX() + diff);
             }
         }
 
@@ -106,13 +162,25 @@ public class GameManager  {
                 Brick brick = iterator.next();
                 ball.bounceOf(brick);
                 if(ball.isCollision == true) {
-                    brick.takeHit(1);
+                    switch (brick.getId()) {
+                        case 1:
+                            brick.takeHit(1);
+                            break;
+                        case 2:
+                            brick.takeHit(1);
+                            break;
+                        case 3:
+                            brick.takeHit(1);
+                           // System.out.println(brick.getHitPoints());
+                           // brick = new NormalBrick(brick.getX(),ball.getY(),ball.getWidth(),ball.getHeight());
+                            break;
+                    }
                     ball.isCollision = false;
                 }
+               // System.out.println(brick.getHitPoints());
                 if (brick.isDestroyed()) {
                     // TNT no
                     if (brick.getId() == 2) {
-                        System.out.println("in here.");
                         double bx = brick.getX();
                         double by = brick.getY();
                         double bw = brick.getWidth();
@@ -125,13 +193,15 @@ public class GameManager  {
                                 }
                             }
                         }
+
                     }
+
                     iterator.remove();
                     scores += 10;
                 }
             }
 
-        //Ball va 4 edge screen top/left/right
+        //Ball collision 4 edge screen top/left/right
 
         if(ball.getY() >= HEIGHT) {
             if(this.lives > 0 ) {
@@ -147,12 +217,29 @@ public class GameManager  {
         }
     }
 
-    public Paddle getPaddle() { return paddle; }
-    public Ball getBall() { return ball; }
-    public ArrayList<Brick> getBricks() { return bricks; }
-    public int getScore() { return scores; }
-    public int getLives() { return lives; }
-    public GameState getGameState() { return gameState; }
+    public Paddle getPaddle() {
+        return paddle;
+    }
+    public Ball getBall() {
+        return ball;
+    }
+    public ArrayList<Brick> getBricks() {
+        return bricks;
+    }
+    public int getScore() {
+        return scores;
+    }
+    public int getLives() {
+        return lives;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
 
     public static void main(String[] args) {
      GameManager arkanoid  = new GameManager();
