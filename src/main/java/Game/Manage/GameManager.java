@@ -1,5 +1,6 @@
 package Game.Manage;
 
+<<<<<<< Updated upstream
 import Game.Level.*;
 import Game.Main;
 import Game.Object.*;
@@ -7,6 +8,13 @@ import javafx.animation.Animation;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+=======
+import Game.Level.Level;
+import Game.Level.Map;
+import Game.Object.Ball;
+import Game.Object.Brick;
+import Game.Object.Paddle;
+>>>>>>> Stashed changes
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,7 +36,7 @@ public class GameManager  {
     private Ball ball;
     private ArrayList<Brick> bricks = new ArrayList<>();
     private int scores;
-    private int lives;
+    public int lives;
     private GameState gameState;
     public  static final double HEIGHT = 600;
     public  static final double WIDTH  = 800;
