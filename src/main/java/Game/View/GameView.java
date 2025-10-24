@@ -18,6 +18,7 @@ public class GameView {
             gameManager.getPaddle().render(gc);
             gameManager.getBall().render(gc);
             gameManager.getBricks().forEach(brick -> brick.render(gc));
+            gameManager.getPowerUps().forEach(p -> p.render(gc));
 
             // Render HUD
             gc.setFill(Color.WHITE);

@@ -1,10 +1,9 @@
 package Game.Manage;
 
-import Game.Level.*;
-import Game.Main;
+import Game.Level.Level;
+import Game.Level.Map;
 import Game.Object.*;
-
-
+import Game.Object.PowerUp;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -70,6 +69,18 @@ public class GameManager  {
             checkCollision();
             this.paddle.update();
             this.ball.update();
+            Iterator<PowerUp> it = powerUps.iterator();
+            while (it.hasNext()) {
+                PowerUp p = it.next();
+                p.update();
+                if (p.getY() > HEIGHT) {
+                    it.remove(); // rơi khỏi màn hình
+                }
+                if (p.collidesWith(paddle)) {
+                    paddle.setWidth(paddle.newWidth);
+                    paddle.update();
+                }
+            }
             //System.out.println(bricks.size());
            if(bricks.isEmpty()) {
                 gameState = GameState.WIN;
@@ -117,6 +128,9 @@ public class GameManager  {
                 }
                 if (brick.isDestroyed()) {
                     // TNT no
+                    PowerUp newPower = PowerUpFactory.createRandomPowerUp(brick.getX(), brick.getY());
+                    if (newPower != null) powerUps.add(newPower);
+
                     if (brick.getId() == 2) {
                         System.out.println("in here.");
                         double bx = brick.getX();
@@ -176,7 +190,11 @@ public class GameManager  {
     public GameState getGameState() {
         return gameState;
     }
+    private ArrayList<PowerUp> powerUps = new ArrayList<>();
 
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
+    }
     public static void main(String[] args) {
      GameManager arkanoid  = new GameManager();
      arkanoid.startGame();

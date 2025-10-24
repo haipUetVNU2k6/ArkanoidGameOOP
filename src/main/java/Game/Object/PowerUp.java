@@ -3,16 +3,14 @@ package Game.Object;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-class PowerUp extends MovableObject {
+public class PowerUp extends MovableObject {
 
     public enum Type {
-        EXPAND_PADDLE,   // mo rong thanh do
-        MULTI_BALL,      // them bong
-        EXTRA_LIFE       // them mang
+        EXPAND_PADDLE
     }
 
     private Type type;
-
+    private boolean active = true;
     public PowerUp(double x, double y, double width, double height, Type type) {
         super(x, y, width, height, 0, 2);
         this.type = type;
@@ -21,7 +19,19 @@ class PowerUp extends MovableObject {
     public Type getType() {
         return type;
     }
+    public boolean isActive() {
+        return active;
+    }
+    public void deactivate() {
+        active = false;
+    }
 
+    public boolean collidesWith(Paddle paddle) {
+        return getX() < paddle.getX() + paddle.getWidth() &&
+                getX() + getWidth() > paddle.getX() &&
+                getY() < paddle.getY() + paddle.getHeight() &&
+                getY() + getHeight() > paddle.getY();
+    }
     @Override
     public void move() {
         setX(getX() + getDirectionX());
@@ -35,28 +45,16 @@ class PowerUp extends MovableObject {
 
     @Override
     public void render(GraphicsContext gc) {
-        switch (type) {
-            case EXPAND_PADDLE -> gc.setFill(Color.BLUE);
-            case MULTI_BALL -> gc.setFill(Color.YELLOW);
-            case EXTRA_LIFE -> gc.setFill(Color.GREEN);
-        }
+        if (!active) return;
+
+        gc.setFill(Color.LIGHTGREEN);
         gc.fillOval(getX(), getY(), getWidth(), getHeight());
-    }
-    public void applyEffect (Paddle paddle) {
-        switch (type) {
-            case EXPAND_PADDLE :
-            {
-                paddle.setWidth(paddle.getWidth() * 1.5);
-            }
-            case MULTI_BALL :
-            { }
-            case EXTRA_LIFE :
-            { }
-        }
     }
     public void reset() {
 
     }
-}
+
+    }
+
 
 
