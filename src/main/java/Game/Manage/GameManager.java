@@ -15,7 +15,8 @@ import java.util.Iterator;
 public class GameManager {
     public static boolean start = false;
     private Level level;
-
+    private boolean shootingMode = false;
+    private long shootingStartTime;
     private static final GameManager instance = new GameManager();
     private Paddle paddle;
     private Ball ball;
@@ -31,7 +32,7 @@ public class GameManager {
     public static final double WIDTH = 800;
 
     private long lastShootTime = 0;
-    private final long shootDelay = 250; // mili giây giữa 2 viên đạn
+    private final long shootDelay = 250;
 
     private GameManager() {
         gameState = GameState.MENU;
@@ -104,7 +105,7 @@ public class GameManager {
                 // Sinh đạn ngay giữa paddle
                 double bx = paddle.getX() + paddle.getWidth() / 2 - 2;
                 double by = paddle.getY() - 10;
-                bullets.add(new Bullet(bx, by, 4, 8, 0, -1)); // tốc độ bay lên 8px/frame
+                bullets.add(new Bullet(bx, by, 4, 8, 0, -1));
             }
         }
 
@@ -120,7 +121,7 @@ public class GameManager {
                 continue;
             }
 
-            // Va chạm với gạch (không cần collidesWith)
+            // Va chạm với gạch
             Iterator<Brick> brickIt = bricks.iterator();
             boolean hit = false;
             while (brickIt.hasNext()) {
@@ -145,7 +146,7 @@ public class GameManager {
                 }
             }
 
-            if (hit) continue; // nếu đạn đã trúng gạch thì dừng xét
+            if (hit) continue; // nếu đạn đã trúng gạch
         }
     }
 
@@ -216,6 +217,28 @@ public class GameManager {
         for (PowerUp p : powerUps) p.render(gc);
         for (Bullet b : bullets) b.render(gc);
     }
+    public void spawnExtraBalls() {
+
+        Ball newBall = new Ball(
+                ball.getX(),
+                ball.getY(),
+                Ball.r,
+                ball.getSpeed(),
+                -ball.getDirectionX(),
+                -ball.getDirectionY()
+        );
+        ball.setDirectionX(-ball.getDirectionX());
+        ball.setDirectionY(-ball.getDirectionY());
+    }
+
+    public void enableShootingMode(boolean enable) {
+        this.shootingMode = enable;
+        this.shootingStartTime = System.currentTimeMillis();
+
+        if (!enable) {
+            bullets.clear();
+        }
+    }
 
     public Paddle getPaddle() { return paddle; }
     public Ball getBall() { return ball; }
@@ -227,35 +250,4 @@ public class GameManager {
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
     }
-    // --- Thêm vào cuối class GameManager ---
-    public void spawnExtraBalls() {
-        // tạo thêm 1 bóng ở vị trí hiện tại của bóng chính
-        Ball newBall = new Ball(
-                ball.getX(),
-                ball.getY(),
-                Ball.r,
-                ball.getSpeed(),
-                -ball.getDirectionX(),
-                -ball.getDirectionY()
-        );
-        // nếu bạn dùng danh sách balls, thêm vào đây:
-        // balls.add(newBall);
-        // nếu chỉ có 1 ball duy nhất, tạm thời ta chỉ cho bóng chính đảo hướng:
-        ball.setDirectionX(-ball.getDirectionX());
-        ball.setDirectionY(-ball.getDirectionY());
-    }
-
-    private boolean shootingMode = false;
-    private long shootingStartTime;
-
-    public void enableShootingMode(boolean enable) {
-        this.shootingMode = enable;
-        this.shootingStartTime = System.currentTimeMillis();
-
-        if (!enable) {
-            // tắt chế độ bắn: xóa đạn còn lại
-            bullets.clear();
-        }
-    }
-
 }

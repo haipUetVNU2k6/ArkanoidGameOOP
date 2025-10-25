@@ -50,8 +50,6 @@ public class PowerUp extends MovableObject {
     @Override
     public void render(GraphicsContext gc) {
         if (!active) return;
-
-        // Chọn màu theo loại PowerUp
         switch (type) {
             case EXPAND_PADDLE:
                 gc.setFill(Color.LIGHTGREEN);

@@ -82,12 +82,10 @@ public class Paddle extends MovableObject {
                 GameManager.lives++;
                 break;
             case MULTI_BALL:
-                // Gọi qua GameManager để sinh thêm bóng
                 GameManager.getInstance().spawnExtraBalls();
                 break;
 
             case SHOOTING_PADDLE:
-                // Bật chế độ bắn đạn trong GameManager
                 GameManager.getInstance().enableShootingMode(true);
                 break;
         }
