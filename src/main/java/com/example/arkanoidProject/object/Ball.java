@@ -56,12 +56,13 @@ public class Ball extends MoveableObject {
         }
     }
 
-    public void resetPosition(int i, int i1) {
-        x = i;
-        y = i1;
-//        velocityX = -velocityX;
-//        velocityY = -velocityY;
+    public void resetPosition(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.velocityX = 0;
+        this.velocityY = -Math.abs(this.velocityY); // hoặc giá trị ban đầu
     }
+
 
     // Hàm va chạm với paddle hoặc brick có thể thêm ở đây (nếu muốn)
 }

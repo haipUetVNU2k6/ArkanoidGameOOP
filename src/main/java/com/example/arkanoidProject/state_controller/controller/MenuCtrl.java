@@ -2,7 +2,6 @@ package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.util.ParticleCanvas;
 import com.example.arkanoidProject.MainApp;
-import com.sun.tools.javac.Main;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +18,7 @@ public class MenuCtrl {
     private Text title;
 
     @FXML
-    private Button btnStart, btnScores, btnSettings, btnExit;
+    private Button btnStart, btnScores, btnSettings, btnExit, btnChangeAccount;
 
     @FXML
     public void initialize() {
@@ -70,6 +69,12 @@ public class MenuCtrl {
     private void onExit(ActionEvent event) {
         System.out.println("EXIT button clicked");
         System.exit(0);
+    }
+
+    @FXML
+    private void onChangeAccount(ActionEvent event) {
+        System.out.println("CHANGEACCOUNT button clicked");
+        MainApp.stateStack.push(MainApp.changeAccountState);
     }
 }
 

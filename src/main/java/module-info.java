@@ -12,11 +12,15 @@ module Game {
     requires javafx.base;
     requires java.desktop;
     requires jdk.compiler;
+    requires com.google.gson;
     //requires Game;
 
     // Mở cho JavaFX có thể load FXML và truy cập controller
     opens com.example.arkanoidProject.state_controller.controller to javafx.fxml;
     opens com.example.arkanoidProject.object to javafx.fxml;
+    opens com.example.arkanoidProject.userAccount to com.google.gson;
+
+
 
     // Export package cho bên ngoài dùng
     exports com.example.arkanoidProject;

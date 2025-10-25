@@ -1,9 +1,8 @@
 package com.example.arkanoidProject;
 
-import com.example.arkanoidProject.state_controller.state.PauseState;
-import com.example.arkanoidProject.state_controller.state.PlayState;
-import com.example.arkanoidProject.state_controller.state.StateStack;
-import com.example.arkanoidProject.state_controller.state.MenuState;
+import com.example.arkanoidProject.state_controller.state.*;
+import com.example.arkanoidProject.userAccount.User;
+import com.example.arkanoidProject.userAccount.UserManager;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -11,6 +10,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
+    public static UserManager userManager = new UserManager();
+
     public static final int WIDTH = 1200;
     public static final int HEIGHT = 900;
 
@@ -28,14 +29,26 @@ public class MainApp extends Application {
     public static MenuState menuState;
     public static PlayState playState;
     public static PauseState pauseState;
+    public static ChangeAccountState changeAccountState;
 
     @Override
     public void start(Stage stage) {
         primaryStage = stage;
 
+        // Nếu chưa có user nào, tạo user mặc định
+        if (userManager.getUsers().isEmpty()) {
+            User defaultUser = new User("Player1");
+            userManager.addUser(defaultUser);
+            userManager.setCurrentUser(defaultUser);
+        } else if (userManager.getCurrentUser() == null) {
+            // Nếu có user trong danh sách nhưng chưa set currentUser
+            userManager.setCurrentUser(userManager.getUsers().get(0));
+        }
+
         menuState = new MenuState();
         playState = new PlayState();
         pauseState = new PauseState();
+        changeAccountState = new ChangeAccountState();
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Arkanoid Game");

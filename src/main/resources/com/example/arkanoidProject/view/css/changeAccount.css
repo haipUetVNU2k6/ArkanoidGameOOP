@@ -1,0 +1,69 @@
+/* Nền của Change Account */
+#root {
+    -fx-background-image: url("../images/bggg.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+/* Tiêu đề */
+.title-text {
+    -fx-font-family: "Segoe UI Black", "Arial Black", sans-serif;
+    -fx-font-size: 80px;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #0ff, #08f);
+    -fx-effect: dropshadow(gaussian, rgba(0, 255, 255, 0.9), 20, 0.3, 0, 0);
+    -fx-stroke: rgba(0, 200, 255, 0.6);
+    -fx-stroke-width: 1.5;
+    -fx-opacity: 1.0;
+    -fx-text-alignment: center;
+}
+
+/* Subtitle */
+.subtitle-text {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 24px;
+    -fx-fill: white;
+}
+
+/* Các nút menu chung */
+.menu-button {
+    -fx-background-color: linear-gradient(to right, #0080ff, #0055cc);
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 10 40 10 40;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 6, 0.1, 0, 3);
+    -fx-transition: all 0.3s ease;
+}
+
+/* Hover effect cho nút */
+.menu-button:hover {
+    -fx-background-color: linear-gradient(to right, #00bfff, #0080ff);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 235, 255, 0.9), 14, 0.4, 0, 6);
+}
+
+/* ComboBox style */
+.combo-box, .combo-box-base, .combo-box-popup {
+    -fx-font-size: 16px;
+    -fx-background-radius: 15;
+    -fx-padding: 5 10 5 10;
+    -fx-border-radius: 15;
+    -fx-border-color: #0055cc;
+    -fx-border-width: 2;
+    -fx-background-color: rgba(255,255,255,0.9);
+}
+
+/* TextField style */
+.text-field {
+    -fx-font-size: 16px;
+    -fx-background-radius: 15;
+    -fx-padding: 5 10 5 10;
+    -fx-border-radius: 15;
+    -fx-border-color: #0055cc;
+    -fx-border-width: 2;
+    -fx-background-color: rgba(255,255,255,0.9);
+}

@@ -1,7 +1,7 @@
 package com.example.arkanoidProject.state_controller.state;
 
 import com.example.arkanoidProject.MainApp;
-import com.example.arkanoidProject.level.LevelManager;
+import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
@@ -38,6 +38,8 @@ public class PlayState extends State {
     private LevelManager levelManager;
     private int level = 1;
 
+    private int levelToLoad;
+
 
     public PlayState() {
         try {
@@ -67,10 +69,21 @@ public class PlayState extends State {
 //                }
 //            }
 
-            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
-            levelManager = new LevelManager(brickSprite);
-            bricks = levelManager.loadCurrentLevel();
+//            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
+//            levelManager = new LevelManager(brickSprite);
+//            bricks = levelManager.loadCurrentLevel();
 
+// 1. Load sprite
+            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
+
+// 2. Khởi tạo LevelManager
+            levelManager = new LevelManager(brickSprite);
+
+// 3. Lấy user hiện tại
+            int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
+
+// 4. Load màn tương ứng với user
+            bricks = levelManager.loadLevel(levelToLoad);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -133,15 +146,17 @@ public class PlayState extends State {
         }
 
         if (allDestroyed) {
-            // Qua màn mới
+            // Cập nhật level hoàn thành cho user
+            MainApp.userManager.getCurrentUser().setLastLevel(levelToLoad + 1);
+            MainApp.userManager.saveUsers();
+
             levelManager.nextLevel();
             if (levelManager.hasNextLevel()) {
                 bricks = levelManager.loadCurrentLevel();
-                ball.resetPosition(300, 400); // bạn cần thêm hàm này trong Ball
+                ball.resetPosition(300, 400); // bạn cần thêm hàm reset trong Ball
                 paddle.setX(250);
                 level++;
             } else {
-                // Hết game → quay lại menu hoặc thắng
                 System.out.println("You win all levels!");
                 MainApp.stateStack.pop();
                 MainApp.stateStack.push(MainApp.menuState);

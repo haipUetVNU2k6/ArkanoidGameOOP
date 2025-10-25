@@ -9,7 +9,7 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.example.arkanoidProject.state_controller.controller.MenuCtrl"
-           stylesheets="@../css/test.css"
+           stylesheets="@../css/menu.css"
            fx:id="root">
 
     <VBox spacing="40" alignment="CENTER">
@@ -27,6 +27,7 @@
         <Button text="High Scores" fx:id="btnScores" styleClass="menu-button" onAction="#onHighScores"/>
         <Button text="Settings" fx:id="btnSettings" styleClass="menu-button" onAction="#onSettings"/>
         <Button text="Exit" fx:id="btnExit" styleClass="menu-button" onAction="#onExit"/>
+        <Button text="Change Account" fx:id="btnChangeAccount" styleClass="menu-button" onAction="#onChangeAccount"/>
 
     </VBox>
 
