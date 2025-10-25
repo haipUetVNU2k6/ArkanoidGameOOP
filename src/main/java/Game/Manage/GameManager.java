@@ -68,6 +68,7 @@ public class GameManager  {
         level.setPath(path);
         level.loadLevel();
         this.bricks = level.getBricks();
+        start = false;
     }
 
     public static boolean isStart() {
@@ -189,10 +190,9 @@ public class GameManager  {
                // System.out.println(brick.getHitPoints());
                 if (brick.isDestroyed()) {
 
-                   if(brick.getId() == 3) {
+
                        PowerUp newPower = PowerUpFactory.createRandomPowerUp(brick.getX(), brick.getY());
                        if (newPower != null) powerUps.add(newPower);
-                   }
 
                     // TNT no
                     if (brick.getId() == 2) {
@@ -225,9 +225,10 @@ public class GameManager  {
                 it.remove(); // rơi khỏi màn hình
             }
             if (p.collidesWith(paddle)) {
-                paddle.setWidth(paddle.newWidth);
-                paddle.update();
+                paddle.setCurrentPowerUp(p.getType());
+                it.remove();
             }
+
         }
 
         //Ball collision 4 edge screen top/left/right

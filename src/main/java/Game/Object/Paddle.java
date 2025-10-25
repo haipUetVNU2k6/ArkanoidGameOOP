@@ -13,13 +13,10 @@ public class Paddle extends MovableObject {
     public static double WIDTH = 100;
     public static double HEIGHT = 20;
     private int speed;
-    private String currentPowerUp;
     public static Image img = new Image(Brick.class.getResourceAsStream("/image/paddle.png"));
-    private PowerUp.Type currentPower;
+    private PowerUp.Type currentPowerUp;
     private long powerStartTime;
     private long powerDuration = 5000; // 5 seconds
-    private double oldWidth;
-    public double newWidth ;
 
     public double getOldX() {
         return oldX;
@@ -38,14 +35,13 @@ public class Paddle extends MovableObject {
      * @param width  Paddle's width
      * @param height  Paddle's height
      * @param speed   Paddle's speed
+     * @param oldWidth old size
      */
     public Paddle(double x,double y,double width,double height,int speed) {
         super(x,y,width,height,0,0);
         this.speed = speed;
         this.currentPowerUp = null;
         this.oldX = x;
-        this.oldWidth = width;
-        this.newWidth = width * 1.5;
     }
 
     public int getSpeed() {
@@ -55,16 +51,33 @@ public class Paddle extends MovableObject {
         this.speed = speed;
     }
 
-    public String getCurrentPowerUp() {
+    public long getPowerDuration() {
+        return powerDuration;
+    }
+
+    public void setPowerDuration(long powerDuration) {
+        this.powerDuration = powerDuration;
+    }
+
+    public long getPowerStartTime() {
+        return powerStartTime;
+    }
+
+    public void setPowerStartTime(long powerStartTime) {
+        this.powerStartTime = powerStartTime;
+    }
+
+    public PowerUp.Type getCurrentPowerUp() {
         return this.currentPowerUp;
     }
     public void setCurrentPowerUp(PowerUp.Type type) {
-        this.currentPower = type;
+        this.currentPowerUp = type;
         this.powerStartTime = System.currentTimeMillis();
-        this.oldWidth = getWidth();
         if (type == PowerUp.Type.EXPAND_PADDLE) {
-            setWidth(newWidth);
+          //  System.out.println(getWidth());
+            setWidth(getWidth() * 1.2);
         }
+
     }
 
     /**
@@ -106,17 +119,23 @@ public class Paddle extends MovableObject {
 
     // fix ???
     private void resetPower() {
-        this.currentPower = null;
-        setWidth(oldWidth);
+        this.currentPowerUp = null;
+        setWidth(Paddle.WIDTH);
     }
 
-    public void applyPowerUp(String newPowerUp) {
-        this.currentPowerUp = newPowerUp;
-    }
+//    public void applyPowerUp(PowerUp.type newPowerUp) {
+//        this.currentPowerUp = newPowerUp;
+//    }
 
     @Override
     public void update() {
         move();
+        //System.out.println(currentPowerUp);
+        if (currentPowerUp != null
+                && System.currentTimeMillis() - powerStartTime > powerDuration) {
+            System.out.println("in here.");
+            resetPower();
+        }
     }
 
     @Override
@@ -136,7 +155,6 @@ public class Paddle extends MovableObject {
         setY(Paddle.startY);
         setWidth(Paddle.WIDTH);
         setHeight(Paddle.HEIGHT);
-        this.oldWidth = Paddle.WIDTH;
 
     }
     public static void main(String[] args) {
