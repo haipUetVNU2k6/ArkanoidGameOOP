@@ -15,7 +15,7 @@ public class ChangeAccountState extends State {
 
     public ChangeAccountState() {
         try {
-            URL fxmlUrl = getClass().getResource("/com/example/arkanoidProject/view/fxml/changeAccount.fxml");
+            URL fxmlUrl = getClass().getResource("/com/example/arkanoidProject/view/fxml/test.fxml");
             if (fxmlUrl == null) {
                 throw new RuntimeException("Cannot find changeAccount.fxml!");
             }
