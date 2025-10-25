@@ -4,6 +4,7 @@ import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.userAccount.User;
 import com.example.arkanoidProject.userAccount.UserManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -61,22 +62,33 @@ public class ChangeAccountCtrl {
     private void createNewAccount() {
         String name = newAccountTextField.getText().trim();
         if (name.isEmpty()) {
-            System.out.println("Username cannot be empty!");
+            showAlert("Error", "Username cannot be empty!");
             return;
         }
+
         boolean exists = userManager.getUsers().stream()
                 .anyMatch(u -> u.getUsername().equals(name));
         if (exists) {
-            System.out.println("Username already exists!");
+            showAlert("Error", "Username already exists!");
             return;
         }
+
         User newUser = new User(name);
         userManager.addUser(newUser);
         userManager.setCurrentUser(newUser);
         userManager.saveUsers();
         refreshUsers();
-        System.out.println("Created and switched to new user: " + name);
+        showAlert("Success", "Created and switched to new user: " + name);
     }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
     @FXML
     private void onSwitch() {
