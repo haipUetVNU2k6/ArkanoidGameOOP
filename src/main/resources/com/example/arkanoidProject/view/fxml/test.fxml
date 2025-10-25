@@ -17,7 +17,7 @@
 
     <!-- Background -->
     <VBox fx:id="buttonBackground" styleClass="pane-background"
-          maxWidth="600" maxHeight="350"/>
+          maxWidth="600" maxHeight="300"/>
 
     <!-- GridPane chứa nội dung, nằm trên nền -->
     <GridPane hgap="10" vgap="10" alignment="CENTER">
