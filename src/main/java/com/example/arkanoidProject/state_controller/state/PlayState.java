@@ -1,6 +1,7 @@
 package com.example.arkanoidProject.state_controller.state;
 
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.level.LevelManager;
 import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayState extends State {
-
     private Pane root;
     private PlayCtrl controller;
 
@@ -35,17 +35,21 @@ public class PlayState extends State {
 
     private long lastTime = 0;
 
+    private LevelManager levelManager;
+    private int level = 1;
+
+
     public PlayState() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/fxml/play.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/play.fxml"));
             root = loader.load();
             controller = loader.getController();
 
             gc = controller.getGameCanvas().getGraphicsContext2D();
 
-            Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/ball.png").toExternalForm());
-            Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/paddle.png").toExternalForm());
-            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
+            Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball.png").toExternalForm());
+            Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle.png").toExternalForm());
+            //Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
 
             ball = new Ball(300, 400, 32, ballSprite, 10, 1, 50, 53, 0.1, WIDTH, HEIGHT);
             paddle = new Paddle(250, 750, 100, 30, paddleSprite, 3, 1, 34, 24, 0.1, WIDTH);
@@ -55,13 +59,18 @@ public class PlayState extends State {
             int brickWidth = 60;
             int brickHeight = 20;
 
-            for (int row = 0; row < brickRows; row++) {
-                for (int col = 0; col < brickCols; col++) {
-                    Brick brick = new Brick(col * brickWidth + 10, row * brickHeight + 10, brickWidth, brickHeight,
-                            brickSprite, 31, 18, 9, 1,0.1);
-                    bricks.add(brick);
-                }
-            }
+//            for (int row = 0; row < brickRows; row++) {
+//                for (int col = 0; col < brickCols; col++) {
+//                    Brick brick = new Brick(col * brickWidth + 10, row * brickHeight + 10, brickWidth, brickHeight,
+//                            brickSprite, 31, 18, 9, 1,0.1);
+//                    bricks.add(brick);
+//                }
+//            }
+
+            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
+            levelManager = new LevelManager(brickSprite);
+            bricks = levelManager.loadCurrentLevel();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,6 +122,33 @@ public class PlayState extends State {
                 break;
             }
         }
+
+        // Kiểm tra nếu tất cả brick bị phá
+        boolean allDestroyed = true;
+        for (Brick brick : bricks) {
+            if (!brick.isDestroyed()) {
+                allDestroyed = false;
+                break;
+            }
+        }
+
+        if (allDestroyed) {
+            // Qua màn mới
+            levelManager.nextLevel();
+            if (levelManager.hasNextLevel()) {
+                bricks = levelManager.loadCurrentLevel();
+                ball.resetPosition(300, 400); // bạn cần thêm hàm này trong Ball
+                paddle.setX(250);
+                level++;
+            } else {
+                // Hết game → quay lại menu hoặc thắng
+                System.out.println("You win all levels!");
+                MainApp.stateStack.pop();
+                MainApp.stateStack.push(MainApp.menuState);
+                return;
+            }
+        }
+
     }
 
     @Override
@@ -124,6 +160,8 @@ public class PlayState extends State {
         for (Brick brick : bricks) {
             brick.render(gc);
         }
+
+        gc.fillText("LEVEL " + level, 20, 30);
     }
 
     @Override

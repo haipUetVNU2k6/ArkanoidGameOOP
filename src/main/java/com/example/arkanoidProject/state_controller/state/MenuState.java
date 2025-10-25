@@ -2,12 +2,9 @@ package com.example.arkanoidProject.state_controller.state;
 
 import com.example.arkanoidProject.MainApp;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -16,10 +13,10 @@ public class MenuState extends State {
 
     public MenuState() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/fxml/menu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/menu.fxml"));
             root = loader.load();
             //root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/css/style.css").toExternalForm());
-            root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/css/menu.css").toExternalForm());
+            root.getStylesheets().add(getClass().getResource("/com/example/arkanoidProject/view/css/menu.css").toExternalForm());
         } catch (IOException e) {
             e.printStackTrace();
         }

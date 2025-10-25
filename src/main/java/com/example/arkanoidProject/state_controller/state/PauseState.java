@@ -1,11 +1,7 @@
 package com.example.arkanoidProject.state_controller.state;
 
-import com.example.arkanoidProject.state_controller.state.State;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -14,7 +10,7 @@ public class PauseState extends State {
 
     public PauseState() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/fxml/pause.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/pause.fxml"));
             root = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
