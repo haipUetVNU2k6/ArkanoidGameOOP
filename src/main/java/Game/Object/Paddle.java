@@ -35,7 +35,6 @@ public class Paddle extends MovableObject {
      * @param width  Paddle's width
      * @param height  Paddle's height
      * @param speed   Paddle's speed
-     * @param oldWidth old size
      */
     public Paddle(double x,double y,double width,double height,int speed) {
         super(x,y,width,height,0,0);
@@ -73,9 +72,24 @@ public class Paddle extends MovableObject {
     public void setCurrentPowerUp(PowerUp.Type type) {
         this.currentPowerUp = type;
         this.powerStartTime = System.currentTimeMillis();
-        if (type == PowerUp.Type.EXPAND_PADDLE) {
-          //  System.out.println(getWidth());
-            setWidth(getWidth() * 1.2);
+
+        switch (type) {
+            case EXPAND_PADDLE:
+                setWidth(getWidth() * 1.5);
+                break;
+
+            case EXTRA_LIFE:
+                GameManager.lives++;
+                break;
+            case MULTI_BALL:
+                // Gọi qua GameManager để sinh thêm bóng
+                GameManager.getInstance().spawnExtraBalls();
+                break;
+
+            case SHOOTING_PADDLE:
+                // Bật chế độ bắn đạn trong GameManager
+                GameManager.getInstance().enableShootingMode(true);
+                break;
         }
 
     }
@@ -118,10 +132,18 @@ public class Paddle extends MovableObject {
 
 
     // fix ???
-    private void resetPower() {
-        this.currentPowerUp = null;
-        setWidth(Paddle.WIDTH);
+public void resetPower() {
+        switch (currentPowerUp) {
+            case EXPAND_PADDLE:
+                setWidth(Paddle.WIDTH);
+                break;
+            case SHOOTING_PADDLE:
+                GameManager.getInstance().enableShootingMode(false);
+                break;
+        }
+        currentPowerUp = null;
     }
+
 
 //    public void applyPowerUp(PowerUp.type newPowerUp) {
 //        this.currentPowerUp = newPowerUp;

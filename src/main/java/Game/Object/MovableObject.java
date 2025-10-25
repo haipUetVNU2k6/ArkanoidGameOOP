@@ -46,4 +46,5 @@ public abstract class MovableObject extends GameObject {
     public static void main(String[] args) {
 
     }
+
 }

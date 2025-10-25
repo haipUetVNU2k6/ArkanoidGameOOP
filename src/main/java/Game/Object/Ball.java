@@ -14,6 +14,15 @@ public class Ball extends  MovableObject{
     private double speed;
     public boolean isCollision = false;
     public static Image img = new Image(Brick.class.getResourceAsStream("/image/ball.png"));
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
     public  enum Direction{
         top,down,
         left,right,none;

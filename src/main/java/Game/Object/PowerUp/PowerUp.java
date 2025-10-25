@@ -7,7 +7,10 @@ import Game.Object.*;
 public class PowerUp extends MovableObject {
 
     public enum Type {
-        EXPAND_PADDLE
+        EXPAND_PADDLE,   // mở rộng thanh trượt
+        MULTI_BALL,      // nhân đôi bóng
+        EXTRA_LIFE,      // thêm mạng
+        SHOOTING_PADDLE  // bắn đạn
     }
 
     private Type type;
@@ -48,8 +51,24 @@ public class PowerUp extends MovableObject {
     public void render(GraphicsContext gc) {
         if (!active) return;
 
-        gc.setFill(Color.LIGHTGREEN);
+        // Chọn màu theo loại PowerUp
+        switch (type) {
+            case EXPAND_PADDLE:
+                gc.setFill(Color.LIGHTGREEN);
+                break;
+            case MULTI_BALL:
+                gc.setFill(Color.ORANGE);
+                break;
+            case EXTRA_LIFE:
+                gc.setFill(Color.RED);
+                break;
+            case SHOOTING_PADDLE:
+                gc.setFill(Color.CYAN);
+                break;
+        }
         gc.fillOval(getX(), getY(), getWidth(), getHeight());
+        gc.setStroke(Color.WHITE);
+        gc.strokeOval(getX(), getY(), getWidth(), getHeight());
     }
 
     @Override
