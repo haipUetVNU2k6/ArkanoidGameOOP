@@ -1,4 +1,4 @@
-package Game.Object;
+package Game.Object.Brick;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
