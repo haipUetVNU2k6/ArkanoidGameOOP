@@ -1,14 +1,9 @@
 package Game.Level;
 
 import Game.Manage.GameManager;
-import Game.Object.Brick;
-import Game.Object.NormalBrick;
-import Game.Object.StrongBrick;
-import Game.Object.TNT;
+import Game.Object.Brick.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Level {
@@ -40,18 +35,8 @@ public class Level {
                 for(int col = 0 ;col < lenCol;++col) {
                     int id = Integer.parseInt(Column[col]);
                     Brick newBrick = null;
-                    switch (id) {
-                        case 1:
-                            newBrick = new NormalBrick(col*(GameManager.WIDTH/10),row*(GameManager.HEIGHT/20),80,30);
-                            break;
-                        case 2:
-                            newBrick = new TNT(col*(GameManager.WIDTH/10),row*(GameManager.HEIGHT/20),80,30);
-                            break;
-                        case 3:
-                            newBrick = new StrongBrick(col*(GameManager.WIDTH/10),row*(GameManager.HEIGHT/20),80,30);
-                            break;
-                    }
-                    this.bricks.add(newBrick);
+                    newBrick = BrickFactory.createBrick(id,col*(GameManager.WIDTH/10),row*(GameManager.HEIGHT/20),80,30);
+                    if(newBrick != null) this.bricks.add(newBrick);
                 }
                 row++;
             }

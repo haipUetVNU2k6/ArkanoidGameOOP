@@ -1,5 +1,6 @@
-package Game.Object;
+package Game.Object.Brick;
 
+import Game.Object.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Brick extends GameObject {

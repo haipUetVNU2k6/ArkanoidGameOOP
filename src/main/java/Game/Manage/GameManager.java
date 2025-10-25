@@ -2,11 +2,8 @@ package Game.Manage;
 
 <<<<<<< Updated upstream
 import Game.Level.*;
-import Game.Main;
 import Game.Object.*;
-import javafx.animation.Animation;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
+import Game.Object.Brick.Brick;
 
 =======
 import Game.Level.Level;

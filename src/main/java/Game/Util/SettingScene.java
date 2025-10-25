@@ -36,6 +36,7 @@ public class SettingScene {
     }
     public void checkHover(MouseEvent e) {
         playing.setHovering(e);
+        restart.setHovering(e);
         exit.setHovering(e);
     }
     public boolean exitClicked(MouseEvent e) {
