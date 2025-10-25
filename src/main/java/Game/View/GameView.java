@@ -1,6 +1,7 @@
 package Game.View;
 
 import Game.Manage.GameManager;
+import Game.Object.PowerUp.PowerUp;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -18,6 +19,7 @@ public class GameView {
             gameManager.getPaddle().render(gc);
             gameManager.getBall().render(gc);
             gameManager.getBricks().forEach(brick -> brick.render(gc));
+            gameManager.getPowerUps().forEach(p -> p.render(gc));
 
             // Render HUD
             gc.setFill(Color.WHITE);

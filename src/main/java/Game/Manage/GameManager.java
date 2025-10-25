@@ -1,9 +1,11 @@
 package Game.Manage;
 
-import Game.Level.*;
-import Game.Object.*;
+import Game.Level.Level;
+import Game.Object.Ball;
 import Game.Object.Brick.Brick;
-
+import Game.Object.Paddle;
+import Game.Object.PowerUp.PowerUp;
+import Game.Object.PowerUp.PowerUpFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +32,12 @@ public class GameManager  {
     public  static final double HEIGHT = 600;
     public  static final double WIDTH  = 800;
     public  String powerUp;
+
+    private ArrayList<PowerUp> powerUps = new ArrayList<>();
+
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
+    }
     public enum GameState {
         MENU,
         PLAYING,
@@ -131,6 +139,10 @@ public class GameManager  {
 
     }
 
+    public void setPowerUps(ArrayList<PowerUp> powerUps) {
+        this.powerUps = powerUps;
+    }
+
     public void checkCollision() {
         // Ball va Paddle
 
@@ -176,6 +188,12 @@ public class GameManager  {
                 }
                // System.out.println(brick.getHitPoints());
                 if (brick.isDestroyed()) {
+
+                   if(brick.getId() == 3) {
+                       PowerUp newPower = PowerUpFactory.createRandomPowerUp(brick.getX(), brick.getY());
+                       if (newPower != null) powerUps.add(newPower);
+                   }
+
                     // TNT no
                     if (brick.getId() == 2) {
                         double bx = brick.getX();
@@ -197,6 +215,20 @@ public class GameManager  {
                     scores += 10;
                 }
             }
+
+        // paddle vs powerUp
+        Iterator<PowerUp> it = powerUps.iterator();
+        while (it.hasNext()) {
+            PowerUp p = it.next();
+            p.update();
+            if (p.getY() > HEIGHT) {
+                it.remove(); // rơi khỏi màn hình
+            }
+            if (p.collidesWith(paddle)) {
+                paddle.setWidth(paddle.newWidth);
+                paddle.update();
+            }
+        }
 
         //Ball collision 4 edge screen top/left/right
 

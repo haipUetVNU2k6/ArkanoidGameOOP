@@ -2,6 +2,7 @@ package Game.Object;
 
 import Game.Manage.GameManager;
 import Game.Object.Brick.Brick;
+import Game.Object.PowerUp.PowerUp;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -14,6 +15,11 @@ public class Paddle extends MovableObject {
     private int speed;
     private String currentPowerUp;
     public static Image img = new Image(Brick.class.getResourceAsStream("/image/paddle.png"));
+    private PowerUp.Type currentPower;
+    private long powerStartTime;
+    private long powerDuration = 5000; // 5 seconds
+    private double oldWidth;
+    public double newWidth ;
 
     public double getOldX() {
         return oldX;
@@ -38,6 +44,8 @@ public class Paddle extends MovableObject {
         this.speed = speed;
         this.currentPowerUp = null;
         this.oldX = x;
+        this.oldWidth = width;
+        this.newWidth = width * 1.5;
     }
 
     public int getSpeed() {
@@ -50,8 +58,13 @@ public class Paddle extends MovableObject {
     public String getCurrentPowerUp() {
         return this.currentPowerUp;
     }
-    public void setCurrentPowerUp(String current) {
-        this.currentPowerUp = current;
+    public void setCurrentPowerUp(PowerUp.Type type) {
+        this.currentPower = type;
+        this.powerStartTime = System.currentTimeMillis();
+        this.oldWidth = getWidth();
+        if (type == PowerUp.Type.EXPAND_PADDLE) {
+            setWidth(newWidth);
+        }
     }
 
     /**
@@ -90,6 +103,13 @@ public class Paddle extends MovableObject {
     }
 
 
+
+    // fix ???
+    private void resetPower() {
+        this.currentPower = null;
+        setWidth(oldWidth);
+    }
+
     public void applyPowerUp(String newPowerUp) {
         this.currentPowerUp = newPowerUp;
     }
@@ -116,6 +136,7 @@ public class Paddle extends MovableObject {
         setY(Paddle.startY);
         setWidth(Paddle.WIDTH);
         setHeight(Paddle.HEIGHT);
+        this.oldWidth = Paddle.WIDTH;
 
     }
     public static void main(String[] args) {
