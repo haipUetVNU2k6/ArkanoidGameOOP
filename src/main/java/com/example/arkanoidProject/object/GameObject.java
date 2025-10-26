@@ -41,6 +41,8 @@ public abstract class GameObject {
         }
     }
 
+    public abstract void reset();
+
     public double getX() {
         return x;
     }

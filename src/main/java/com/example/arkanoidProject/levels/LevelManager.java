@@ -53,7 +53,8 @@ public class LevelManager {
                             brickWidth,
                             brickHeight,
                             brickSprite,
-                            31, 18, 9, 1, 0.1
+                            31, 18, 9, 1, 0.1,
+                            1,0
                     );
                     bricks.add(brick);
                 }

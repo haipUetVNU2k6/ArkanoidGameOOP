@@ -38,8 +38,10 @@ public class PlayState extends State {
 
     private LevelManager levelManager;
     private int level = 1;
-
     private int levelToLoad;
+    private int lives;
+    private int scores;
+
 
 
     public PlayState() {
@@ -57,7 +59,8 @@ public class PlayState extends State {
            // paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, Info.ScreenWidth);
             ball = new Ball(Info.BallX, Info.BallY, Info.BallDiameter, ballSprite, 10, 1, 880, 512, 0.1, Info.ScreenWidth, Info.ScreenHeight);
             paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, paddleSprite, 3, 1, 34, 24, 0.1, Info.ScreenWidth);
-
+            scores = 0;
+            lives = 3;
             //System.out.println(ball.getY()+","+ paddle.getY());
             int brickRows = 5;
             int brickCols = 10;
@@ -88,6 +91,10 @@ public class PlayState extends State {
         double dt = (now - lastTime) / 1_000_000_000.0;
         lastTime = now;
 
+        if(ball.isHold()) {
+            ball.setX(paddle.getX() + Info.BallX - Info.PaddleX);
+        }
+
         if (leftPressed) {
             paddle.setVelocityX(-400);
         } else if (rightPressed) {
@@ -101,14 +108,28 @@ public class PlayState extends State {
 
         // collision checks...
 
-        // Ball-Paddle collision
-        if (ball.getX() < paddle.getX() + paddle.getWidth() &&
-                ball.getX() + ball.getWidth() > paddle.getX() &&
-                ball.getY() + ball.getHeight() > paddle.getY() &&
-                ball.getY() < paddle.getY() + paddle.getHeight()) {
+        // check ball ...
+        if(ball.getHeight() + ball.getY() >= Info.ScreenHeight) {
+            if(lives > 0) {
+                lives--;
+                reset();
+            }
+            else {
+                MainApp.stateStack.pop();
+                MainApp.stateStack.push(MainApp.menuState);
+            }
 
-            ball.setVelocityY(-Math.abs(ball.getVelocityY()));
         }
+        // Ball-Paddle collision
+//        if (ball.getX() < paddle.getX() + paddle.getWidth() &&
+//                ball.getX() + ball.getWidth() > paddle.getX() &&
+//                ball.getY() + ball.getHeight() > paddle.getY() &&
+//                ball.getY() < paddle.getY() + paddle.getHeight()) {
+//
+//            ball.setVelocityY(-Math.abs(ball.getVelocityY()));
+//        }
+
+        ball.bounceOf(paddle);
 
         // Ball-Brick collision
         for (Brick brick : bricks) {
@@ -118,8 +139,10 @@ public class PlayState extends State {
                     ball.getY() < brick.getY() + brick.getHeight() &&
                     ball.getY() + ball.getHeight() > brick.getY()) {
 
+                brick.takeHit(1);
                 brick.destroy();
                 ball.setVelocityY(-ball.getVelocityY());
+                scores += 10;
                 break;
             }
         }
@@ -141,8 +164,7 @@ public class PlayState extends State {
             levelManager.nextLevel();
             if (levelManager.hasNextLevel()) {
                 bricks = levelManager.loadCurrentLevel();
-                ball.resetPosition(300, 400); // bạn cần thêm hàm reset trong Ball
-                paddle.setX(250);
+                reset();
                 level++;
             } else {
                 System.out.println("You win all levels!");
@@ -164,7 +186,8 @@ public class PlayState extends State {
             brick.render(gc);
         }
 
-        gc.fillText("LEVEL " + level, 20, 30);
+        gc.fillText("LEVEL " + level, 20, 10);
+        gc.fillText("Scores " + scores, Info.ScreenWidth-50, 10);
     }
 
     @Override
@@ -178,6 +201,11 @@ public class PlayState extends State {
         if (event.getCode() == KeyCode.ESCAPE) {
             lastTime = 0;
             MainApp.stateStack.push(MainApp.pauseState);
+        }
+        if(ball.isHold() && event.getCode()== KeyCode.ENTER) {
+            ball.setVelocityX(200);
+            ball.setVelocityY(-200);
+            ball.setHold(false);
         }
     }
 
@@ -195,4 +223,19 @@ public class PlayState extends State {
     public Pane getUI() {
         return root;
     }
+
+    public void reset() {
+        ball.reset();
+        paddle.reset();
+    }
+
+    public void restart() {
+        reset();
+        for(Brick brick:bricks) {
+            brick.setDestroyed(false);
+        }
+        scores = 0;
+        lives = 3;
+    }
+
 }

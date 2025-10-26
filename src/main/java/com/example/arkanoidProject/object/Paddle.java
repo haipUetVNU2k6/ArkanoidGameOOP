@@ -1,5 +1,6 @@
 package com.example.arkanoidProject.object;
 
+import com.example.arkanoidProject.util.Info;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -50,5 +51,11 @@ public class Paddle extends MoveableObject {
 
     public void releaseKey(KeyCode key) {
         keysPressed.remove(key);
+    }
+
+    @Override
+    public  void reset() {
+        setX(Info.PaddleX);
+        setY(Info.PaddleY);
     }
 }

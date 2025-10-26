@@ -24,6 +24,8 @@ public abstract class MoveableObject extends GameObject {
         y += velocityY * dt;
     }
 
+    @Override
+    public abstract void reset();
 
     public double getVelocityX() {
         return velocityX;
