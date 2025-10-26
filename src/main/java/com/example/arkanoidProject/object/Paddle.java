@@ -21,6 +21,11 @@ public class Paddle extends MoveableObject {
         this.screenWidth = screenWidth;
     }
 
+    public Paddle(double x, double y, double width, double height,double screenWidth) {
+        super(x, y, width, height);
+        this.screenWidth = screenWidth;
+    }
+
     @Override
     public void update(double dt) {
         super.update(dt);

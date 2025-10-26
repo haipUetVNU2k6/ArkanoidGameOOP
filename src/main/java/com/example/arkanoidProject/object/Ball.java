@@ -24,8 +24,8 @@ public class Ball extends MoveableObject {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
-        this.velocityX = 200;
-        this.velocityY = -200;
+        this.velocityX = 0;
+        this.velocityY = 0;
     }
 
 
@@ -61,7 +61,10 @@ public class Ball extends MoveableObject {
     public void render(GraphicsContext gc) {
         if (spriteAnimation != null) {
             // Tính toán góc xoay từ vận tốc của quả bóng
-            double angle = Math.atan2(velocityY, velocityX); // Góc tính theo radian
+            double angle = Math.atan2(velocityY, velocityX) ; // Góc tính theo radian
+            if(velocityX == 0 && velocityY == 0) {
+                angle = Math.PI/2;
+            }
 
             // Tính tỷ lệ phóng đại của sprite để tránh méo hình
             double scaleX = width / spriteAnimation.getFrameWidth();
@@ -92,7 +95,6 @@ public class Ball extends MoveableObject {
         this.velocityX = 0;
         this.velocityY = -Math.abs(this.velocityY); // hoặc giá trị ban đầu
     }
-
 
     // Hàm va chạm với paddle hoặc brick có thể thêm ở đây (nếu muốn)
 }

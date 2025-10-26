@@ -6,6 +6,7 @@ import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
+import com.example.arkanoidProject.util.Info;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -53,9 +54,11 @@ public class PlayState extends State {
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle.png").toExternalForm());
             //Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
 
-            ball = new Ball(300, 400, 50, ballSprite, 10, 1, 880, 512, 0.1, WIDTH, HEIGHT);
-            paddle = new Paddle(250, 750, 100, 30, paddleSprite, 3, 1, 34, 24, 0.1, WIDTH);
+           // paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, Info.ScreenWidth);
+            ball = new Ball(Info.BallX, Info.BallY, Info.BallDiameter, ballSprite, 10, 1, 880, 512, 0.1, Info.ScreenWidth, Info.ScreenHeight);
+            paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, paddleSprite, 3, 1, 34, 24, 0.1, Info.ScreenWidth);
 
+            //System.out.println(ball.getY()+","+ paddle.getY());
             int brickRows = 5;
             int brickCols = 10;
             int brickWidth = 60;

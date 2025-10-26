@@ -3,11 +3,20 @@ package com.example.arkanoidProject.object;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.canvas.GraphicsContext;
 
-public class GameObject {
+
+// Hai-PM: đồi abstract class.
+public abstract class GameObject {
     protected double x, y;
     protected double width, height;
 
     protected SpriteAnimation spriteAnimation;
+
+    public GameObject(double x, double y, double width, double height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
 
     public GameObject(double x, double y, double width, double height, SpriteAnimation spriteAnimation) {
         this.x = x;
@@ -32,18 +41,42 @@ public class GameObject {
         }
     }
 
-    // Getter / Setter
-    public double getX() { return x; }
-    public double getY() { return y; }
-    public void setX(double x) { this.x = x; }
-    public void setY(double y) { this.y = y; }
+    public double getX() {
+        return x;
+    }
 
-    public double getWidth() { return width; }
-    public double getHeight() { return height; }
-    public void setWidth(double width) { this.width = width; }
-    public void setHeight(double height) { this.height = height; }
+    public void setX(double x) {
+        this.x = x;
+    }
 
-    public SpriteAnimation getSpriteAnimation() { return spriteAnimation; }
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public SpriteAnimation getSpriteAnimation() {
+        return spriteAnimation;
+    }
+
     public void setSpriteAnimation(SpriteAnimation spriteAnimation) {
         this.spriteAnimation = spriteAnimation;
     }
