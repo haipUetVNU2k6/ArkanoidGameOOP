@@ -1,5 +1,6 @@
-package com.example.arkanoidProject.object;
+package com.example.arkanoidProject.object.Brick;
 
+import com.example.arkanoidProject.object.GameObject;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 

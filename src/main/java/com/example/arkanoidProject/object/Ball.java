@@ -9,10 +9,6 @@ public class Ball extends MoveableObject {
 
     private double screenWidth, screenHeight; // Giới hạn màn hình để xử lý va chạm
     private boolean isHold;
-    public  enum Direction{
-        top,down,
-        left,right,none;
-    }
     public Ball(double x, double y, double diameter, Image spriteSheet, int columns, int rows,
                 int frameWidth, int frameHeight, double frameDuration,
                 double screenWidth, double screenHeight) {
@@ -93,54 +89,8 @@ public class Ball extends MoveableObject {
         }
     }
 
-    public Direction intersect(GameObject rec) {
-
-        // recTop : duong thang phia tren tao len HCN
-        double recTop = rec.getY() +  rec.getHeight();
-        double recDown = rec.getY() ;
-        double recLeft = rec.getX();
-        double recRight = rec.getX() + rec.getWidth();
-
-
-
-        // ballTop: duong thang phia tren tao len ball
-        double ballTop = this.getY() + this.getHeight();
-        double ballDown = this.getY();
-        double ballLeft = this.getX();
-        double ballRight = this.getX() + this.getWidth();
-
-        // xac dinh vung chong lan(giao nhau) -> mo sang ben phai chieu duong truc Ox -> lay Min,nguoc lai voi bien trai lay Max
-        //overlapX = bien phai - bien trai = max(ballRight,recRight) - min(ballLeft,recLeft).
-        double overlapX = Math.min(ballRight,recRight) -  Math.max(ballLeft,recLeft);
-        double overlapY = Math.min(ballTop,recTop)  - Math.max(ballDown,recDown);
-
-        // overlapX > overlapY -> top/down -> tâm obj < tâm ball -> top
-        double pXBall = (this.getX() + this.getWidth())/2;
-        double pYBall = (this.getY() + this.getHeight())/2;
-        double pXRec = (rec.getX() + rec.getWidth())/2;
-        double pYRec = (rec.getY() + rec.getHeight())/2;
-
-        //System.out.println(ballLeft +","+ recRight +","+ ballRight +","+ recLeft +","+ ballTop +"," + recDown + "," +  ballDown + "," +recTop);
-        if(ballLeft >= recRight || ballRight <= recLeft || ballTop <= recDown || ballDown >= recTop) {
-            return Direction.none;
-        }
-
-        if(overlapX >= overlapY) {
-            if(pYBall >= pYRec) {
-                return Direction.down;
-            }
-            else return Direction.top;
-        }
-        else {
-            if(pXBall >= pXRec) return Direction.right;
-            else return Direction.left;
-        }
-    }
-
-    public void bounceOf(GameObject obj) {
-
-        Direction dir = this.intersect(obj);
-        if(obj instanceof Paddle && dir != Direction.top) {
+    public void bounceOf(GameObject obj,Info.Direction dir) {
+        if(obj instanceof Paddle && dir == Info.Direction.down || dir == Info.Direction.none) {
             return;
         }
         switch (dir) {

@@ -2,17 +2,18 @@ package com.example.arkanoidProject.object;
 
 import com.example.arkanoidProject.util.Info;
 import com.example.arkanoidProject.util.SpriteAnimation;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class Paddle extends MoveableObject {
-
     private double screenWidth;
     private Set<KeyCode> keysPressed = new HashSet<>();
-
+    public static Image img = new Image(Paddle.class.getResource("/com/example/arkanoidProject/view/images/PaddleX.png").toExternalForm());
     private double speed = 400;
 
     public Paddle(double x, double y, double width, double height, Image spriteSheet, int columns, int rows,
@@ -22,7 +23,7 @@ public class Paddle extends MoveableObject {
         this.screenWidth = screenWidth;
     }
 
-    public Paddle(double x, double y, double width, double height,double screenWidth) {
+    public Paddle(double x, double y, double width, double height,int screenWidth) {
         super(x, y, width, height);
         this.screenWidth = screenWidth;
     }
@@ -57,5 +58,17 @@ public class Paddle extends MoveableObject {
     public  void reset() {
         setX(Info.PaddleX);
         setY(Info.PaddleY);
+    }
+
+    @Override
+    public  void render(GraphicsContext gc) {
+        if(img != null) {
+            System.out.println(getX() + "," + getY());
+            gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
+        }
+        else {
+            gc.setFill(Color.BLUE);
+            gc.fillRect(getX(), getY(), getWidth(), getHeight());
+        }
     }
 }

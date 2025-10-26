@@ -3,7 +3,8 @@ package com.example.arkanoidProject.state_controller.state;
 import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
-import com.example.arkanoidProject.object.Brick;
+import com.example.arkanoidProject.object.Brick.Brick;
+import com.example.arkanoidProject.object.GameObject;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Info;
@@ -56,9 +57,9 @@ public class PlayState extends State {
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle.png").toExternalForm());
             //Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
 
-           // paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, Info.ScreenWidth);
+            paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, Info.ScreenWidth);
             ball = new Ball(Info.BallX, Info.BallY, Info.BallDiameter, ballSprite, 10, 1, 880, 512, 0.1, Info.ScreenWidth, Info.ScreenHeight);
-            paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, paddleSprite, 3, 1, 34, 24, 0.1, Info.ScreenWidth);
+            //paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight,paddleSprite, 16, 1, 800, 640, 0.1, Info.ScreenWidth);
             scores = 0;
             lives = 3;
             //System.out.println(ball.getY()+","+ paddle.getY());
@@ -120,29 +121,19 @@ public class PlayState extends State {
             }
 
         }
-        // Ball-Paddle collision
-//        if (ball.getX() < paddle.getX() + paddle.getWidth() &&
-//                ball.getX() + ball.getWidth() > paddle.getX() &&
-//                ball.getY() + ball.getHeight() > paddle.getY() &&
-//                ball.getY() < paddle.getY() + paddle.getHeight()) {
-//
-//            ball.setVelocityY(-Math.abs(ball.getVelocityY()));
-//        }
 
-        ball.bounceOf(paddle);
+        ball.bounceOf(paddle,intersect(ball,paddle));
 
         // Ball-Brick collision
         for (Brick brick : bricks) {
-            if (!brick.isDestroyed() &&
-                    ball.getX() < brick.getX() + brick.getWidth() &&
-                    ball.getX() + ball.getWidth() > brick.getX() &&
-                    ball.getY() < brick.getY() + brick.getHeight() &&
-                    ball.getY() + ball.getHeight() > brick.getY()) {
-
+            Info.Direction dir = intersect(ball, brick) ;
+            if (!brick.isDestroyed() && dir != Info.Direction.none) {
                 brick.takeHit(1);
                 brick.destroy();
-                ball.setVelocityY(-ball.getVelocityY());
-                scores += 10;
+                ball.bounceOf(brick,dir);
+                if(brick.isDestroyed() == true) {
+                    scores += 10;
+                }
                 break;
             }
         }
@@ -178,7 +169,7 @@ public class PlayState extends State {
 
     @Override
     public void render() {
-        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        gc.clearRect(0, 0, MainApp.WIDTH, MainApp.HEIGHT);
 
         ball.render(gc);
         paddle.render(gc);
@@ -186,8 +177,8 @@ public class PlayState extends State {
             brick.render(gc);
         }
 
-        gc.fillText("LEVEL " + level, 20, 10);
-        gc.fillText("Scores " + scores, Info.ScreenWidth-50, 10);
+        gc.fillText("LEVEL " + level, 20, 20);
+        gc.fillText("Scores " + scores, Info.ScreenWidth-60, 20);
     }
 
     @Override
@@ -214,7 +205,7 @@ public class PlayState extends State {
         if (event.getCode() == KeyCode.A) {
             leftPressed = false;
         }
-        if (event.getCode() == KeyCode.D) {
+         if (event.getCode() == KeyCode.D) {
             rightPressed = false;
         }
     }
@@ -236,6 +227,50 @@ public class PlayState extends State {
         }
         scores = 0;
         lives = 3;
+    }
+
+    public Info.Direction intersect(GameObject obj,GameObject rec) {
+
+        // recTop : duong thang phia tren tao len HCN
+        double recTop = rec.getY() +  rec.getHeight();
+        double recDown = rec.getY() ;
+        double recLeft = rec.getX();
+        double recRight = rec.getX() + rec.getWidth();
+
+
+
+        // ballTop: duong thang phia tren tao len ball
+        double objTop = obj.getY() + obj.getHeight();
+        double objDown = obj.getY();
+        double objLeft = obj.getX();
+        double objRight = obj.getX() + obj.getWidth();
+
+        // xac dinh vung chong lan(giao nhau) -> mo sang ben phai chieu duong truc Ox -> lay Min,nguoc lai voi bien trai lay Max
+        //overlapX = bien phai - bien trai = max(ballRight,recRight) - min(ballLeft,recLeft).
+        double overlapX = Math.min(objRight,recRight) -  Math.max(objLeft,recLeft);
+        double overlapY = Math.min(objTop,recTop)  - Math.max(objDown,recDown);
+
+        // overlapX > overlapY -> top/down -> tâm obj < tâm ball -> top
+        double pXObj = (obj.getX() + obj.getWidth())/2;
+        double pYObj = (obj.getY() + obj.getHeight())/2;
+        double pXRec = (rec.getX() + rec.getWidth())/2;
+        double pYRec = (rec.getY() + rec.getHeight())/2;
+
+        //System.out.println(ballLeft +","+ recRight +","+ ballRight +","+ recLeft +","+ ballTop +"," + recDown + "," +  ballDown + "," +recTop);
+        if(objLeft >= recRight || objRight <= recLeft || objTop <= recDown || objDown >= recTop) {
+            return Info.Direction.none;
+        }
+
+        if(overlapX >= overlapY) {
+            if(pYObj >= pYRec) {
+                return Info.Direction.down;
+            }
+            else return Info.Direction.top;
+        }
+        else {
+            if(pXObj >= pXRec) return Info.Direction.right;
+            else return Info.Direction.left;
+        }
     }
 
 }
