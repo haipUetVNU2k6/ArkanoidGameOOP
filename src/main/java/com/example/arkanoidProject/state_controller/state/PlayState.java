@@ -49,11 +49,11 @@ public class PlayState extends State {
 
             gc = controller.getGameCanvas().getGraphicsContext2D();
 
-            Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball.png").toExternalForm());
+            Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/cry.png").toExternalForm());
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle.png").toExternalForm());
             //Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
 
-            ball = new Ball(300, 400, 32, ballSprite, 10, 1, 50, 53, 0.1, WIDTH, HEIGHT);
+            ball = new Ball(300, 400, 50, ballSprite, 10, 1, 880, 512, 0.1, WIDTH, HEIGHT);
             paddle = new Paddle(250, 750, 100, 30, paddleSprite, 3, 1, 34, 24, 0.1, WIDTH);
 
             int brickRows = 5;
@@ -61,27 +61,12 @@ public class PlayState extends State {
             int brickWidth = 60;
             int brickHeight = 20;
 
-//            for (int row = 0; row < brickRows; row++) {
-//                for (int col = 0; col < brickCols; col++) {
-//                    Brick brick = new Brick(col * brickWidth + 10, row * brickHeight + 10, brickWidth, brickHeight,
-//                            brickSprite, 31, 18, 9, 1,0.1);
-//                    bricks.add(brick);
-//                }
-//            }
-
-//            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
-//            levelManager = new LevelManager(brickSprite);
-//            bricks = levelManager.loadCurrentLevel();
-
 // 1. Load sprite
             Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
-
 // 2. Khởi tạo LevelManager
             levelManager = new LevelManager(brickSprite);
-
 // 3. Lấy user hiện tại
             int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
-
 // 4. Load màn tương ứng với user
             bricks = levelManager.loadLevel(levelToLoad);
 

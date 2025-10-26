@@ -2,6 +2,7 @@ package com.example.arkanoidProject.object;
 
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
+import javafx.scene.canvas.GraphicsContext;
 
 public class Ball extends MoveableObject {
 
@@ -55,6 +56,35 @@ public class Ball extends MoveableObject {
             velocityY = -velocityY;
         }
     }
+
+    @Override
+    public void render(GraphicsContext gc) {
+        if (spriteAnimation != null) {
+            // Tính toán góc xoay từ vận tốc của quả bóng
+            double angle = Math.atan2(velocityY, velocityX); // Góc tính theo radian
+
+            // Tính tỷ lệ phóng đại của sprite để tránh méo hình
+            double scaleX = width / spriteAnimation.getFrameWidth();
+            double scaleY = height / spriteAnimation.getFrameHeight();
+            double scale = Math.min(scaleX, scaleY); // Tránh méo hình
+
+            // Lưu trạng thái hiện tại của GraphicsContext
+            gc.save();
+
+            // Di chuyển gốc tọa độ đến trung tâm quả bóng (để xoay quanh tâm)
+            gc.translate(x + width / 2, y + height / 2);
+
+            // Xoay GraphicsContext theo góc tính được
+            gc.rotate(Math.toDegrees(angle)); // Chuyển góc từ radian sang độ
+
+            // Vẽ quả bóng sau khi xoay, điều chỉnh vị trí để vẽ từ tâm
+            spriteAnimation.render(gc, -width / 2, -height / 2, scale, scale); // Vẽ từ trung tâm
+
+            // Khôi phục lại trạng thái GraphicsContext
+            gc.restore();
+        }
+    }
+
 
     public void resetPosition(double x, double y) {
         this.x = x;
