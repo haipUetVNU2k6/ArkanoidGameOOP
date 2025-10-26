@@ -1,0 +1,55 @@
+/* Nền overlay mờ đen */
+.overlay {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.pause-title {
+    -fx-font-family: "Segoe UI Black", "Arial Black", sans-serif;
+    -fx-font-size: 70px;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #0ff, #08f);
+    -fx-effect: dropshadow(gaussian, rgba(0, 255, 255, 0.95), 5, 0.0, 0, 0);
+    -fx-stroke: rgba(0, 200, 255, 0.9);
+    -fx-stroke-width: 2;
+    -fx-opacity: 1.0;
+    -fx-text-alignment: center;
+}
+
+.pausePane-background {
+    /* Màu nền vàng trắng nhạt */
+    -fx-background-color: #1b263b; /* vàng trắng pastel nhẹ */
+
+    /* Viền nâu vàng đậm */
+    -fx-border-color: #00b4d8; /* màu nâu vàng (dark goldenrod) */
+    -fx-border-width: 10;
+
+    /* Bo góc lớn hơn */
+    -fx-background-radius: 40;
+    -fx-border-radius: 30;
+
+    /* Padding để nội dung không dính vào viền */
+    -fx-padding: 0;
+
+    /* Bóng đổ để tạo chiều sâu */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 25, 0.2, 0, 5);
+}
+
+
+.pause-button {
+    -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 25;
+    -fx-padding: 15 60 15 60;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 5, 0.2, 0, 3);
+    -fx-transition: all 0.25s ease;
+}
+
+.pause-button:hover {
+    -fx-background-color: linear-gradient(to right, #00bfff, #0080ff);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 235, 255, 0.9), 14, 0.4, 0, 6);
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.example.arkanoidProject.state_controller.controller.ChangeAccountCtrl"
+           stylesheets="@../css/changeAccount.css"
+           fx:id="root">
+
+    <!-- Background -->
+    <VBox fx:id="buttonBackground" styleClass="pane-background"
+          maxWidth="600" maxHeight="300"/>
+
+    <!-- GridPane chứa nội dung, nằm trên nền -->
+    <GridPane hgap="10" vgap="10" alignment="CENTER">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- Title -->
+        <Text text="ACCOUNT MANAGEMENT" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"
+              styleClass="title-text" />
+
+        <!-- Row 1 -->
+        <Button text="New Account" fx:id="newButton" GridPane.columnIndex="0" GridPane.rowIndex="1" onAction="#onCreate"/>
+        <TextField fx:id="newAccountTextField" promptText="Enter username" GridPane.columnIndex="1" GridPane.rowIndex="1"
+        />
+
+        <!-- Row 2 -->
+        <Button text="Switch Account" fx:id="switchButton" GridPane.columnIndex="0" GridPane.rowIndex="2" onAction="#onSwitch"/>
+        <ComboBox fx:id="userComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Button text="Delete Account" fx:id="deleteButton" GridPane.columnIndex="2" GridPane.rowIndex="2" onAction="#onDelete"/>
+
+        <!-- Row 3 -->
+        <Button text="Back" fx:id="backButton" GridPane.columnIndex="0" GridPane.rowIndex="3" onAction="#onBack"/>
+
+        <!-- Message label -->
+        <Label fx:id="messageLabel" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="3"
+               styleClass="message-label" />
+
+    </GridPane>
+</StackPane>

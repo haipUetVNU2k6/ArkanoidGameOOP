@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"Game","l":"GameObject"},{"p":"com.example.arkanoidgameoop","l":"HelloApplication"},{"p":"com.example.arkanoidgameoop","l":"HelloController"},{"p":"com.example.arkanoidgameoop","l":"Launcher"},{"p":"Game","l":"MovableObject"},{"p":"Game","l":"Paddle"}]

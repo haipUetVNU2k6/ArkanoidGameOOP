@@ -1,4 +1,4 @@
-module ArkanoidGameOOP {
+module Game {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -9,10 +9,22 @@ module ArkanoidGameOOP {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
+    requires javafx.base;
+    requires java.desktop;
+    requires jdk.compiler;
+    requires com.google.gson;
+    //requires Game;
+
+    // Mở cho JavaFX có thể load FXML và truy cập controller
+    opens com.example.arkanoidProject.state_controller.controller to javafx.fxml;
+    opens com.example.arkanoidProject.object to javafx.fxml;
+    opens com.example.arkanoidProject.userAccount to com.google.gson;
 
 
 
-    opens Game to javafx.graphics;
-    opens Game.View to javafx.graphics;
-    opens Game.Util to javafx.graphics;
+    // Export package cho bên ngoài dùng
+    exports com.example.arkanoidProject;
+    exports com.example.arkanoidProject.state_controller.controller;
+    exports com.example.arkanoidProject.state_controller.state;
+    exports com.example.arkanoidProject.object;
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.canvas.Canvas?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           stylesheets="@../css/play.css"
+           fx:id="root"
+           fx:controller="com.example.arkanoidProject.state_controller.controller.PlayCtrl">
+
+    <Canvas fx:id="gameCanvas" width="600" height="800" />
+
+</StackPane>

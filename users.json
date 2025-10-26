@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "username": "Player1",
+      "lastLevel": 1
+    },
+    {
+      "username": "HoangLong",
+      "lastLevel": 1
+    },
+    {
+      "username": "Ronaldo",
+      "lastLevel": 1
+    },
+    {
+      "username": "messsy",
+      "lastLevel": 1
+    }
+  ],
+  "lastUserUsername": "messsy"
+}
