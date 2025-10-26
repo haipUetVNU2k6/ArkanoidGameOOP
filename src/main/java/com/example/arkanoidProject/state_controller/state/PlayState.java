@@ -29,12 +29,6 @@ public class PlayState extends State {
     private Paddle paddle;
     private List<Brick> bricks = new ArrayList<>();
 
-    private final int WIDTH = 600;
-    private final int HEIGHT = 800;
-
-    private boolean leftPressed = false;
-    private boolean rightPressed = false;
-
     private long lastTime = 0;
 
     private LevelManager levelManager;
@@ -94,14 +88,6 @@ public class PlayState extends State {
 
         if(ball.isHold()) {
             ball.setX(paddle.getX() + Info.BallX - Info.PaddleX);
-        }
-
-        if (leftPressed) {
-            paddle.setVelocityX(-400);
-        } else if (rightPressed) {
-            paddle.setVelocityX(400);
-        } else {
-            paddle.setVelocityX(0);
         }
 
         ball.update(dt);
@@ -183,11 +169,9 @@ public class PlayState extends State {
 
     @Override
     public void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.A) {
-            leftPressed = true;
-        }
-        if (event.getCode() == KeyCode.D) {
-            rightPressed = true;
+
+        if (event.getCode() == KeyCode.A ||  event.getCode() == KeyCode.D) {
+            paddle.pressKey(event.getCode());
         }
         if (event.getCode() == KeyCode.ESCAPE) {
             lastTime = 0;
@@ -202,11 +186,9 @@ public class PlayState extends State {
 
     @Override
     public void handleKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.A) {
-            leftPressed = false;
-        }
-         if (event.getCode() == KeyCode.D) {
-            rightPressed = false;
+        if (event.getCode() == KeyCode.A ||  event.getCode() == KeyCode.D) {
+            paddle.releaseKey(event.getCode());
+
         }
     }
 
@@ -274,3 +256,5 @@ public class PlayState extends State {
     }
 
 }
+
+

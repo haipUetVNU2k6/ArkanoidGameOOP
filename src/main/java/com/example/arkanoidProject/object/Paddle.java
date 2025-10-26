@@ -28,18 +28,24 @@ public class Paddle extends MoveableObject {
         this.screenWidth = screenWidth;
     }
 
+    public Set<KeyCode> getKeysPressed() {
+        return keysPressed;
+    }
+
     @Override
     public void update(double dt) {
-        super.update(dt);
 
         // Cập nhật vận tốc theo phím nhấn
+
         velocityX = 0;
-        if (keysPressed.contains(KeyCode.LEFT)) {
+        if (keysPressed.contains(KeyCode.A)) {
             velocityX = -speed;
-        } else if (keysPressed.contains(KeyCode.RIGHT)) {
+        }
+        if (keysPressed.contains(KeyCode.D)) {
             velocityX = speed;
         }
 
+        super.update(dt);
         // Giới hạn di chuyển trong màn hình
         if (x < 0) x = 0;
         if (x + width > screenWidth) x = screenWidth - width;
@@ -63,7 +69,6 @@ public class Paddle extends MoveableObject {
     @Override
     public  void render(GraphicsContext gc) {
         if(img != null) {
-            System.out.println(getX() + "," + getY());
             gc.drawImage(img,getX(),getY(),getWidth(),getHeight());
         }
         else {
