@@ -3,16 +3,18 @@ package com.example.arkanoidProject.object;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Ball extends MoveableObject {
+    public static boolean showHitbox = false; // ✅ cho phép bật/tắt hitbox
 
     private double screenWidth, screenHeight; // Giới hạn màn hình để xử lý va chạm
 
-    public Ball(double x, double y, double diameter, Image spriteSheet, int columns, int rows,
+    public Ball(double x, double y, double width, double height, Image spriteSheet, int columns, int rows,
                 int frameWidth, int frameHeight, double frameDuration,
                 double screenWidth, double screenHeight) {
 
-        super(x, y, diameter, diameter,
+        super(x, y, width, height,
                 new SpriteAnimation(
                         spriteSheet,
                         frameWidth,
@@ -60,28 +62,31 @@ public class Ball extends MoveableObject {
     @Override
     public void render(GraphicsContext gc) {
         if (spriteAnimation != null) {
-            // Tính toán góc xoay từ vận tốc của quả bóng
-            double angle = Math.atan2(velocityY, velocityX); // Góc tính theo radian
+            double angle = Math.atan2(velocityY, velocityX);
 
-            // Tính tỷ lệ phóng đại của sprite để tránh méo hình
             double scaleX = width / spriteAnimation.getFrameWidth();
             double scaleY = height / spriteAnimation.getFrameHeight();
-            double scale = Math.min(scaleX, scaleY); // Tránh méo hình
+            double scale = Math.min(scaleX, scaleY);
 
-            // Lưu trạng thái hiện tại của GraphicsContext
             gc.save();
 
-            // Di chuyển gốc tọa độ đến trung tâm quả bóng (để xoay quanh tâm)
-            gc.translate(x + width / 2, y + height / 2);
+            // ✅ Dịch tâm xoay sang phải 5px
+            double offsetX = 0;
+            double offsetY = 0;
+            gc.translate(x + width / 2 + offsetX, y + height / 2 + offsetY);
 
-            // Xoay GraphicsContext theo góc tính được
-            gc.rotate(Math.toDegrees(angle)); // Chuyển góc từ radian sang độ
+            gc.rotate(Math.toDegrees(angle));
 
-            // Vẽ quả bóng sau khi xoay, điều chỉnh vị trí để vẽ từ tâm
-            spriteAnimation.render(gc, -width / 2, -height / 2, scale, scale); // Vẽ từ trung tâm
+            spriteAnimation.render(gc, -width / 2, -height / 2, scale, scale);
 
-            // Khôi phục lại trạng thái GraphicsContext
             gc.restore();
+        }
+
+        // ✅ Vẽ hitbox nếu được bật
+        if (showHitbox) {
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(1.5);
+            gc.strokeRect(x, y, width, height);
         }
     }
 

@@ -28,7 +28,7 @@ public class PlayState extends State {
     private List<Brick> bricks = new ArrayList<>();
 
     private final int WIDTH = 600;
-    private final int HEIGHT = 800;
+    private final int HEIGHT = 900;
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
@@ -50,11 +50,11 @@ public class PlayState extends State {
             gc = controller.getGameCanvas().getGraphicsContext2D();
 
             Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/cry.png").toExternalForm());
-            Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle.png").toExternalForm());
+            Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/longsad.png").toExternalForm());
             //Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
 
-            ball = new Ball(300, 400, 50, ballSprite, 10, 1, 880, 512, 0.1, WIDTH, HEIGHT);
-            paddle = new Paddle(250, 750, 100, 30, paddleSprite, 3, 1, 34, 24, 0.1, WIDTH);
+            ball = new Ball(300, 400, 50, 30, ballSprite, 10, 1, 880, 512, 0.1, WIDTH, HEIGHT);
+            paddle = new Paddle(50, 750, 100, 120, paddleSprite, 8, 1, 800, 640, 0.1, WIDTH);
 
             int brickRows = 5;
             int brickCols = 10;
@@ -175,6 +175,9 @@ public class PlayState extends State {
         if (event.getCode() == KeyCode.ESCAPE) {
             lastTime = 0;
             MainApp.stateStack.push(MainApp.pauseState);
+        }
+        if (event.getCode() == KeyCode.H) {
+            Ball.showHitbox = !Ball.showHitbox; // ✅ bật/tắt hitbox
         }
     }
 

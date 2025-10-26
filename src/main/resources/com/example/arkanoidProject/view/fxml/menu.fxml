@@ -12,7 +12,7 @@
            stylesheets="@../css/menu.css"
            fx:id="root">
 
-    <VBox spacing="40" alignment="CENTER">
+    <VBox spacing="20" alignment="CENTER">
 
         <!-- Tiêu đề -->
 
