@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -116,6 +118,7 @@ public class PlayState extends State {
         for (Brick brick : bricks) {
             Info.Direction dir = intersect(ball, brick) ;
             if (!brick.isDestroyed() && dir != Info.Direction.none) {
+                System.out.println(brick.getHitPoints());
                 brick.takeHit(1);
                 brick.destroy();
                 ball.bounceOf(brick,dir);
@@ -165,8 +168,11 @@ public class PlayState extends State {
             brick.render(gc);
         }
 
-        gc.fillText("LEVEL " + level, 20, 20);
-        gc.fillText("Scores " + scores, Info.ScreenWidth-60, 20);
+        gc.setFill(Color.WHITE);
+        gc.setFont(new Font("Arial", 20));
+        gc.fillText("Level: " + level, 10, 30);
+        gc.fillText("Score: " + scores, Info.ScreenWidth - 80, 60);
+        gc.fillText("Lives: " + lives, 10, 60);
     }
 
     @Override

@@ -14,9 +14,13 @@ public interface Info {
     public static final double BallX = PaddleX + (PaddleWidth - BallDiameter)/2 - 10;
     public static final double BallY = PaddleY - BallDiameter;
 
-    public  enum Direction{
+    public  enum Direction {
         top,down,
         left,right,none;
+    }
+
+    public enum BrickType {
+        NORMAL, STRONG
     }
     public static void main(String[] args) {
 

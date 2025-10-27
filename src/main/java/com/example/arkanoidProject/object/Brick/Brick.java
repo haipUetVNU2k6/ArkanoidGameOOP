@@ -8,14 +8,14 @@ public class Brick extends GameObject {
 
     private boolean destroyed = false;
     private int hitPoints;
-    private int id;
+//    private int id;
 
     public Brick(double x, double y, double width, double height, Image spriteSheet, int frameWidth, int frameHeight,
-                 int columns, int rows, double frameDuration, int hitPoints, int id) {
+                 int columns, int rows, double frameDuration, int hitPoints) {
         super(x, y, width, height,
                 new SpriteAnimation(spriteSheet, frameWidth, frameHeight, columns, rows, frameDuration));
         this.hitPoints = hitPoints;
-        this.id = id;
+//        this.id = id;
     }
 
     @Override
@@ -52,13 +52,13 @@ public class Brick extends GameObject {
         this.hitPoints = hitPoints;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
 
     @Override
