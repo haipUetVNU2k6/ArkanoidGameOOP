@@ -106,7 +106,7 @@ public class Ball extends MoveableObject {
                    setVelocityY(- getVelocityY());
                }
                else if(centerBallX > paddle.getX() + paddle.getWidth() - 15) {
-                   setVelocityX(- 50);
+                   setVelocityX( 50);
                    setVelocityY(- getVelocityY());
                }
                else {
