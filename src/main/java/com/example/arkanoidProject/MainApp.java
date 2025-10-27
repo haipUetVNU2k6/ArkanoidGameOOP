@@ -84,7 +84,6 @@ public class MainApp extends Application {
         }.start();
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }
