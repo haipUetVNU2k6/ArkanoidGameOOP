@@ -107,8 +107,10 @@ public class PlayState extends State {
             }
 
         }
-
-        ball.bounceOf(paddle,intersect(ball,paddle));
+        Info.Direction direc = intersect(ball,paddle);
+        if(direc != Info.Direction.none) {
+            ball.bounceOf(paddle,direc);
+        }
 
         // Ball-Brick collision
         for (Brick brick : bricks) {
@@ -178,7 +180,7 @@ public class PlayState extends State {
             MainApp.stateStack.push(MainApp.pauseState);
         }
         if(ball.isHold() && event.getCode()== KeyCode.ENTER) {
-            ball.setVelocityX(200);
+            ball.setVelocityX(0);
             ball.setVelocityY(-200);
             ball.setHold(false);
         }

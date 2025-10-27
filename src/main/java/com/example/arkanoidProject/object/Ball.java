@@ -90,9 +90,32 @@ public class Ball extends MoveableObject {
     }
 
     public void bounceOf(GameObject obj,Info.Direction dir) {
-        if(obj instanceof Paddle && dir == Info.Direction.down || dir == Info.Direction.none) {
+        if(dir == Info.Direction.none) {
             return;
         }
+       if(obj instanceof Paddle) {
+           Paddle paddle = (Paddle) obj;
+           if(dir != Info.Direction.top) {
+               return;
+           }
+           else {
+               double centerBallX = getX() + getWidth() / 2;
+               System.out.println(centerBallX + "," + paddle.getX());
+               if(centerBallX < paddle.getX() + 15) {
+                   setVelocityX(- 50);
+                   setVelocityY(- getVelocityY());
+               }
+               else if(centerBallX > paddle.getX() + paddle.getWidth() - 15) {
+                   setVelocityX(- 50);
+                   setVelocityY(- getVelocityY());
+               }
+               else {
+                   setVelocityX(0);
+                   setVelocityY(- getVelocityY());
+               }
+               return;
+           }
+       }
         switch (dir) {
             case top:
                 this.setVelocityY(-getVelocityY());
