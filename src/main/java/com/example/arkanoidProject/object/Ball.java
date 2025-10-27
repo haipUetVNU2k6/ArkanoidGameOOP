@@ -11,7 +11,6 @@ public class Ball extends MoveableObject {
 
     private double screenWidth, screenHeight; // Giới hạn màn hình để xử lý va chạm
     private boolean isHold;
-    public Ball(double x, double y, double diameter, Image spriteSheet, int columns, int rows,
 
     public Ball(double x, double y, double width, double height, Image spriteSheet, int columns, int rows,
                 int frameWidth, int frameHeight, double frameDuration,
@@ -67,7 +66,6 @@ public class Ball extends MoveableObject {
         if (spriteAnimation != null) {
             double angle = Math.atan2(velocityY, velocityX);
             // Tính toán góc xoay từ vận tốc của quả bóng
-            double angle = Math.atan2(velocityY, velocityX) ; // Góc tính theo radian
             if(velocityX == 0 && velocityY == 0) {
                 angle = Math.PI/2;
             }
@@ -153,7 +151,7 @@ public class Ball extends MoveableObject {
         setHold(true);
         setVelocityX(0);
         setVelocityY(0);
-
+    }
     public boolean isHold() {
         return isHold;
     }

@@ -52,7 +52,7 @@ public class PlayState extends State {
             //Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
 
             paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, Info.ScreenWidth);
-            ball = new Ball(Info.BallX, Info.BallY, Info.BallDiameter, ballSprite, 10, 1, 880, 512, 0.1, Info.ScreenWidth, Info.ScreenHeight);
+            ball = new Ball(Info.BallX, Info.BallY, Info.BallDiameter, Info.BallDiameter, ballSprite, 10, 1, 880, 512, 0.1, Info.ScreenWidth, Info.ScreenHeight);
             //paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight,paddleSprite, 16, 1, 800, 640, 0.1, Info.ScreenWidth);
             scores = 0;
             lives = 3;
