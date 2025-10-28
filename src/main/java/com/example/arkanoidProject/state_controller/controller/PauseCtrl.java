@@ -13,6 +13,9 @@ public class PauseCtrl {
 
     @FXML
     private void onRestart(ActionEvent event) {
+        MainApp.playState.restart();
+        MainApp.stateStack.pop();
+        MainApp.stateStack.push(MainApp.playState);
         System.out.println("click on Setting");
     }
 

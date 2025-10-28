@@ -1,6 +1,8 @@
 package com.example.arkanoidProject.levels;
 
-import com.example.arkanoidProject.object.Brick;
+import com.example.arkanoidProject.object.Brick.Brick;
+import com.example.arkanoidProject.object.Brick.BrickFactory;
+import com.example.arkanoidProject.util.Info;
 import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
@@ -39,24 +41,33 @@ public class LevelManager {
         int[][] layout = readLevelFromFile(path);
 
         List<Brick> bricks = new ArrayList<>();
-        int brickWidth = 60;
-        int brickHeight = 20;
-        int startX = 10;
-        int startY = 10;
+        int brickWidth = 120;
+        int brickHeight = 40;
+        int startX = 40;
+        int startY = 50;
 
         for (int row = 0; row < layout.length; row++) {
             for (int col = 0; col < layout[row].length; col++) {
-                if (layout[row][col] == 1) {
-                    Brick brick = new Brick(
-                            startX + col * brickWidth,
-                            startY + row * brickHeight,
-                            brickWidth,
-                            brickHeight,
-                            brickSprite,
-                            31, 18, 9, 1, 0.1
-                    );
-                    bricks.add(brick);
+                int id = layout[row][col];
+                Brick brick = null;
+                switch (id) {
+                    case 1:
+                        brick = BrickFactory.createBrick(Info.BrickType.NORMAL,
+                                startX + col * brickWidth,
+                                startY + row * brickHeight,
+                                brickWidth, brickHeight,
+                                brickSprite,31, 18, 9, 1, 0.1);
+                    break;
+                    case 2:
+                        brick = BrickFactory.createBrick(Info.BrickType.STRONG,
+                                startX + col * brickWidth,
+                                startY + row * brickHeight,
+                                brickWidth, brickHeight,
+                                brickSprite,31, 18, 9, 1, 0.1);
+                        break;
+
                 }
+               if(brick != null) bricks.add(brick);
             }
         }
 
@@ -79,7 +90,7 @@ public class LevelManager {
         return currentLevel;
     }
 
-    /** Đọc file level thành ma trận 0,1 */
+    /** Đọc file level thành ma trận 0,1,2 */
     private int[][] readLevelFromFile(String path) {
         List<int[]> rows = new ArrayList<>();
 
@@ -89,7 +100,7 @@ public class LevelManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 int[] row = line.chars()
-                        .filter(c -> c == '0' || c == '1') // lọc ký tự hợp lệ
+                        .filter(c -> c == '0' || c == '1'||c == '2') // lọc ký tự hợp lệ
                         .map(c -> c - '0')
                         .toArray();
                 rows.add(row);

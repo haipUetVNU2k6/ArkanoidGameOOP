@@ -9,7 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class MainApp extends Application {
+public class
+MainApp extends Application {
     public static UserManager userManager = new UserManager();
 
     public static final int WIDTH = 1200;
@@ -83,7 +84,6 @@ public class MainApp extends Application {
             }
         }.start();
     }
-
 
     public static void main(String[] args) {
         launch(args);

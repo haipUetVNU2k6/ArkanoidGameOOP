@@ -3,15 +3,19 @@ package com.example.arkanoidProject.state_controller.state;
 import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
-import com.example.arkanoidProject.object.Brick;
+import com.example.arkanoidProject.object.Brick.Brick;
+import com.example.arkanoidProject.object.GameObject;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
+import com.example.arkanoidProject.util.Info;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,18 +31,14 @@ public class PlayState extends State {
     private Paddle paddle;
     private List<Brick> bricks = new ArrayList<>();
 
-    private final int WIDTH = 600;
-    private final int HEIGHT = 900;
-
-    private boolean leftPressed = false;
-    private boolean rightPressed = false;
-
     private long lastTime = 0;
 
     private LevelManager levelManager;
     private int level = 1;
-
     private int levelToLoad;
+    private int lives;
+    private int scores;
+
 
 
     public PlayState() {
@@ -50,12 +50,15 @@ public class PlayState extends State {
             gc = controller.getGameCanvas().getGraphicsContext2D();
 
             Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/cry.png").toExternalForm());
-            Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/longsad.png").toExternalForm());
+            Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle.png").toExternalForm());
             //Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/images/brick.png").toExternalForm());
 
-            ball = new Ball(300, 400, 50, 30, ballSprite, 10, 1, 880, 512, 0.1, WIDTH, HEIGHT);
-            paddle = new Paddle(50, 750, 100, 120, paddleSprite, 8, 1, 800, 640, 0.1, WIDTH);
-
+            paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight, Info.ScreenWidth);
+            ball = new Ball(Info.BallX, Info.BallY, Info.BallDiameter, Info.BallDiameter, ballSprite, 10, 1, 880, 512, 0.1, Info.ScreenWidth, Info.ScreenHeight);
+            //paddle = new Paddle(Info.PaddleX, Info.PaddleY, Info.PaddleWidth, Info.PaddleHeight,paddleSprite, 16, 1, 800, 640, 0.1, Info.ScreenWidth);
+            scores = 0;
+            lives = 3;
+            //System.out.println(ball.getY()+","+ paddle.getY());
             int brickRows = 5;
             int brickCols = 10;
             int brickWidth = 60;
@@ -85,12 +88,8 @@ public class PlayState extends State {
         double dt = (now - lastTime) / 1_000_000_000.0;
         lastTime = now;
 
-        if (leftPressed) {
-            paddle.setVelocityX(-400);
-        } else if (rightPressed) {
-            paddle.setVelocityX(400);
-        } else {
-            paddle.setVelocityX(0);
+        if(ball.isHold()) {
+            ball.setX(paddle.getX() + Info.BallX - Info.PaddleX);
         }
 
         ball.update(dt);
@@ -98,25 +97,34 @@ public class PlayState extends State {
 
         // collision checks...
 
-        // Ball-Paddle collision
-        if (ball.getX() < paddle.getX() + paddle.getWidth() &&
-                ball.getX() + ball.getWidth() > paddle.getX() &&
-                ball.getY() + ball.getHeight() > paddle.getY() &&
-                ball.getY() < paddle.getY() + paddle.getHeight()) {
+        // check ball ...
+        if(ball.getHeight() + ball.getY() >= Info.ScreenHeight) {
+            if(lives > 0) {
+                lives--;
+                reset();
+            }
+            else {
+                MainApp.stateStack.pop();
+                MainApp.stateStack.push(MainApp.menuState);
+            }
 
-            ball.setVelocityY(-Math.abs(ball.getVelocityY()));
+        }
+        Info.Direction direc = intersect(ball,paddle);
+        if(direc != Info.Direction.none) {
+            ball.bounceOf(paddle,direc);
         }
 
         // Ball-Brick collision
         for (Brick brick : bricks) {
-            if (!brick.isDestroyed() &&
-                    ball.getX() < brick.getX() + brick.getWidth() &&
-                    ball.getX() + ball.getWidth() > brick.getX() &&
-                    ball.getY() < brick.getY() + brick.getHeight() &&
-                    ball.getY() + ball.getHeight() > brick.getY()) {
-
+            Info.Direction dir = intersect(ball, brick) ;
+            if (!brick.isDestroyed() && dir != Info.Direction.none) {
+                System.out.println(brick.getHitPoints());
+                brick.takeHit(1);
                 brick.destroy();
-                ball.setVelocityY(-ball.getVelocityY());
+                ball.bounceOf(brick,dir);
+                if(brick.isDestroyed() == true) {
+                    scores += 10;
+                }
                 break;
             }
         }
@@ -138,8 +146,7 @@ public class PlayState extends State {
             levelManager.nextLevel();
             if (levelManager.hasNextLevel()) {
                 bricks = levelManager.loadCurrentLevel();
-                ball.resetPosition(300, 400); // bạn cần thêm hàm reset trong Ball
-                paddle.setX(250);
+                reset();
                 level++;
             } else {
                 System.out.println("You win all levels!");
@@ -153,7 +160,7 @@ public class PlayState extends State {
 
     @Override
     public void render() {
-        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        gc.clearRect(0, 0, MainApp.WIDTH, MainApp.HEIGHT);
 
         ball.render(gc);
         paddle.render(gc);
@@ -161,20 +168,27 @@ public class PlayState extends State {
             brick.render(gc);
         }
 
-        gc.fillText("LEVEL " + level, 20, 30);
+        gc.setFill(Color.WHITE);
+        gc.setFont(new Font("Arial", 20));
+        gc.fillText("Level: " + level, 10, 30);
+        gc.fillText("Score: " + scores, Info.ScreenWidth - 80, 60);
+        gc.fillText("Lives: " + lives, 10, 60);
     }
 
     @Override
     public void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.A) {
-            leftPressed = true;
-        }
-        if (event.getCode() == KeyCode.D) {
-            rightPressed = true;
+
+        if (event.getCode() == KeyCode.A ||  event.getCode() == KeyCode.D) {
+            paddle.pressKey(event.getCode());
         }
         if (event.getCode() == KeyCode.ESCAPE) {
             lastTime = 0;
             MainApp.stateStack.push(MainApp.pauseState);
+        }
+        if(ball.isHold() && event.getCode()== KeyCode.ENTER) {
+            ball.setVelocityX(0);
+            ball.setVelocityY(-200);
+            ball.setHold(false);
         }
         if (event.getCode() == KeyCode.H) {
             Ball.showHitbox = !Ball.showHitbox; // ✅ bật/tắt hitbox
@@ -183,11 +197,9 @@ public class PlayState extends State {
 
     @Override
     public void handleKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.A) {
-            leftPressed = false;
-        }
-        if (event.getCode() == KeyCode.D) {
-            rightPressed = false;
+        if (event.getCode() == KeyCode.A ||  event.getCode() == KeyCode.D) {
+            paddle.releaseKey(event.getCode());
+
         }
     }
 
@@ -195,4 +207,65 @@ public class PlayState extends State {
     public Pane getUI() {
         return root;
     }
+
+    public void reset() {
+        ball.reset();
+        paddle.reset();
+    }
+
+    public void restart() {
+        reset();
+        for(Brick brick:bricks) {
+            brick.setDestroyed(false);
+        }
+        scores = 0;
+        lives = 3;
+    }
+
+    public Info.Direction intersect(GameObject obj,GameObject rec) {
+
+        // recTop : duong thang phia tren tao len HCN
+        double recTop = rec.getY() +  rec.getHeight();
+        double recDown = rec.getY() ;
+        double recLeft = rec.getX();
+        double recRight = rec.getX() + rec.getWidth();
+
+
+
+        // ballTop: duong thang phia tren tao len ball
+        double objTop = obj.getY() + obj.getHeight();
+        double objDown = obj.getY();
+        double objLeft = obj.getX();
+        double objRight = obj.getX() + obj.getWidth();
+
+        // xac dinh vung chong lan(giao nhau) -> mo sang ben phai chieu duong truc Ox -> lay Min,nguoc lai voi bien trai lay Max
+        //overlapX = bien phai - bien trai = max(ballRight,recRight) - min(ballLeft,recLeft).
+        double overlapX = Math.min(objRight,recRight) -  Math.max(objLeft,recLeft);
+        double overlapY = Math.min(objTop,recTop)  - Math.max(objDown,recDown);
+
+        // overlapX > overlapY -> top/down -> tâm obj < tâm ball -> top
+        double pXObj = (obj.getX() + obj.getWidth())/2;
+        double pYObj = (obj.getY() + obj.getHeight())/2;
+        double pXRec = (rec.getX() + rec.getWidth())/2;
+        double pYRec = (rec.getY() + rec.getHeight())/2;
+
+        //System.out.println(ballLeft +","+ recRight +","+ ballRight +","+ recLeft +","+ ballTop +"," + recDown + "," +  ballDown + "," +recTop);
+        if(objLeft >= recRight || objRight <= recLeft || objTop <= recDown || objDown >= recTop) {
+            return Info.Direction.none;
+        }
+
+        if(overlapX >= overlapY) {
+            if(pYObj >= pYRec) {
+                return Info.Direction.down;
+            }
+            else return Info.Direction.top;
+        }
+        else {
+            if(pXObj >= pXRec) return Info.Direction.right;
+            else return Info.Direction.left;
+        }
+    }
+
 }
+
+
