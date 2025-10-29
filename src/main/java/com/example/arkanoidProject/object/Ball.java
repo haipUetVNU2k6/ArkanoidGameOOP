@@ -7,12 +7,10 @@ import javafx.scene.paint.Color;
 
 public class Ball extends MoveableObject {
     public static boolean showHitbox = false; // ✅ cho phép bật/tắt hitbox
-
-    private double screenWidth, screenHeight; // Giới hạn màn hình để xử lý va chạm
-
-    public Ball(double x, double y, double width, double height, Image spriteSheet, int columns, int rows,
+    public Ball(double x, double y, double width, double height,
+                Image spriteSheet, int columns, int rows,
                 int frameWidth, int frameHeight, double frameDuration,
-                double screenWidth, double screenHeight) {
+                double hitBoxOffsetX, double hitBoxOffsetY, double hitBoxW, double hitBoxH) {
 
         super(x, y, width, height,
                 new SpriteAnimation(
@@ -21,48 +19,18 @@ public class Ball extends MoveableObject {
                         frameHeight,
                         columns,
                         rows,
-                        frameDuration));
+                        frameDuration),
+                hitBoxOffsetX, hitBoxOffsetY, hitBoxW, hitBoxH);
 
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-
-        this.velocityX = 200;
-        this.velocityY = -200;
-    }
-
-
-
-    @Override
-    public void update(double dt) {
-        super.update(dt);
-
-        // Va chạm biên trái/phải màn hình
-        if (x <= 0) {
-            x = 0;
-            velocityX = -velocityX;
-        }
-        if (x + width >= screenWidth) {
-            x = screenWidth - width;
-            velocityX = -velocityX;
-        }
-
-        // Va chạm biên trên
-        if (y <= 0) {
-            y = 0;
-            velocityY = -velocityY;
-        }
-
-        // Va chạm biên dưới (thua game hoặc mất life, ở đây chỉ bounce lại tạm)
-        if (y + height >= screenHeight) {
-            y = screenHeight - height;
-            velocityY = -velocityY;
-        }
+        this.dx = 200;
+        this.dy = -200;
     }
 
     @Override
     public void render(GraphicsContext gc) {
         if (spriteAnimation != null) {
-            double angle = Math.atan2(velocityY, velocityX);
+            // 🔹 Tính góc xoay dựa vào hướng di chuyển
+            double angle = Math.toDegrees(Math.atan2(dy, dx));
 
             double scaleX = width / spriteAnimation.getFrameWidth();
             double scaleY = height / spriteAnimation.getFrameHeight();
@@ -70,23 +38,36 @@ public class Ball extends MoveableObject {
 
             gc.save();
 
-            // ✅ Dịch tâm xoay sang phải 5px
-            double offsetX = 0;
-            double offsetY = 0;
-            gc.translate(x + width / 2 + offsetX, y + height / 2 + offsetY);
+            // 🔹 Tâm xoay = tâm phần bóng thật (bỏ qua shadow)
+            double centerX = x + hitBoxOffsetX + hitBox.getWidth() / 2;
+            double centerY = y + hitBoxOffsetY + hitBox.getHeight() / 2;
 
-            gc.rotate(Math.toDegrees(angle));
+            // Di chuyển gốc tọa độ đến tâm bóng
+            gc.translate(centerX, centerY);
 
-            spriteAnimation.render(gc, -width / 2, -height / 2, scale, scale);
+            // Xoay sprite theo hướng bay
+            gc.rotate(angle);
+
+            // 🔹 Dịch sprite về vị trí đúng (do translate trước đó)
+            gc.translate(-hitBoxOffsetX - hitBox.getWidth() / 2,
+                    -hitBoxOffsetY - hitBox.getHeight() / 2);
+
+            // 🔹 Vẽ quả bóng (sprite sheet frame hiện tại)
+            spriteAnimation.render(gc, 0, 0, scale, scale);
 
             gc.restore();
         }
 
-        // ✅ Vẽ hitbox nếu được bật
+        // 🔹 Vẽ hitbox thật (để kiểm tra va chạm)
         if (showHitbox) {
             gc.setStroke(Color.RED);
             gc.setLineWidth(1.5);
-            gc.strokeRect(x, y, width, height);
+            gc.strokeRect(
+                    hitBox.getMinX(),
+                    hitBox.getMinY(),
+                    hitBox.getWidth(),
+                    hitBox.getHeight()
+            );
         }
     }
 
@@ -94,8 +75,8 @@ public class Ball extends MoveableObject {
     public void resetPosition(double x, double y) {
         this.x = x;
         this.y = y;
-        this.velocityX = 0;
-        this.velocityY = -Math.abs(this.velocityY); // hoặc giá trị ban đầu
+        this.dx = 0;
+        this.dy = -Math.abs(this.dy); // hoặc giá trị ban đầu
     }
 
 

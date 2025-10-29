@@ -39,8 +39,8 @@ public class LevelManager {
         int[][] layout = readLevelFromFile(path);
 
         List<Brick> bricks = new ArrayList<>();
-        int brickWidth = 60;
-        int brickHeight = 20;
+        int brickWidth = 60 * 2;
+        int brickHeight = 20 * 2;
         int startX = 10;
         int startY = 10;
 
