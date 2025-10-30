@@ -22,7 +22,7 @@ public class Ball extends MoveableObject {
                         frameDuration),
                 hitBoxOffsetX, hitBoxOffsetY, hitBoxW, hitBoxH);
 
-        this.dx = 200;
+        this.dx = 0;
         this.dy = -200;
     }
 

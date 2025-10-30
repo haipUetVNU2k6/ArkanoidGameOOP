@@ -7,18 +7,20 @@ public class Brick extends GameObject {
 
     private boolean destroyed = false;
 
-    public Brick(double x, double y, double width, double height, Image spriteSheet, int frameWidth, int frameHeight,
-                 int columns, int rows, double frameDuration) {
-        super(x, y, width, height,
-                new SpriteAnimation(spriteSheet, frameWidth, frameHeight, columns, rows, frameDuration));
+    protected Image image;
+
+    public Brick(double x, double y, double width, double height, Image image) {
+        super(x, y, width, height);
+        this.image = image;
     }
 
     @Override
     public void render(javafx.scene.canvas.GraphicsContext gc) {
-        if (!destroyed) {
-            super.render(gc);
+        if (!destroyed && image != null) {
+            gc.drawImage(image, x, y, width, height);
         }
     }
+
 
     public void destroy() {
         destroyed = true;

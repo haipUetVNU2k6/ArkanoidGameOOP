@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +57,11 @@ public class PlayState extends State {
                     18, 3, 18, 15);
             paddle = new Paddle(50, 720, 60, 72,
                     paddleSprite, 8, 1, 800, 640, 0.1,
-                    MainApp.WIDTH, 3, 0, 780, 200);
+                    MainApp.WIDTH, 0, 0, 60, 17);
 
 
-            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
-            levelManager = new LevelManager(brickSprite);
+            Image brickImage = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
+            levelManager = new LevelManager(brickImage);
             int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
             bricks = levelManager.loadLevel(levelToLoad);
 
@@ -81,6 +80,7 @@ public class PlayState extends State {
         double dt = (now - lastTime) / 1_000_000_000.0;
         lastTime = now;
 
+        // ======== INPUT ========
         if (leftPressed) {
             paddle.setDx(-400);
         } else if (rightPressed) {
@@ -89,70 +89,103 @@ public class PlayState extends State {
             paddle.setDx(0);
         }
 
+        // ======== UPDATE OBJECTS ========
         ball.update(dt);
         paddle.update(dt);
-        // collision checks...
-        //Ball-wall collison
-        if (ball.getHitBox().getMinX() <= 0) ball.setDx(- ball.getDx());
-        if (ball.getHitBox().getMaxX() >= WIDTH) ball.setDx(- ball.getDx());
-        if (ball.getHitBox().getMinY() <= 0) ball.setDy(- ball.getDy());
-        if (ball.getHitBox().getMaxY() >= HEIGHT) ball.setDy(- ball.getDy());
 
-        if (ball.getX() < paddle.getX() + paddle.getWidth() &&
-                ball.getX() + ball.getWidth() > paddle.getX() &&
-                ball.getY() + ball.getHeight() > paddle.getY() &&
-                ball.getY() < paddle.getY() + paddle.getHeight()) {
+        System.out.println(
+                Math.round(WIDTH) + " " +
+                        Math.round(HEIGHT) + " " +
+                        Math.round(ball.getHitBox().getMinX()) + " " +
+                        Math.round(ball.getHitBox().getMinY())
+        );
 
-            // 🔹 Tính vị trí tương đối của tâm bóng so với tâm paddle
-            double paddleCenter = paddle.getX() + paddle.getWidth() / 2;
-            double ballCenter = ball.getX() + ball.getWidth() / 2;
-            double relativeIntersect = (ballCenter - paddleCenter) / (paddle.getWidth() / 2);
-
-            // 🔹 Giới hạn góc bật từ -60° đến +60°
-            double maxAngle = 90 * Math.PI / 180; // 60 độ → radian
-            double bounceAngle = relativeIntersect * maxAngle;
-
-            // 🔹 Tính vận tốc mới (vẫn giữ tốc độ tổng)
-            double speed = Math.sqrt(ball.getDx() * ball.getDx() + ball.getDy() * ball.getDy());
-            ball.setDx(speed * Math.sin(bounceAngle));
-            ball.setDy(-Math.abs(speed * Math.cos(bounceAngle))); // bật lên
-
-            // Đảm bảo bóng không dính paddle
-            ball.setY(paddle.getY() - ball.getHeight() - 1);
+        // ======== BALL - WALL COLLISION ========
+        if (ball.getHitBox().getMinX() <= 0) {
+            ball.setX(ball.getX() - ball.getHitBox().getMinX());
+            ball.setDx(- ball.getDx());
+        }
+        if (ball.getHitBox().getMaxX() >= WIDTH) {
+            ball.setX(ball.getX() - (ball.getHitBox().getMaxX() - WIDTH));
+            ball.setDx(-ball.getDx());
+        }
+        if (ball.getHitBox().getMinY() <= 0) {
+            ball.setY(ball.getY() - ball.getHitBox().getMinY());
+            ball.setDy(-ball.getDy());
+        }
+        if (ball.getHitBox().getMaxY() >= HEIGHT) {
+            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - HEIGHT));
+            ball.setDy(-ball.getDy());
         }
 
+        // ======== BALL - PADDLE COLLISION ========
+        if (ball.getHitBox().intersects(paddle.getHitBox())) {
+            double ballCenterX = ball.getHitBox().getMinX() + ball.getHitBox().getWidth() / 2;
+            double ballCenterY = ball.getHitBox().getMinY() + ball.getHitBox().getHeight() / 2;
+            double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
+            double paddleCenterY = paddle.getHitBox().getMinY() + paddle.getHitBox().getHeight() / 2;
+
+            // Hệ số 20 dùng để tăng tốc ball.
+            ball.setDx((ballCenterX - paddleCenterX) * 20);
+            ball.setDy((ballCenterY - paddleCenterY) * 20);
+        }
+
+        // ======== BALL - BRICK COLLISION ========
+        Rectangle2D ballBox = ball.getHitBox();
         for (Brick brick : bricks) {
-            if (!brick.isDestroyed() &&
-                    ball.getHitBox().getMinX() < brick.getX() + brick.getWidth() &&
-                    ball.getHitBox().getMaxX() > brick.getX() &&
-                    ball.getHitBox().getMinY() < brick.getY() + brick.getHeight() &&
-                    ball.getHitBox().getMaxY() > brick.getY()) {
+            if (brick.isDestroyed()) continue;
 
-                // Xác định hướng va chạm
-                double ballCenterX = ball.getHitBox().getMinX() + ball.getHitBox().getWidth() / 2;
-                double ballCenterY = ball.getHitBox().getMinY() + ball.getHitBox().getHeight() / 2;
+            Rectangle2D brickBox = new Rectangle2D(brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
 
-                double brickCenterX = brick.getX() + brick.getWidth() / 2;
-                double brickCenterY = brick.getY() + brick.getHeight() / 2;
+            if (!ballBox.intersects(brickBox)) continue;
 
-                double dx = ballCenterX - brickCenterX;
-                double dy = ballCenterY - brickCenterY;
+            double ballLeft = ballBox.getMinX();
+            double ballRight = ballBox.getMaxX();
+            double ballTop = ballBox.getMinY();
+            double ballBottom = ballBox.getMaxY();
 
-                // So sánh độ chênh để quyết định va trúng cạnh nào
-                if (Math.abs(dx) > Math.abs(dy)) {
-                    // Va chạm trái/phải
-                    ball.setDx(-ball.getDx());
-                } else {
-                    // Va chạm trên/dưới
-                    ball.setDy(-ball.getDy());
-                }
+            double brickLeft = brick.getX();
+            double brickRight = brick.getX() + brick.getWidth();
+            double brickTop = brick.getY();
+            double brickBottom = brick.getY() + brick.getHeight();
 
-                brick.destroy();
-                break;
+            // Tính độ chồng lấn
+            double overlapLeft = ballRight - brickLeft;
+            double overlapRight = brickRight - ballLeft;
+            double overlapTop = ballBottom - brickTop;
+            double overlapBottom = brickBottom - ballTop;
+
+            boolean ballFromLeft = overlapLeft < overlapRight;
+            boolean ballFromTop = overlapTop < overlapBottom;
+
+            double minOverlapX = ballFromLeft ? overlapLeft : overlapRight;
+            double minOverlapY = ballFromTop ? overlapTop : overlapBottom;
+
+            // Va vào trục nào ít hơn → cạnh đó
+            if (minOverlapX < minOverlapY) {
+                // X COLLISION (trái/phải)
+                ball.setDx(-ball.getDx());
+
+                if (ballFromLeft)
+                    ball.setX(brickLeft - ball.getWidth());
+                else
+                    ball.setX(brickRight);
+            } else {
+                // Y COLLISION (trên/dưới)
+                ball.setDy(-ball.getDy());
+
+                if (ballFromTop)
+                    ball.setY(brickTop - ball.getHeight());
+                else
+                    ball.setY(brickBottom);
             }
+
+            brick.destroy();
+            break; // tránh phá nhiều brick 1 frame
         }
 
-        // Kiểm tra nếu tất cả brick bị phá
+
+        // ======== CHECK WIN ========
         boolean allDestroyed = true;
         for (Brick brick : bricks) {
             if (!brick.isDestroyed()) {
@@ -162,25 +195,24 @@ public class PlayState extends State {
         }
 
         if (allDestroyed) {
-            // Cập nhật level hoàn thành cho user
             MainApp.userManager.getCurrentUser().setLastLevel(levelToLoad + 1);
             MainApp.userManager.saveUsers();
 
             levelManager.nextLevel();
             if (levelManager.hasNextLevel()) {
                 bricks = levelManager.loadCurrentLevel();
-                ball.resetPosition(300, 400); // bạn cần thêm hàm reset trong Ball
+                ball.resetPosition(300, 400);
                 paddle.setX(250);
                 level++;
             } else {
-                System.out.println("You win all levels!");
+                System.out.println("🎉 You win all levels!");
                 MainApp.stateStack.pop();
                 MainApp.stateStack.push(MainApp.menuState);
                 return;
             }
         }
-
     }
+
 
     @Override
     public void render() {

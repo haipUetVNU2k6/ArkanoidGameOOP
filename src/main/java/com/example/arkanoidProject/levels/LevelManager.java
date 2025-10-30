@@ -13,10 +13,10 @@ public class LevelManager {
 
     private int currentLevel = 0; // index màn hiện tại
     private final List<String> levelFiles = new ArrayList<>();
-    private final Image brickSprite;
+    private final Image brickImage;
 
-    public LevelManager(Image brickSprite) {
-        this.brickSprite = brickSprite;
+    public LevelManager(Image brickImage) {
+        this.brickImage = brickImage;
 
         // danh sách file level
         levelFiles.add("/com/example/arkanoidProject/levels/level1.txt");
@@ -52,8 +52,7 @@ public class LevelManager {
                             startY + row * brickHeight,
                             brickWidth,
                             brickHeight,
-                            brickSprite,
-                            31, 18, 9, 1, 0.1
+                            brickImage
                     );
                     bricks.add(brick);
                 }

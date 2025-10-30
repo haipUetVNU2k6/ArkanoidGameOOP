@@ -2,17 +2,23 @@ package com.example.arkanoidProject.object;
 
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class MoveableObject extends GameObject {
     protected double dx, dy;
     protected Rectangle2D hitBox;
     protected double hitBoxOffsetX, hitBoxOffsetY;
 
+    protected SpriteAnimation spriteAnimation;
+
     public MoveableObject(double x, double y, double width, double height, SpriteAnimation spriteAnimation,
                           double hitBoxOffsetX, double hitBoxOffsetY, double hitBoxW, double hitBoxH) {
-        super(x, y, width, height, spriteAnimation);
+        super(x, y, width, height);
         this.dx = 0;
         this.dy = 0;
+
+        this.spriteAnimation = spriteAnimation;
 
         this.hitBoxOffsetX = hitBoxOffsetX;
         this.hitBoxOffsetY = hitBoxOffsetY;
@@ -23,7 +29,10 @@ public class MoveableObject extends GameObject {
 
     @Override
     public void update(double dt) {
-        super.update(dt);
+        if (spriteAnimation != null) {
+            spriteAnimation.update(dt);
+        }
+
         x += dx * dt;
         y += dy * dt;
 
@@ -37,10 +46,35 @@ public class MoveableObject extends GameObject {
 
     }
 
+    @Override
+    public void render(GraphicsContext gc) {
+        if (spriteAnimation != null) {
+            double scaleX = width / spriteAnimation.getFrameWidth();
+            double scaleY = height / spriteAnimation.getFrameHeight();
+            double scale = Math.min(scaleX, scaleY); // tránh méo hình
+            spriteAnimation.render(gc, x, y, scale, scale);
+        }
+
+        gc.setStroke(Color.RED);
+        gc.setLineWidth(1.5);
+        gc.strokeRect(
+                hitBox.getMinX(),
+                hitBox.getMinY(),
+                hitBox.getWidth(),
+                hitBox.getHeight()
+        );
+    }
+
     public Rectangle2D getHitBox() { return hitBox; }
 
     public double getDx() { return dx; }
     public double getDy() { return dy; }
     public void setDx(double dx) { this.dx = dx; }
     public void setDy(double dy) { this.dy = dy; }
+
+
+    public SpriteAnimation getSpriteAnimation() { return spriteAnimation; }
+    public void setSpriteAnimation(SpriteAnimation spriteAnimation) {
+        this.spriteAnimation = spriteAnimation;
+    }
 }

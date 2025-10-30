@@ -13,6 +13,7 @@ module Game {
     requires java.desktop;
     requires jdk.compiler;
     requires com.google.gson;
+//    requires Game;
     //requires Game;
 
     // Mở cho JavaFX có thể load FXML và truy cập controller
