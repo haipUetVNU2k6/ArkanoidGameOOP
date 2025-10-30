@@ -55,13 +55,12 @@ public class PlayState extends State {
             ball = new Ball(300, 400, 36, 21,
                     ballSprite, 10, 1, 880, 512, 0.1,
                     18, 3, 18, 15);
-            paddle = new Paddle(50, 720, 60, 72,
+            paddle = new Paddle(50, 720, 70, 56,
                     paddleSprite, 8, 1, 800, 640, 0.1,
-                    MainApp.WIDTH, 0, 0, 60, 17);
+                    MainApp.WIDTH, 0, 0, 70, 19);
 
 
-            Image brickImage = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
-            levelManager = new LevelManager(brickImage);
+            levelManager = new LevelManager();
             int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
             bricks = levelManager.loadLevel(levelToLoad);
 
@@ -126,8 +125,8 @@ public class PlayState extends State {
             double paddleCenterY = paddle.getHitBox().getMinY() + paddle.getHitBox().getHeight() / 2;
 
             // Hệ số 20 dùng để tăng tốc ball.
-            ball.setDx((ballCenterX - paddleCenterX) * 20);
-            ball.setDy((ballCenterY - paddleCenterY) * 20);
+            ball.setDx((ballCenterX - paddleCenterX) * 8);
+            ball.setDy((ballCenterY - paddleCenterY) * 24);
         }
 
         // ======== BALL - BRICK COLLISION ========
@@ -180,7 +179,7 @@ public class PlayState extends State {
                     ball.setY(brickBottom);
             }
 
-            brick.destroy();
+            brick.takeDamage();
             break; // tránh phá nhiều brick 1 frame
         }
 

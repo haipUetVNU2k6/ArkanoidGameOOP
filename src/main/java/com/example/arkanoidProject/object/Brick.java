@@ -4,23 +4,29 @@ import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 
 public class Brick extends GameObject {
+    private int health;
 
     private boolean destroyed = false;
 
-    protected Image image;
+    protected Image currentImage;
 
-    public Brick(double x, double y, double width, double height, Image image) {
+    private BrickSkin brickSkin;
+
+    private int damage = 0;
+
+    public Brick(double x, double y, double width, double height, BrickSkin brickSkin, int health) {
         super(x, y, width, height);
-        this.image = image;
+        this.brickSkin = brickSkin;
+        this.health = health;
     }
 
     @Override
     public void render(javafx.scene.canvas.GraphicsContext gc) {
-        if (!destroyed && image != null) {
-            gc.drawImage(image, x, y, width, height);
+        currentImage = brickSkin.getTexture(damage);
+        if (!destroyed && currentImage != null) {
+            gc.drawImage(currentImage, x, y, width, height);
         }
     }
-
 
     public void destroy() {
         destroyed = true;
@@ -29,5 +35,11 @@ public class Brick extends GameObject {
 
     public boolean isDestroyed() {
         return destroyed;
+    }
+
+    public void takeDamage() {
+        damage++;
+        health--;
+        if (health == 0) destroy();
     }
 }

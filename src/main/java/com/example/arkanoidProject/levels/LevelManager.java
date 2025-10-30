@@ -1,6 +1,7 @@
 package com.example.arkanoidProject.levels;
 
 import com.example.arkanoidProject.object.Brick;
+import com.example.arkanoidProject.object.BrickSkin;
 import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
@@ -13,15 +14,22 @@ public class LevelManager {
 
     private int currentLevel = 0; // index màn hiện tại
     private final List<String> levelFiles = new ArrayList<>();
-    private final Image brickImage;
+    Image brick1Image;
+    Image brick2Image;
+    Image brick3Image;
 
-    public LevelManager(Image brickImage) {
-        this.brickImage = brickImage;
+    public LevelManager() {
+        brick1Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick1.png").toExternalForm());
+        brick2Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick2.png").toExternalForm());
+        brick3Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick3.png").toExternalForm());
+
 
         // danh sách file level
         levelFiles.add("/com/example/arkanoidProject/levels/level1.txt");
         levelFiles.add("/com/example/arkanoidProject/levels/level2.txt");
         levelFiles.add("/com/example/arkanoidProject/levels/level3.txt");
+        levelFiles.add("/com/example/arkanoidProject/levels/level4.txt");
+        levelFiles.add("/com/example/arkanoidProject/levels/level5.txt");
     }
 
     /** Load màn hiện tại */
@@ -39,8 +47,8 @@ public class LevelManager {
         int[][] layout = readLevelFromFile(path);
 
         List<Brick> bricks = new ArrayList<>();
-        int brickWidth = 60 * 2;
-        int brickHeight = 20 * 2;
+        int brickWidth = 60;
+        int brickHeight = 30;
         int startX = 10;
         int startY = 10;
 
@@ -52,7 +60,25 @@ public class LevelManager {
                             startY + row * brickHeight,
                             brickWidth,
                             brickHeight,
-                            brickImage
+                            BrickSkin.BRICK1, 1
+                    );
+                    bricks.add(brick);
+                } else if (layout[row][col] == 2) {
+                    Brick brick = new Brick(
+                            startX + col * brickWidth,
+                            startY + row * brickHeight,
+                            brickWidth,
+                            brickHeight,
+                            BrickSkin.BRICK2, 2
+                    );
+                    bricks.add(brick);
+                } else if (layout[row][col] == 3) {
+                    Brick brick = new Brick(
+                            startX + col * brickWidth,
+                            startY + row * brickHeight,
+                            brickWidth,
+                            brickHeight,
+                            BrickSkin.BRICK3, 3
                     );
                     bricks.add(brick);
                 }
@@ -88,7 +114,7 @@ public class LevelManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 int[] row = line.chars()
-                        .filter(c -> c == '0' || c == '1') // lọc ký tự hợp lệ
+                        .filter(c -> c >= '0' && c <= '3') // đọc số 0–3
                         .map(c -> c - '0')
                         .toArray();
                 rows.add(row);
