@@ -40,6 +40,8 @@ public class PlayState extends State {
 
     private int levelToLoad;
 
+    private static boolean showHitBox = false;
+
 
     public PlayState() {
         try {
@@ -49,15 +51,15 @@ public class PlayState extends State {
 
             gc = controller.getGameCanvas().getGraphicsContext2D();
 
-            Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/cry.png").toExternalForm());
-            Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddleAnimation.png").toExternalForm());
+            Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
+            Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle/paddleSpriteImage.png").toExternalForm());
 
             ball = new Ball(300, 400, 36, 21,
                     ballSprite, 10, 1, 880, 512, 0.1,
                     18, 3, 18, 15);
             paddle = new Paddle(50, 720, 70, 56,
                     paddleSprite, 8, 1, 800, 640, 0.1,
-                    MainApp.WIDTH, 0, 0, 70, 19);
+                    0, 0, 70, 19);
 
 
             levelManager = new LevelManager();
@@ -223,6 +225,11 @@ public class PlayState extends State {
             brick.render(gc);
         }
 
+        if (showHitBox) {
+            ball.showHitBox(gc);
+            paddle.showHitBox(gc);
+        }
+
         gc.fillText("LEVEL " + level, 20, 30);
     }
 
@@ -239,7 +246,7 @@ public class PlayState extends State {
             MainApp.stateStack.push(MainApp.pauseState);
         }
         if (event.getCode() == KeyCode.H) {
-            Ball.showHitbox = !Ball.showHitbox; // ✅ bật/tắt hitbox
+            showHitBox = !showHitBox;
         }
     }
 

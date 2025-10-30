@@ -6,7 +6,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Ball extends MoveableObject {
-    public static boolean showHitbox = false; // ✅ cho phép bật/tắt hitbox
     public Ball(double x, double y, double width, double height,
                 Image spriteSheet, int columns, int rows,
                 int frameWidth, int frameHeight, double frameDuration,
@@ -57,18 +56,6 @@ public class Ball extends MoveableObject {
 
             gc.restore();
         }
-
-        // 🔹 Vẽ hitbox thật (để kiểm tra va chạm)
-        if (showHitbox) {
-            gc.setStroke(Color.RED);
-            gc.setLineWidth(1.5);
-            gc.strokeRect(
-                    hitBox.getMinX(),
-                    hitBox.getMinY(),
-                    hitBox.getWidth(),
-                    hitBox.getHeight()
-            );
-        }
     }
 
 
@@ -79,6 +66,4 @@ public class Ball extends MoveableObject {
         this.dy = -Math.abs(this.dy); // hoặc giá trị ban đầu
     }
 
-
-    // Hàm va chạm với paddle hoặc brick có thể thêm ở đây (nếu muốn)
 }

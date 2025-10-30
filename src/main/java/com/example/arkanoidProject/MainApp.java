@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MainApp extends Application {
     public static UserManager userManager = new UserManager();
@@ -50,6 +51,8 @@ public class MainApp extends Application {
         pauseState = new PauseState();
         changeAccountState = new ChangeAccountState();
 
+
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Arkanoid Game");
         primaryStage.show();

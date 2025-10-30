@@ -19,9 +19,9 @@ public class LevelManager {
     Image brick3Image;
 
     public LevelManager() {
-        brick1Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick1.png").toExternalForm());
-        brick2Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick2.png").toExternalForm());
-        brick3Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick3.png").toExternalForm());
+        brick1Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick/brick1.png").toExternalForm());
+        brick2Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick/brick2.png").toExternalForm());
+        brick3Image = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick/brick3.png").toExternalForm());
 
 
         // danh sách file level
@@ -47,10 +47,10 @@ public class LevelManager {
         int[][] layout = readLevelFromFile(path);
 
         List<Brick> bricks = new ArrayList<>();
-        int brickWidth = 60;
-        int brickHeight = 30;
-        int startX = 10;
-        int startY = 10;
+        int brickWidth = 70;
+        int brickHeight = 35;
+        int startX = 0;
+        int startY = 0;
 
         for (int row = 0; row < layout.length; row++) {
             for (int col = 0; col < layout[row].length; col++) {

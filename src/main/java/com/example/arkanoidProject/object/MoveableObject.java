@@ -54,7 +54,9 @@ public class MoveableObject extends GameObject {
             double scale = Math.min(scaleX, scaleY); // tránh méo hình
             spriteAnimation.render(gc, x, y, scale, scale);
         }
+    }
 
+    public void showHitBox(GraphicsContext gc) {
         gc.setStroke(Color.RED);
         gc.setLineWidth(1.5);
         gc.strokeRect(

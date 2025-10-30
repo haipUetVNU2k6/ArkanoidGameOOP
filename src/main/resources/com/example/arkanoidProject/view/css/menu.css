@@ -1,6 +1,6 @@
 /* Nền gradient tối */
 #root {
-    -fx-background-image: url("../images/bg.png");
+    -fx-background-image: url("../images/background/menuBg.png");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -9,24 +9,35 @@
 
 .title-text {
     -fx-font-family: "Segoe UI Black", "Arial Black", sans-serif;
-    -fx-font-size: 100px;
-    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #0ff, #08f);
-    -fx-effect: dropshadow(gaussian, rgba(0, 255, 255, 0.9), 25, 0.3, 0, 0);
-    -fx-stroke: rgba(0, 200, 255, 0.6);
-    -fx-stroke-width: 1.5;
+    -fx-font-size: 80px;
+
+    /* Màu chữ: từ đỏ -> cam -> vàng */
+    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #ff0000, #ff7a00, #ffff00);
+
+    /* Hiệu ứng ánh sáng lửa */
+    -fx-effect: dropshadow(gaussian, rgba(255, 120, 0, 0.9), 30, 0.4, 0, 0);
+
+    /* Viền ánh sáng vàng-cam */
+    -fx-stroke: rgba(255, 200, 50, 0.8);
+    -fx-stroke-width: 2;
+
     -fx-opacity: 1.0;
     -fx-text-alignment: center;
 }
 
+
 .menu-button {
-    -fx-background-color: linear-gradient(to right, #0080ff, #0055cc);
+    /* Nền: chuyển từ đỏ sang cam */
+    -fx-background-color: linear-gradient(to right, #ff4500, #ff8c00);
     -fx-text-fill: white;
     -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-background-radius: 20;
     -fx-padding: 14 45 14 45;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 6, 0.1, 0, 3);
+
+    /* Hiệu ứng bóng đổ như ánh sáng lửa */
+    -fx-effect: dropshadow(gaussian, rgba(255, 80, 0, 0.7), 8, 0.3, 0, 3);
     -fx-transition: all 0.3s ease;
 }
 
@@ -35,8 +46,10 @@
 }
 
 .menu-button:hover {
-    -fx-background-color: linear-gradient(to right, #00bfff, #0080ff);
+    /* Khi rê chuột: sáng rực hơn, như ngọn lửa bùng lên */
+    -fx-background-color: linear-gradient(to right, #ff6a00, #ffd500);
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
-    -fx-effect: dropshadow(gaussian, rgba(0, 235, 255, 0.9), 14, 0.4, 0, 6);
+    -fx-effect: dropshadow(gaussian, rgba(255, 160, 0, 0.9), 16, 0.5, 0, 6);
 }
+
