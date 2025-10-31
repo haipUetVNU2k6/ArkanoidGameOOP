@@ -54,7 +54,12 @@ public class Ball extends MoveableObject {
                     -hitBoxOffsetY - hitBox.getHeight() / 2);
 
             // 🔹 Vẽ quả bóng (sprite sheet frame hiện tại)
+//            //vì khi held thì phải cho hitbox chạm nhau nên y + 10 để render tách nhau ra
+//            if (isHeld) spriteAnimation.render(gc, 0, 10, scale, scale);
+//            else
             spriteAnimation.render(gc, 0, 0, scale, scale);
+
+
 
             gc.restore();
         }

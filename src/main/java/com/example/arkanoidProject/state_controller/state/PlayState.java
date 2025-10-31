@@ -94,9 +94,9 @@ public class PlayState extends State {
         // ======== UPDATE OBJECTS ========
         double oldPaddleX = paddle.getX();
         paddle.update(dt);
+
         if (ball.isHeld()) {
             ball.setX(ball.getX() + (paddle.getX() - oldPaddleX));
-
         } else ball.update(dt);
 
         System.out.println(
@@ -131,9 +131,9 @@ public class PlayState extends State {
             double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
             double paddleCenterY = paddle.getHitBox().getMinY() + paddle.getHitBox().getHeight() / 2;
 
-            // Hệ số 20 dùng để tăng tốc ball.
-            ball.setDx((ballCenterX - paddleCenterX) * 8);
-            ball.setDy((ballCenterY - paddleCenterY) * 24);
+            // Hệ số multiple dùng để tăng tốc ball.
+            ball.setDx((ballCenterX - paddleCenterX) * Info.ballDxMultiple);
+            ball.setDy((ballCenterY - paddleCenterY) * Info.ballDyMultiple);
         }
 
         // ======== BALL - BRICK COLLISION ========
@@ -200,6 +200,7 @@ public class PlayState extends State {
             }
         }
 
+        // Win level
         if (allDestroyed) {
             MainApp.userManager.getCurrentUser().setLastLevel(levelToLoad + 1);
             MainApp.userManager.saveUsers();

@@ -27,4 +27,6 @@ public interface Info {
             ballHitBoxW / 2 - ballHitBoxOffsetX;
     public static double startBallY = startPaddleY + paddleHitBoxOffsetY - ballHitBoxH -
             ballHitBoxOffsetY + 1; // +1 để khiến ball và paddle va chạm để ball thay đổi render
+    public static double ballDxMultiple = 8;
+    public static double ballDyMultiple = 24;
 }
