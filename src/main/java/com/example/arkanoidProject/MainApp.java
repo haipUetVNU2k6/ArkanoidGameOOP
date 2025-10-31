@@ -13,8 +13,8 @@ public class
 MainApp extends Application {
     public static UserManager userManager = new UserManager();
 
-    public static final int WIDTH = 1200;
-    public static final int HEIGHT = 900;
+    public static final int WIDTH = 700;
+    public static final int HEIGHT = 800;
 
     public static Stage primaryStage;
 

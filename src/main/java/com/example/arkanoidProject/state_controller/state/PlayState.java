@@ -65,9 +65,10 @@ public class PlayState extends State {
             int brickHeight = 20;
 
 // 1. Load sprite
-            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
+            Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/normalbrick.png").toExternalForm());
+            Image strongbrickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/strongbrick.png").toExternalForm());
 // 2. Khởi tạo LevelManager
-            levelManager = new LevelManager(brickSprite);
+            levelManager = new LevelManager(brickSprite,strongbrickSprite);
 // 3. Lấy user hiện tại
             int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
 // 4. Load màn tương ứng với user

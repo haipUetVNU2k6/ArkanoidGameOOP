@@ -129,4 +129,16 @@ public class SpriteAnimation {
     public int getFrameWidth() { return frameWidth; }
     public int getFrameHeight() { return frameHeight; }
     public Image getSpriteSheet() { return spriteSheet; }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public double getFrameDuration() {
+        return frameDuration;
+    }
+
+    public int getRows() {
+        return rows;
+    }
 }

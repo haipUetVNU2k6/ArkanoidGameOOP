@@ -1,13 +1,13 @@
 package com.example.arkanoidProject.util;
 
 public interface Info {
-    public static final int ScreenWidth = 1200;
-    public static final int ScreenHeight = 900;
+    public static final int ScreenWidth = 700;
+    public static final int ScreenHeight = 800;
 
     public static final int PaddleWidth = 100;
     public static final int PaddleHeight = 30;
-    public static final double PaddleX = 550;
-    public static final double PaddleY = 850;
+    public static final double PaddleX = ScreenWidth / 2 - 50;
+    public static final double PaddleY = ScreenHeight - 50;
     public static final double PaddleSpeed = 400;
 
     public static final double BallDiameter = 50;
