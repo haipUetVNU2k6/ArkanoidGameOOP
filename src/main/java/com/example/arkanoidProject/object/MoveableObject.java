@@ -38,8 +38,8 @@ public class MoveableObject extends GameObject {
 
         // Cập nhật hitBox theo vị trí mới
         hitBox = new Rectangle2D(
-                x + hitBoxOffsetX,   // cần lưu hitBoxOffsetX
-                y + hitBoxOffsetY,   // cần lưu hitBoxOffsetY
+                x + hitBoxOffsetX,
+                y + hitBoxOffsetY,
                 hitBox.getWidth(),
                 hitBox.getHeight()
         );
@@ -73,10 +73,4 @@ public class MoveableObject extends GameObject {
     public double getDy() { return dy; }
     public void setDx(double dx) { this.dx = dx; }
     public void setDy(double dy) { this.dy = dy; }
-
-
-    public SpriteAnimation getSpriteAnimation() { return spriteAnimation; }
-    public void setSpriteAnimation(SpriteAnimation spriteAnimation) {
-        this.spriteAnimation = spriteAnimation;
-    }
 }

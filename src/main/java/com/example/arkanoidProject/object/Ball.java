@@ -1,11 +1,13 @@
 package com.example.arkanoidProject.object;
 
+import com.example.arkanoidProject.util.Info;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class Ball extends MoveableObject {
+    private static boolean isHeld = true;
+
     public Ball(double x, double y, double width, double height,
                 Image spriteSheet, int columns, int rows,
                 int frameWidth, int frameHeight, double frameDuration,
@@ -21,8 +23,8 @@ public class Ball extends MoveableObject {
                         frameDuration),
                 hitBoxOffsetX, hitBoxOffsetY, hitBoxW, hitBoxH);
 
-        this.dx = 0;
-        this.dy = -200;
+        this.dx = Info.startBallDx;
+        this.dy = Info.startBallDy;
     }
 
     @Override
@@ -58,7 +60,6 @@ public class Ball extends MoveableObject {
         }
     }
 
-
     public void resetPosition(double x, double y) {
         this.x = x;
         this.y = y;
@@ -66,4 +67,11 @@ public class Ball extends MoveableObject {
         this.dy = -Math.abs(this.dy); // hoặc giá trị ban đầu
     }
 
+    public boolean isHeld() {
+        return isHeld;
+    }
+
+    public void stopHolding() {
+        isHeld = false;
+    }
 }

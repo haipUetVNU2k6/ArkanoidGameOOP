@@ -1,6 +1,5 @@
 package com.example.arkanoidProject.object;
 
-import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.canvas.GraphicsContext;
 
 public class GameObject {
@@ -18,7 +17,6 @@ public class GameObject {
 
     public void render(GraphicsContext gc) {}
 
-    // Getter / Setter
     public double getX() { return x; }
     public double getY() { return y; }
     public void setX(double x) { this.x = x; }

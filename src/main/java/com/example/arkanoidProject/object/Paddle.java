@@ -11,7 +11,7 @@ import java.util.Set;
 public class Paddle extends MoveableObject {
     private Set<KeyCode> keysPressed = new HashSet<>();
 
-    private double speed = 400;
+    private double speed = Info.paddleSpeed;
 
     public Paddle(double x, double y, double width, double height,
                   Image spriteSheet, int columns, int rows,

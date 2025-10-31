@@ -6,6 +6,7 @@ import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
+import com.example.arkanoidProject.util.Info;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -54,13 +55,13 @@ public class PlayState extends State {
             Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle/paddleSpriteImage.png").toExternalForm());
 
-            ball = new Ball(300, 400, 36, 21,
-                    ballSprite, 10, 1, 880, 512, 0.1,
-                    18, 3, 18, 15);
-            paddle = new Paddle(50, 720, 70, 56,
+            paddle = new Paddle(Info.startPaddleX, Info.startPaddleY, Info.paddleWidth, Info.paddleHeight,
                     paddleSprite, 8, 1, 800, 640, 0.1,
-                    0, 0, 70, 19);
+                    Info.paddleHitBoxOffsetX, Info.paddleHitBoxOffsetY, Info.paddleHitBoxW, Info.paddleHitBoxH);
 
+            ball = new Ball(Info.startBallX, Info.startBallY, Info.ballWidth, Info.ballHeight,
+                    ballSprite, 10, 1, 880, 512, 0.1,
+                    Info.ballHitBoxOffsetX, Info.ballHitBoxOffsetY, Info.ballHitBoxW, Info.ballHitBoxH);
 
             levelManager = new LevelManager();
             int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
@@ -91,8 +92,12 @@ public class PlayState extends State {
         }
 
         // ======== UPDATE OBJECTS ========
-        ball.update(dt);
+        double oldPaddleX = paddle.getX();
         paddle.update(dt);
+        if (ball.isHeld()) {
+            ball.setX(ball.getX() + (paddle.getX() - oldPaddleX));
+
+        } else ball.update(dt);
 
         System.out.println(
                 Math.round(WIDTH) + " " +
@@ -257,6 +262,9 @@ public class PlayState extends State {
         }
         if (event.getCode() == KeyCode.D) {
             rightPressed = false;
+        }
+        if (event.getCode() == KeyCode.SPACE) {
+            ball.stopHolding();
         }
     }
 
