@@ -22,18 +22,11 @@ public class StateStack {
         }
     }
 
-    public void update() {
-        if (!stateStack.isEmpty()) {
-            stateStack.peek().update();
+    public void clear() {
+        while (!stateStack.isEmpty()) {
+            pop();
         }
     }
-
-    public void render() {
-        for (State state : stateStack) {
-            state.render();
-        }
-    }
-
     public boolean isEmpty() {
         return stateStack.isEmpty();
     }

@@ -18,8 +18,9 @@ public class PauseCtrl {
 
     @FXML
     private void onMenu(ActionEvent event) {
-        MainApp.stateStack.pop();
+        MainApp.stateStack.clear();
         MainApp.stateStack.push(MainApp.menuState);
+        // làm vòng đời cho state, thay vì static
     }
 
     @FXML

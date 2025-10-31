@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayState extends State {
-    private Pane root;
     private PlayCtrl controller;
 
     private GraphicsContext gc;
@@ -28,8 +27,6 @@ public class PlayState extends State {
     private Paddle paddle;
     private List<Brick> bricks = new ArrayList<>();
 
-    private final int WIDTH = MainApp.WIDTH;
-    private final int HEIGHT = MainApp.HEIGHT;
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
@@ -72,7 +69,6 @@ public class PlayState extends State {
         }
     }
 
-    @Override
     public void update() {
         long now = System.nanoTime();
         if (lastTime == 0) {
@@ -100,8 +96,8 @@ public class PlayState extends State {
         } else ball.update(dt);
 
         System.out.println(
-                Math.round(WIDTH) + " " +
-                        Math.round(HEIGHT) + " " +
+                Math.round(Info.ScreenWidth) + " " +
+                        Math.round(Info.ScreenHeight) + " " +
                         Math.round(ball.getHitBox().getMinX()) + " " +
                         Math.round(ball.getHitBox().getMinY())
         );
@@ -111,16 +107,16 @@ public class PlayState extends State {
             ball.setX(ball.getX() - ball.getHitBox().getMinX());
             ball.setDx(- ball.getDx());
         }
-        if (ball.getHitBox().getMaxX() >= WIDTH) {
-            ball.setX(ball.getX() - (ball.getHitBox().getMaxX() - WIDTH));
+        if (ball.getHitBox().getMaxX() >= Info.ScreenWidth) {
+            ball.setX(ball.getX() - (ball.getHitBox().getMaxX() - Info.ScreenWidth));
             ball.setDx(-ball.getDx());
         }
         if (ball.getHitBox().getMinY() <= 0) {
             ball.setY(ball.getY() - ball.getHitBox().getMinY());
             ball.setDy(-ball.getDy());
         }
-        if (ball.getHitBox().getMaxY() >= HEIGHT) {
-            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - HEIGHT));
+        if (ball.getHitBox().getMaxY() >= Info.ScreenHeight) {
+            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Info.ScreenHeight));
             ball.setDy(-ball.getDy());
         }
 
@@ -202,28 +198,30 @@ public class PlayState extends State {
 
         // Win level
         if (allDestroyed) {
+            MainApp.stateStack.push(MainApp.winLevelState);
             MainApp.userManager.getCurrentUser().setLastLevel(levelToLoad + 1);
             MainApp.userManager.saveUsers();
-
             levelManager.nextLevel();
-            if (levelManager.hasNextLevel()) {
-                bricks = levelManager.loadCurrentLevel();
-                ball.resetPosition(300, 400);
-                paddle.setX(250);
-                level++;
-            } else {
-                System.out.println("🎉 You win all levels!");
-                MainApp.stateStack.pop();
-                MainApp.stateStack.push(MainApp.menuState);
-                return;
-            }
+
+            return;
         }
     }
 
+    public void loadNextLevel() {
+        if (levelManager.hasNextLevel()) {
+            bricks = levelManager.loadCurrentLevel();
+            ball.resetPosition(300, 400);
+            paddle.setX(250);
+            level++;
+        } else {
+            System.out.println("🎉 You win all levels!");
+            MainApp.stateStack.pop();
+            MainApp.stateStack.push(MainApp.menuState);
+        }
+    }
 
-    @Override
     public void render() {
-        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        gc.clearRect(0, 0, Info.ScreenWidth, Info.ScreenHeight);
 
         ball.render(gc);
         paddle.render(gc);
@@ -239,7 +237,6 @@ public class PlayState extends State {
         gc.fillText("LEVEL " + level, 20, 30);
     }
 
-    @Override
     public void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.A) {
             leftPressed = true;
@@ -256,7 +253,6 @@ public class PlayState extends State {
         }
     }
 
-    @Override
     public void handleKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.A) {
             leftPressed = false;
@@ -267,10 +263,5 @@ public class PlayState extends State {
         if (event.getCode() == KeyCode.SPACE) {
             ball.stopHolding();
         }
-    }
-
-    @Override
-    public Pane getUI() {
-        return root;
     }
 }

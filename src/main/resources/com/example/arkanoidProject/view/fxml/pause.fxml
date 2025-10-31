@@ -18,10 +18,10 @@
 
         <!-- Nền màu hoặc khối chữ nhật -->
         <VBox fx:id="buttonBackground" styleClass="pausePane-background"
-              maxWidth="400" maxHeight="550"/>
+              maxWidth="320" maxHeight="500"/>
 
         <!-- Các nút và tiêu đề -->
-        <VBox spacing="30" alignment="CENTER">
+        <VBox spacing="20" alignment="CENTER">
 
             <Text text="PAUSED" styleClass="pause-title"/>
 

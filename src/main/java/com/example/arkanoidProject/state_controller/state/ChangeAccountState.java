@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.net.URL;
 
 public class ChangeAccountState extends State {
-
-    private Pane root;
     private ChangeAccountCtrl controller;
 
     public ChangeAccountState() {
@@ -30,32 +28,5 @@ public class ChangeAccountState extends State {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void update() {
-        // Không cần logic update mỗi frame
-    }
-
-    @Override
-    public void render() {
-        // Không cần vẽ canvas riêng, FXML sẽ render UI
-    }
-
-    @Override
-    public void handleKeyPressed(javafx.scene.input.KeyEvent event) {
-        // Có thể thêm ESC để quay về menu chính
-        switch (event.getCode()) {
-            case ESCAPE -> MainApp.stateStack.pop(); // trở về menu trước
-        }
-    }
-
-    @Override
-    public void handleKeyReleased(javafx.scene.input.KeyEvent event) {
-    }
-
-    @Override
-    public Pane getUI() {
-        return root;
     }
 }

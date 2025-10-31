@@ -4,11 +4,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 public abstract class State {
-    public abstract void update();
-    public abstract void render();
-    public abstract Pane getUI();
+    protected Pane root;
 
-    public void handleKeyPressed(KeyEvent event) {}
+    public Pane getUI() { return root; }
 
-    public  void handleKeyReleased(KeyEvent event) {}
 }

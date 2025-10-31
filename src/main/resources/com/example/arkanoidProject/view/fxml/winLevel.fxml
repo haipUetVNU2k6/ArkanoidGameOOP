@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.example.arkanoidProject.state_controller.controller.WinLevelCtrl"
+           stylesheets="@../css/winLevel.css"
+           fx:id="root">
+
+    <!-- Background overlay tối -->
+    <StackPane styleClass="overlay"/>
+
+    <!-- Tấm nền chứa các nút -->
+    <StackPane alignment="CENTER">
+        <!-- Các nút và tiêu đề -->
+        <VBox spacing="30" alignment="CENTER">
+
+            <Text text="YOU WIN!!!" styleClass="winLevel-title"/>
+
+            <Button text="Next Level" fx:id="btnNextLevel" styleClass="winLevel-button" onAction="#onNextLevel"/>
+            <Button text="Menu" fx:id="btnMenu" styleClass="winLevel-button" onAction="#onMenu"/>
+
+        </VBox>
+    </StackPane>
+
+</StackPane>

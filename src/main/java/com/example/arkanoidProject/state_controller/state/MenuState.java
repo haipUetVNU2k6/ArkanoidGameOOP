@@ -9,8 +9,6 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 
 public class MenuState extends State {
-    private Pane root;
-
     public MenuState() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/menu.fxml"));
@@ -20,7 +18,6 @@ public class MenuState extends State {
         }
     }
 
-    @Override
     public void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             System.out.println("MenuState: Nhấn Enter để Play");
@@ -31,20 +28,6 @@ public class MenuState extends State {
             System.out.println("MenuState: Thoát game");
             System.exit(0);
         }
-    }
-
-
-    @Override
-    public void update() {
-    }
-
-    @Override
-    public void render() {
-    }
-
-    @Override
-    public Pane getUI() {
-        return root;
     }
 }
 

@@ -31,6 +31,7 @@ public class MainApp extends Application {
     public static PlayState playState;
     public static PauseState pauseState;
     public static ChangeAccountState changeAccountState;
+    public static WinLevelState winLevelState;
 
     @Override
     public void start(Stage stage) {
@@ -50,6 +51,7 @@ public class MainApp extends Application {
         playState = new PlayState();
         pauseState = new PauseState();
         changeAccountState = new ChangeAccountState();
+        winLevelState = new WinLevelState();
 
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -67,22 +69,25 @@ public class MainApp extends Application {
 
         // Lắng nghe bàn phím trên Scene và chuyển tiếp cho state trên cùng
         scene.setOnKeyPressed(event -> {
-            if (!stateStack.isEmpty()) {
-                stateStack.peek().handleKeyPressed(event);
+            if (!stateStack.isEmpty() && stateStack.peek() instanceof PlayState playState) {
+                playState.handleKeyPressed(event);
             }
         });
 
         scene.setOnKeyReleased(event -> {
-            if (!stateStack.isEmpty()) {
-                stateStack.peek().handleKeyReleased(event);
+            if (!stateStack.isEmpty() && stateStack.peek() instanceof PlayState playState) {
+                playState.handleKeyReleased(event);
             }
         });
+
 
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                stateStack.update();
-                stateStack.render();
+                if (!stateStack.isEmpty() && stateStack.peek() instanceof PlayState playState) {
+                    playState.update();
+                    playState.render();
+                }
             }
         }.start();
     }
