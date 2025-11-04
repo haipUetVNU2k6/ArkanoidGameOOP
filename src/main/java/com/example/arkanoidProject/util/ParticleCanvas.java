@@ -56,7 +56,7 @@ public class ParticleCanvas extends Canvas {
     private Particle createRandomParticle(double width, double height) {
         double x = random.nextDouble() * width;
         double y = random.nextDouble() * height;
-        double size = 0.5 + random.nextDouble() * 1.5;
+        double size = 1.0 + random.nextDouble() * 2.0;
         double speed = 10 + random.nextDouble() * 40;
         double opacity = 0.2 + random.nextDouble() * 0.6;
         return new Particle(x, y, size, speed, opacity);
@@ -71,7 +71,7 @@ public class ParticleCanvas extends Canvas {
             if (p.y < 0) {
                 p.x = random.nextDouble() * width;
                 p.y = height + p.size;
-                p.size = 0.5 + random.nextDouble() * 1.5;
+                p.size = 1.0 + random.nextDouble() * 2.0;
                 p.speed = 10 + random.nextDouble() * 40;
                 p.opacity = 0.2 + random.nextDouble() * 0.6;
             }

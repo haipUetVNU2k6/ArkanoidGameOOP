@@ -7,6 +7,7 @@ import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Info;
+import com.example.arkanoidProject.util.StartText;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayState extends State {
+    private StartText startText;
+
     private PlayCtrl controller;
 
     private GraphicsContext gc;
@@ -67,6 +70,8 @@ public class PlayState extends State {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        startText = new StartText(Info.ScreenWidth / 2, Info.ScreenHeight * 0.8);
     }
 
     public void update() {
@@ -86,6 +91,8 @@ public class PlayState extends State {
         } else {
             paddle.setDx(0);
         }
+
+        startText.update(dt);
 
         // ======== UPDATE OBJECTS ========
         double oldPaddleX = paddle.getX();
@@ -223,6 +230,7 @@ public class PlayState extends State {
     public void render() {
         gc.clearRect(0, 0, Info.ScreenWidth, Info.ScreenHeight);
 
+        startText.render(gc);
         ball.render(gc);
         paddle.render(gc);
         for (Brick brick : bricks) {
@@ -262,6 +270,7 @@ public class PlayState extends State {
         }
         if (event.getCode() == KeyCode.SPACE) {
             ball.stopHolding();
+            startText.hide();
         }
     }
 }
