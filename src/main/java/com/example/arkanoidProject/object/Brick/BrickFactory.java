@@ -11,6 +11,8 @@ public class BrickFactory {
                 return new NormalBrick(x,y,width,height,spriteSheet,frameWidth,frameHeight,columns,rows,frameDuration);
             case STRONG:
                 return new StrongBrick(x,y,width,height,spriteSheet,frameWidth,frameHeight,columns,rows,frameDuration);
+            case TNT:
+                return new TNTBrick(x,y,width,height,spriteSheet,frameWidth,frameHeight,columns,rows,frameDuration);
             default:
                 return null;
         }

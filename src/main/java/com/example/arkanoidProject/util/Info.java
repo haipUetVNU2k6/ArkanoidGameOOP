@@ -20,7 +20,8 @@ public interface Info {
     }
 
     public enum BrickType {
-        NORMAL, STRONG
+        NORMAL, STRONG,
+        TNT
     }
     public static void main(String[] args) {
 

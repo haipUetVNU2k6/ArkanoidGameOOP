@@ -1,10 +1,11 @@
 package com.example.arkanoidProject.object.Brick;
 
 import com.example.arkanoidProject.object.GameObject;
+import com.example.arkanoidProject.util.Info;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 
-public class Brick extends GameObject {
+public abstract class Brick extends GameObject {
 
     private boolean destroyed = false;
     private int hitPoints;
@@ -52,7 +53,7 @@ public class Brick extends GameObject {
         this.hitPoints = hitPoints;
     }
 
-
+    public abstract Info.BrickType getType();
     @Override
     public void reset() {
 

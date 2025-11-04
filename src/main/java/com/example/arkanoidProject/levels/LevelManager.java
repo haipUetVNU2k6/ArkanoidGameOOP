@@ -17,10 +17,12 @@ public class LevelManager {
     private final List<String> levelFiles = new ArrayList<>();
     private final Image brickSprite;
     private final Image strongbrickSprite;
+    private final Image tntbrickSprite;
 
-    public LevelManager(Image brickSprite,Image strongbrickSprite) {
+    public LevelManager(Image brickSprite,Image strongbrickSprite,Image tntbrickSprite) {
         this.brickSprite = brickSprite;
         this.strongbrickSprite = strongbrickSprite;
+        this.tntbrickSprite = tntbrickSprite;
 
         // danh sách file level
         levelFiles.add("/com/example/arkanoidProject/levels/level1.txt");
@@ -67,6 +69,13 @@ public class LevelManager {
                                 brickWidth, brickHeight,
                                 strongbrickSprite,31, 18, 9, 1, 0.1);
                         break;
+                    case 3:
+                        brick = BrickFactory.createBrick(Info.BrickType.TNT,
+                                startX + col * brickWidth,
+                                startY + row * brickHeight,
+                                brickWidth, brickHeight,
+                                tntbrickSprite,31, 18, 9, 1, 0.1);
+                        break;
 
                 }
                if(brick != null) bricks.add(brick);
@@ -102,7 +111,7 @@ public class LevelManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 int[] row = line.chars()
-                        .filter(c -> c == '0' || c == '1'||c == '2') // lọc ký tự hợp lệ
+                        .filter(c -> c == '0' || c == '1'||c == '2' || c=='3') // lọc ký tự hợp lệ
                         .map(c -> c - '0')
                         .toArray();
                 rows.add(row);

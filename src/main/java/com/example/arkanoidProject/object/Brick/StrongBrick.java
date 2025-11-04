@@ -1,6 +1,7 @@
 package com.example.arkanoidProject.object.Brick;
 
 import com.example.arkanoidProject.levels.LevelManager;
+import com.example.arkanoidProject.util.Info;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 
@@ -30,6 +31,11 @@ public class StrongBrick extends Brick{
                     ,spriteAnimation.getRows(), spriteAnimation.getColumns(),spriteAnimation.getFrameDuration()));
         }
         return;
+    }
+
+    @Override
+    public Info.BrickType getType() {
+        return Info.BrickType.STRONG;
     }
     public static void main(String[] args) {
 

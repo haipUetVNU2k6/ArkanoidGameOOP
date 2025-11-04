@@ -67,8 +67,9 @@ public class PlayState extends State {
 // 1. Load sprite
             Image brickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/normalbrick.png").toExternalForm());
             Image strongbrickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/strongbrick.png").toExternalForm());
+            Image tntbrickSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/brick.png").toExternalForm());
 // 2. Khởi tạo LevelManager
-            levelManager = new LevelManager(brickSprite,strongbrickSprite);
+            levelManager = new LevelManager(brickSprite,strongbrickSprite,tntbrickSprite);
 // 3. Lấy user hiện tại
             int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
 // 4. Load màn tương ứng với user
@@ -119,11 +120,53 @@ public class PlayState extends State {
         for (Brick brick : bricks) {
             Info.Direction dir = intersect(ball, brick) ;
             if (!brick.isDestroyed() && dir != Info.Direction.none) {
-                System.out.println(brick.getHitPoints());
-                brick.takeHit(1);
-                brick.destroy();
-                ball.bounceOf(brick,dir);
-                if(brick.isDestroyed() == true) {
+                if(brick.getType() != Info.BrickType.TNT) {
+                    brick.takeHit(1);
+                    brick.destroy();
+                    ball.bounceOf(brick,dir);
+                    if(brick.isDestroyed() == true) {
+                        scores += 10;
+                    }
+                }
+                else {
+                    brick.takeHit(1);
+                    double centerX = brick.getX();
+                    double centerY = brick.getY();
+                    for(Brick other:bricks) {
+
+                        double brickX = other.getX();
+                        double brickY = other.getY();
+                        double brickWidth = other.getWidth();
+                        double brickHeight = other.getHeight();
+                        double distanceMinX = (brickX - centerX) * (brickX - centerX);
+                        double distanceMaxX = (brickWidth - centerX) * (brickWidth - centerX);
+                        double distanceMinY = (brickY - centerY) * (brickY - centerY);
+                        double distanceMaxY = (brickHeight - centerY) * (brickHeight - centerY);
+                        //System.out.println(brickWidth);
+                        if(distanceMinX > distanceMaxX) {
+                            double tmp = distanceMinX;
+                            distanceMinX = distanceMaxX;
+                            distanceMaxX = tmp;
+                        }
+                        if(distanceMinY > distanceMaxY) {
+                            double tmp = distanceMinY;
+                            distanceMinY = distanceMaxY;
+                            distanceMaxY = tmp;
+                        }
+
+
+                        double radiusDestroy = 60;
+                        double minDistance = distanceMinX + distanceMinY;
+
+                        if(minDistance <= radiusDestroy * radiusDestroy) {
+                            other.takeHit(other.getHitPoints());
+                            other.destroy();
+                            scores += 10;
+                        }
+
+                    }
+                    ball.bounceOf(brick,dir);
+                    brick.destroy();
                     scores += 10;
                 }
                 break;
