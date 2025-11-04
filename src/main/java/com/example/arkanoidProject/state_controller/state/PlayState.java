@@ -14,7 +14,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,8 @@ public class PlayState extends State {
             e.printStackTrace();
         }
 
-        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8);
+        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, levelToLoad) ;
+
     }
 
     public void update() {

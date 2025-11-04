@@ -6,6 +6,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class StartText {
+    private int level;
     private final String text = "PRESS SPACE TO START";
     private boolean finished = false;
     private double alpha = 1.0;
@@ -15,9 +16,10 @@ public class StartText {
     private double x, y;
     private Font font;
 
-    public StartText(double x, double y) {
+    public StartText(double x, double y, int level) {
         this.x = x;
         this.y = y;
+        this.level = level;
 
         try {
             font = Font.loadFont(
@@ -58,6 +60,20 @@ public class StartText {
         double drawX = x - textWidth / 2;
         double drawY = y + textHeight / 4;
 
+// ===== Hiển thị LEVEL phía trên =====
+        String levelText = "LEVEL " + level;
+
+// đo kích thước level text
+        Text tempLevel = new Text(levelText);
+        tempLevel.setFont(font);
+        double levelWidth = tempLevel.getLayoutBounds().getWidth();
+        double levelHeight = tempLevel.getLayoutBounds().getHeight();
+
+        double levelX = x - levelWidth / 2;
+        double levelY = y - levelHeight * 2; // đặt phía trên text chính
+
+        gc.setFill(Color.YELLOW);
+        gc.fillText(levelText, levelX, levelY);
         // bóng đổ
         gc.setFill(Color.BLACK);
         gc.fillText(text, drawX + 2, drawY + 2);

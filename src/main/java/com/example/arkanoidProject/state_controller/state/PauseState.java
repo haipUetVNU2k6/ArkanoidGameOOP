@@ -1,7 +1,6 @@
 package com.example.arkanoidProject.state_controller.state;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
