@@ -6,7 +6,7 @@ import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
-import com.example.arkanoidProject.util.Info;
+import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.StartText;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -55,13 +55,13 @@ public class PlayState extends State {
             Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle/paddleSpriteImage.png").toExternalForm());
 
-            paddle = new Paddle(Info.startPaddleX, Info.startPaddleY, Info.paddleWidth, Info.paddleHeight,
+            paddle = new Paddle(Config.getStartPaddleX(), Config.getStartPaddleY(), Config.paddleWidth, Config.paddleHeight,
                     paddleSprite, 8, 1, 800, 640, 0.1,
-                    Info.paddleHitBoxOffsetX, Info.paddleHitBoxOffsetY, Info.paddleHitBoxW, Info.paddleHitBoxH);
+                    Config.paddleHitBoxOffsetX, Config.paddleHitBoxOffsetY, Config.paddleHitBoxW, Config.paddleHitBoxH);
 
-            ball = new Ball(Info.startBallX, Info.startBallY, Info.ballWidth, Info.ballHeight,
+            ball = new Ball(Config.getStartBallX(), Config.getStartBallY(), Config.ballWidth, Config.ballHeight,
                     ballSprite, 10, 1, 880, 512, 0.1,
-                    Info.ballHitBoxOffsetX, Info.ballHitBoxOffsetY, Info.ballHitBoxW, Info.ballHitBoxH);
+                    Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
 
             levelManager = new LevelManager();
             int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
@@ -71,7 +71,7 @@ public class PlayState extends State {
             e.printStackTrace();
         }
 
-        startText = new StartText(Info.ScreenWidth / 2, Info.ScreenHeight * 0.8);
+        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8);
     }
 
     public void update() {
@@ -103,8 +103,8 @@ public class PlayState extends State {
         } else ball.update(dt);
 
         System.out.println(
-                Math.round(Info.ScreenWidth) + " " +
-                        Math.round(Info.ScreenHeight) + " " +
+                Math.round(Config.getScreenWidth()) + " " +
+                        Math.round(Config.getScreenHeight()) + " " +
                         Math.round(ball.getHitBox().getMinX()) + " " +
                         Math.round(ball.getHitBox().getMinY())
         );
@@ -114,16 +114,16 @@ public class PlayState extends State {
             ball.setX(ball.getX() - ball.getHitBox().getMinX());
             ball.setDx(- ball.getDx());
         }
-        if (ball.getHitBox().getMaxX() >= Info.ScreenWidth) {
-            ball.setX(ball.getX() - (ball.getHitBox().getMaxX() - Info.ScreenWidth));
+        if (ball.getHitBox().getMaxX() >= Config.getScreenWidth()) {
+            ball.setX(ball.getX() - (ball.getHitBox().getMaxX() - Config.getScreenWidth()));
             ball.setDx(-ball.getDx());
         }
         if (ball.getHitBox().getMinY() <= 0) {
             ball.setY(ball.getY() - ball.getHitBox().getMinY());
             ball.setDy(-ball.getDy());
         }
-        if (ball.getHitBox().getMaxY() >= Info.ScreenHeight) {
-            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Info.ScreenHeight));
+        if (ball.getHitBox().getMaxY() >= Config.getScreenHeight()) {
+            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Config.getScreenHeight()));
             ball.setDy(-ball.getDy());
         }
 
@@ -135,11 +135,14 @@ public class PlayState extends State {
             double paddleCenterY = paddle.getHitBox().getMinY() + paddle.getHitBox().getHeight() / 2;
 
             // Hệ số multiple dùng để tăng tốc ball.
-            ball.setDx((ballCenterX - paddleCenterX) * Info.ballDxMultiple);
-            ball.setDy((ballCenterY - paddleCenterY) * Info.ballDyMultiple);
+            ball.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
+            ball.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
         }
 
         // ======== BALL - BRICK COLLISION ========
+
+        // lý do dùng overlap thay cho intersect là gì, intersect chỉ trả về true/false
+        // ko biết được hướng đến của ball từ đâu để tính dx, dy phản xạ
         Rectangle2D ballBox = ball.getHitBox();
         for (Brick brick : bricks) {
             if (brick.isDestroyed()) continue;
@@ -228,7 +231,7 @@ public class PlayState extends State {
     }
 
     public void render() {
-        gc.clearRect(0, 0, Info.ScreenWidth, Info.ScreenHeight);
+        gc.clearRect(0, 0, Config.getScreenWidth(), Config.getScreenHeight());
 
         startText.render(gc);
         ball.render(gc);
@@ -259,6 +262,10 @@ public class PlayState extends State {
         if (event.getCode() == KeyCode.H) {
             showHitBox = !showHitBox;
         }
+        if (event.getCode() == KeyCode.SPACE) {
+            ball.stopHolding();
+            startText.hide();
+        }
     }
 
     public void handleKeyReleased(KeyEvent event) {
@@ -267,10 +274,6 @@ public class PlayState extends State {
         }
         if (event.getCode() == KeyCode.D) {
             rightPressed = false;
-        }
-        if (event.getCode() == KeyCode.SPACE) {
-            ball.stopHolding();
-            startText.hide();
         }
     }
 }

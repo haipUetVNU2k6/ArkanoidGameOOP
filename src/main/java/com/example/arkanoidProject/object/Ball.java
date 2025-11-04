@@ -1,6 +1,6 @@
 package com.example.arkanoidProject.object;
 
-import com.example.arkanoidProject.util.Info;
+import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,8 +23,8 @@ public class Ball extends MoveableObject {
                         frameDuration),
                 hitBoxOffsetX, hitBoxOffsetY, hitBoxW, hitBoxH);
 
-        this.dx = Info.startBallDx;
-        this.dy = Info.startBallDy;
+        this.dx = Config.startBallDx;
+        this.dy = Config.startBallDy;
     }
 
     @Override

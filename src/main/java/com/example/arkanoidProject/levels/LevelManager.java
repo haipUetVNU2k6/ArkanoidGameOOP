@@ -2,6 +2,7 @@ package com.example.arkanoidProject.levels;
 
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.BrickSkin;
+import com.example.arkanoidProject.util.Config;
 import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
@@ -47,13 +48,13 @@ public class LevelManager {
         int[][] layout = readLevelFromFile(path);
 
         List<Brick> bricks = new ArrayList<>();
-        int brickWidth = 70;
-        int brickHeight = 35;
+        int brickWidth = Config.brickWidth;
+        int brickHeight = Config.brickHeight;
         int startX = 0;
         int startY = 0;
 
-        for (int row = 0; row < layout.length; row++) {
-            for (int col = 0; col < layout[row].length; col++) {
+        for (int row = 0; row < Math.min(Config.maxBrickInOneRow(), layout.length); row++) {
+            for (int col = 0; col < Math.min(Config.maxBrickInOneCol(), layout[row].length); col++) {
                 if (layout[row][col] == 1) {
                     Brick brick = new Brick(
                             startX + col * brickWidth,

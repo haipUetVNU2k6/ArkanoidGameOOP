@@ -1,6 +1,6 @@
 package com.example.arkanoidProject.state_controller.controller;
 
-import com.example.arkanoidProject.util.Info;
+import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.ParticleCanvas;
 import com.example.arkanoidProject.MainApp;
 import javafx.animation.*;
@@ -23,7 +23,7 @@ public class MenuCtrl {
 
     @FXML
     public void initialize() {
-        ParticleCanvas bgCanvas = new ParticleCanvas(Info.ScreenWidth, Info.ScreenHeight, 300);
+        ParticleCanvas bgCanvas = new ParticleCanvas(Config.getScreenWidth(), Config.getScreenHeight(), 300);
         root.getChildren().add(0, bgCanvas);
         // Hiệu ứng lấp lánh cho tiêu đề
         Timeline titleAnimation = new Timeline(

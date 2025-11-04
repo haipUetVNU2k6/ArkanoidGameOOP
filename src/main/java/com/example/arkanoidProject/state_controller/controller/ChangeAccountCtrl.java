@@ -82,7 +82,7 @@
 //    }
 //
 //    private void showAlert(String title, String message) {
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        Alert alert = new Alert(Alert.AlertType.ConfigRMATION);
 //        alert.setTitle(title);
 //        alert.setHeaderText(null);
 //        alert.setContentText(message);

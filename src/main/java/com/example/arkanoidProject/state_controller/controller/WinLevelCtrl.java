@@ -3,7 +3,7 @@ package com.example.arkanoidProject.state_controller.controller;
 import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.state_controller.state.PlayState;
 import com.example.arkanoidProject.util.FireworkCanvas;
-import com.example.arkanoidProject.util.Info;
+import com.example.arkanoidProject.util.Config;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -14,7 +14,7 @@ public class WinLevelCtrl {
 
     public void initialize(){
         // Firework background
-        FireworkCanvas fireworkCanvas = new FireworkCanvas(Info.ScreenWidth, Info.ScreenHeight);
+        FireworkCanvas fireworkCanvas = new FireworkCanvas(Config.getScreenWidth(), Config.getScreenHeight());
         root.getChildren().add(0, fireworkCanvas);
     }
 

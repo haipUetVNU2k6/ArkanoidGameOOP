@@ -1,7 +1,7 @@
 package com.example.arkanoidProject.state_controller.state;
 
 import com.example.arkanoidProject.util.FireworkCanvas;
-import com.example.arkanoidProject.util.Info;
+import com.example.arkanoidProject.util.Config;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 

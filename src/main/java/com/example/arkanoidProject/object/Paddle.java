@@ -1,6 +1,6 @@
 package com.example.arkanoidProject.object;
 
-import com.example.arkanoidProject.util.Info;
+import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.SpriteAnimation;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class Paddle extends MoveableObject {
     private Set<KeyCode> keysPressed = new HashSet<>();
 
-    private double speed = Info.paddleSpeed;
+    private double speed = Config.paddleSpeed;
 
     public Paddle(double x, double y, double width, double height,
                   Image spriteSheet, int columns, int rows,
@@ -37,6 +37,6 @@ public class Paddle extends MoveableObject {
 
         // Giới hạn di chuyển trong màn hình
         if (x < 0) x = 0;
-        if (x + width > Info.ScreenWidth) x = Info.ScreenWidth - width;
+        if (x + width > Config.getScreenWidth()) x = Config.getScreenWidth() - width;
     }
 }
