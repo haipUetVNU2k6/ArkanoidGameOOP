@@ -1,0 +1,48 @@
+.root-box {
+    -fx-background-color: #111;
+    -fx-padding: 40;
+}
+
+.title {
+    -fx-font-size: 32px;
+    -fx-text-fill: #ffcc00;
+    -fx-font-weight: bold;
+    -fx-padding-bottom: 20;
+}
+
+.button {
+    -fx-pref-width: 150;
+    -fx-pref-height: 70;
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+/* === LEVEL STATES === */
+.level-unlocked {
+    -fx-background-color: #28a745;
+}
+
+.level-unlocked:hover {
+    -fx-background-color: #218838;
+}
+
+.level-locked {
+    -fx-background-color: #555;
+    -fx-opacity: 0.5;
+    -fx-cursor: not-allowed;
+}
+
+/* === BACK BUTTON === */
+.back-btn {
+    -fx-background-color: #007bff;
+    -fx-pref-width: 180;
+    -fx-pref-height: 55;
+    -fx-font-size: 18px;
+}
+
+.back-btn:hover {
+    -fx-background-color: #0056b3;
+}

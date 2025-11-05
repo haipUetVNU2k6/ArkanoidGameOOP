@@ -13,6 +13,11 @@ public class StateStack {
         if (!MainApp.root.getChildren().contains(state.getUI())) {
             MainApp.root.getChildren().add(state.getUI());
         }
+
+        // dòng này để lấy lại focus cho state hiện thời,
+        // tránh trường hợp bị JavaFX "ăn" mất phím Space
+        MainApp.scene.getRoot().requestFocus();
+
     }
 
     public void pop() {

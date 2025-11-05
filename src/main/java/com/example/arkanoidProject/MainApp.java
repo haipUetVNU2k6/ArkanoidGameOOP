@@ -32,6 +32,7 @@ public class MainApp extends Application {
     public static PauseState pauseState;
     public static ChangeAccountState changeAccountState;
     public static WinLevelState winLevelState;
+    public static ChooseLevelState chooseLevelState;
 
     @Override
     public void start(Stage stage) {
@@ -52,6 +53,7 @@ public class MainApp extends Application {
         pauseState = new PauseState();
         changeAccountState = new ChangeAccountState();
         winLevelState = new WinLevelState();
+        chooseLevelState = new ChooseLevelState();
 
 
         primaryStage.initStyle(StageStyle.UNDECORATED);

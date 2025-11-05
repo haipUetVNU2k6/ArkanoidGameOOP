@@ -51,9 +51,13 @@ public class MenuCtrl {
 
     @FXML
     private void onPLay(ActionEvent event) {
-        System.out.println("PLAY button clicked");
-        MainApp.stateStack.pop();
-        MainApp.stateStack.push(MainApp.playState);
+//        System.out.println("PLAY button clicked");
+//        MainApp.stateStack.pop();
+//        MainApp.stateStack.push(MainApp.playState);
+
+//        MainApp.stateStack.pop();
+        MainApp.stateStack.push(MainApp.chooseLevelState);
+
     }
 
     @FXML

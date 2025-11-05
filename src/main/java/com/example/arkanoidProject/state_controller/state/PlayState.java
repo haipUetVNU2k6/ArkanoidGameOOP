@@ -1,5 +1,6 @@
 package com.example.arkanoidProject.state_controller.state;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
@@ -102,12 +103,12 @@ public class PlayState extends State {
             ball.setX(ball.getX() + (paddle.getX() - oldPaddleX));
         } else ball.update(dt);
 
-        System.out.println(
-                Math.round(Config.getScreenWidth()) + " " +
-                        Math.round(Config.getScreenHeight()) + " " +
-                        Math.round(ball.getHitBox().getMinX()) + " " +
-                        Math.round(ball.getHitBox().getMinY())
-        );
+//        System.out.println(
+//                Math.round(Config.getScreenWidth()) + " " +
+//                        Math.round(Config.getScreenHeight()) + " " +
+//                        Math.round(ball.getHitBox().getMinX()) + " " +
+//                        Math.round(ball.getHitBox().getMinY())
+//        );
 
         // ======== BALL - WALL COLLISION ========
         if (ball.getHitBox().getMinX() <= 0) {
@@ -262,7 +263,10 @@ public class PlayState extends State {
         if (event.getCode() == KeyCode.H) {
             showHitBox = !showHitBox;
         }
+
+        //phím Space bị JavaFX "ăn" mất
         if (event.getCode() == KeyCode.SPACE) {
+            System.out.println("Space pressed");
             ball.stopHolding();
             startText.hide();
         }
@@ -276,4 +280,10 @@ public class PlayState extends State {
             rightPressed = false;
         }
     }
+
+    public void onEnteredFrom(State prevState) {
+        MainApp.primaryStage.getScene().getRoot().requestFocus();
+    }
+
+
 }
