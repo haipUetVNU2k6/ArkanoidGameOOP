@@ -39,4 +39,11 @@ public class Paddle extends MoveableObject {
         if (x < 0) x = 0;
         if (x + width > Config.getScreenWidth()) x = Config.getScreenWidth() - width;
     }
+
+    public void reset() {
+        setX(Config.getStartPaddleX());
+        setY(Config.getStartPaddleY());
+        setWidth(Config.paddleWidth);
+        setHeight(Config.paddleHeight);
+    }
 }

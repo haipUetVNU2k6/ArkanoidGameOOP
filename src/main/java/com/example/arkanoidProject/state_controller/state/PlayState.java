@@ -5,6 +5,8 @@ import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
+import com.example.arkanoidProject.object.PowerUp.PowerUp;
+import com.example.arkanoidProject.object.PowerUp.PowerUpManager;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.StartText;
@@ -16,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PlayState extends State {
@@ -27,6 +30,7 @@ public class PlayState extends State {
 
     private Ball ball;
     private Paddle paddle;
+    private PowerUpManager powerUpManager;
     private List<Brick> bricks = new ArrayList<>();
 
 
@@ -61,6 +65,8 @@ public class PlayState extends State {
             ball = new Ball(Config.getStartBallX(), Config.getStartBallY(), Config.ballWidth, Config.ballHeight,
                     ballSprite, 10, 1, 880, 512, 0.1,
                     Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
+
+            powerUpManager = new PowerUpManager();
 
             levelManager = new LevelManager();
             int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
@@ -125,6 +131,12 @@ public class PlayState extends State {
         if (ball.getHitBox().getMaxY() >= Config.getScreenHeight()) {
             ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Config.getScreenHeight()));
             ball.setDy(-ball.getDy());
+        }
+
+        Iterator<PowerUp> iterator = powerUpManager.getActivePowerUps().iterator();
+        while (iterator.hasNext()) {
+            PowerUp element = iterator.next();
+            element.update(dt);
         }
 
         // ======== BALL - PADDLE COLLISION ========
@@ -193,7 +205,19 @@ public class PlayState extends State {
             }
 
             brick.takeDamage();
+            if(brick.isDestroyed()) {
+                powerUpManager.onBrickDestroyed(brick);
+            }
             break; // tránh phá nhiều brick 1 frame
+        }
+
+        // duplicate iterator in update()
+        Iterator<PowerUp> ite = powerUpManager.getActivePowerUps().iterator();
+        while (ite.hasNext()) {
+            PowerUp element = ite.next();
+            if(paddle.getHitBox().intersects(element.getHitBox())) {
+               powerUpManager.applyPowerUp(element, paddle);
+           }
         }
 
 
@@ -238,6 +262,12 @@ public class PlayState extends State {
         paddle.render(gc);
         for (Brick brick : bricks) {
             brick.render(gc);
+        }
+
+        Iterator<PowerUp> iterator = powerUpManager.getActivePowerUps().iterator();
+        while (iterator.hasNext()) {
+            PowerUp element = iterator.next();
+            element.render(gc);
         }
 
         if (showHitBox) {

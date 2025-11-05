@@ -77,4 +77,10 @@ public class Config {
         return (int) ((getScreenHeight() * 0.4) / brickHeight);
     }
 
+    public static enum PowerUpType {
+        EXPAND_PADDLE, SHRINK_PADDLE
+    }
+
+    public static final double diameterPowerUp = 20;
+
 }
