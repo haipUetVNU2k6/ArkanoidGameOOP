@@ -24,7 +24,7 @@ public class StartText {
         try {
             font = Font.loadFont(
                     getClass().getResourceAsStream("/com/example/arkanoidProject/view/fonts/PressStart2P-Regular.ttf"),
-                    20
+                    15
             );
         } catch (Exception e) {
             System.out.println("⚠️ Font not found, using default");

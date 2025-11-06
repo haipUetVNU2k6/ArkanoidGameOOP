@@ -48,7 +48,7 @@ public class PlayState extends State {
             ui = loader.load();
             controller = loader.getController();
 
-            gc = controller.getGameCanvas().getGraphicsContext2D();
+            gc = controller.getPlayCanvas().getGraphicsContext2D();
 
             Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle/paddleSpriteImage.png").toExternalForm());
@@ -75,6 +75,7 @@ public class PlayState extends State {
 
     }
 
+    @Override
     public void update() {
         long now = System.nanoTime();
         if (lastTime == 0) {
@@ -224,6 +225,7 @@ public class PlayState extends State {
         }
     }
 
+    @Override
     public void render() {
         gc.clearRect(0, 0, Config.getScreenWidth(), Config.getScreenHeight());
 
@@ -242,6 +244,7 @@ public class PlayState extends State {
         gc.fillText("LEVEL " + level, 20, 30);
     }
 
+    @Override
     public void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.A) {
             leftPressed = true;
@@ -265,6 +268,7 @@ public class PlayState extends State {
         }
     }
 
+    @Override
     public void handleKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.A) {
             leftPressed = false;

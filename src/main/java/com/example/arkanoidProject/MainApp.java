@@ -53,14 +53,14 @@ public class MainApp extends Application {
 
         // Lắng nghe bàn phím trên Scene và chuyển tiếp cho state trên cùng
         scene.setOnKeyPressed(event -> {
-            if (!stateStack.isEmpty() && stateStack.peek() instanceof PlayState playState) {
-                playState.handleKeyPressed(event);
+            if (!stateStack.isEmpty()) {
+                stateStack.peek().handleKeyPressed(event);
             }
         });
 
         scene.setOnKeyReleased(event -> {
-            if (!stateStack.isEmpty() && stateStack.peek() instanceof PlayState playState) {
-                playState.handleKeyReleased(event);
+            if (!stateStack.isEmpty()) {
+                stateStack.peek().handleKeyReleased(event);
             }
         });
 
@@ -68,9 +68,9 @@ public class MainApp extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (!stateStack.isEmpty() && stateStack.peek() instanceof PlayState playState) {
-                    playState.update();
-                    playState.render();
+                if (!stateStack.isEmpty()) {
+                    stateStack.peek().update();
+                    stateStack.peek().render();
                 }
             }
         }.start();

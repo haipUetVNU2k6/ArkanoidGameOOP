@@ -5,12 +5,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.example.arkanoidProject.state_controller.controller.MenuCtrl"
            stylesheets="@../css/menu.css"
            fx:id="root">
+
+    <Canvas fx:id="menuCanvas" width="700" height="800" />
 
     <VBox spacing="20" alignment="CENTER">
 

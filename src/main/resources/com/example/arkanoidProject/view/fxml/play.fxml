@@ -10,6 +10,6 @@
            fx:id="root"
            fx:controller="com.example.arkanoidProject.state_controller.controller.PlayCtrl">
 
-    <Canvas fx:id="gameCanvas" width="700" height="800" />
+    <Canvas fx:id="playCanvas" width="700" height="800" />
 
 </StackPane>

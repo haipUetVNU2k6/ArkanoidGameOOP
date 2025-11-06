@@ -19,6 +19,13 @@ public abstract class State {
         MainApp.root.getChildren().remove(ui);
     }
 
+    public void update() {}
+
+    public void render() {}
+
+    public void handleKeyPressed(KeyEvent event) {}
+
+    public void handleKeyReleased(KeyEvent event) {}
 }
 
 

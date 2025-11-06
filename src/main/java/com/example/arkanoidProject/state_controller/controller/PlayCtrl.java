@@ -5,9 +5,9 @@ import javafx.scene.canvas.Canvas;
 
 public class PlayCtrl {
     @FXML
-    private Canvas gameCanvas;
+    private Canvas playCanvas;
 
-    public Canvas getGameCanvas() {
-        return gameCanvas;
+    public Canvas getPlayCanvas() {
+        return playCanvas;
     }
 }
