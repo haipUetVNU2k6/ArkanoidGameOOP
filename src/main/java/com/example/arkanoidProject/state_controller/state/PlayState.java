@@ -108,12 +108,12 @@ public class PlayState extends State {
             ball.setX(ball.getX() + (paddle.getX() - oldPaddleX));
         } else ball.update(dt);
 
-        System.out.println(
-                Math.round(Config.getScreenWidth()) + " " +
-                        Math.round(Config.getScreenHeight()) + " " +
-                        Math.round(ball.getHitBox().getMinX()) + " " +
-                        Math.round(ball.getHitBox().getMinY())
-        );
+//        System.out.println(
+//                Math.round(Config.getScreenWidth()) + " " +
+//                        Math.round(Config.getScreenHeight()) + " " +
+//                        Math.round(ball.getHitBox().getMinX()) + " " +
+//                        Math.round(ball.getHitBox().getMinY())
+//        );
 
         // ======== BALL - WALL COLLISION ========
         if (ball.getHitBox().getMinX() <= 0) {
@@ -217,6 +217,7 @@ public class PlayState extends State {
             PowerUp element = ite.next();
             if(paddle.getHitBox().intersects(element.getHitBox())) {
                powerUpManager.applyPowerUp(element, paddle);
+               powerUpManager.getActivePowerUps().remove(element);
            }
         }
 

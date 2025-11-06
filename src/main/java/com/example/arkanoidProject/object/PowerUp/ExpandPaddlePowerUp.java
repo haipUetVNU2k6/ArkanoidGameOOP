@@ -13,19 +13,21 @@ public class ExpandPaddlePowerUp extends PowerUp{
 
     @Override
     public void applyEffect(Paddle paddle) {
-        double newPaddleWidth   = paddle.getHitBox().getWidth() * 0.9;
-        double newPaddleOffSetX = paddle.getHitBoxOffsetX() * 0.9;
-        double paddleHeight   = paddle.getHitBox().getHeight();
-        double paddleOffSetY = paddle.getHitBoxOffsetY() ;
+        System.out.println("width: " + paddle.getWidth());
+        double newPaddleWidth  = paddle.getWidth() * 1.3;
         paddle.setWidth(newPaddleWidth);
-        paddle.setHitBox(new Rectangle2D(x + newPaddleOffSetX,
-                y + paddleOffSetY,newPaddleWidth, paddleHeight ));
+        System.out.println("newWidth: " + paddle.getWidth());
+        paddle.setHitBox(new Rectangle2D(paddle.getX() ,
+                paddle.getY(),newPaddleWidth, paddle.getHeight() ));
     }
 
     @Override
     public void removeEffect(Paddle paddle) {
-        setWidth(Config.paddleWidth);
-        setHeight(Config.paddleHeight);
+        paddle.setWidth(Config.paddleWidth);
+        paddle.setHeight(Config.paddleHeight);
+        paddle.setHitBox(new Rectangle2D(paddle.getX() + Config.paddleHitBoxOffsetX,
+                paddle.getY() + Config.paddleHitBoxOffsetY,
+                Config.paddleHitBoxW, Config.paddleHitBoxH));
     }
 
     @Override

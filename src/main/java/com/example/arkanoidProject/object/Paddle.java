@@ -2,6 +2,7 @@ package com.example.arkanoidProject.object;
 
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.SpriteAnimation;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
@@ -40,10 +41,15 @@ public class Paddle extends MoveableObject {
         if (x + width > Config.getScreenWidth()) x = Config.getScreenWidth() - width;
     }
 
+    @Override
     public void reset() {
+
         setX(Config.getStartPaddleX());
         setY(Config.getStartPaddleY());
         setWidth(Config.paddleWidth);
         setHeight(Config.paddleHeight);
+        setHitBox(new Rectangle2D(getX() + Config.paddleHitBoxOffsetX,
+                getY() + Config.paddleHitBoxOffsetY,
+                Config.paddleHitBoxW, Config.paddleHitBoxH));
     }
 }

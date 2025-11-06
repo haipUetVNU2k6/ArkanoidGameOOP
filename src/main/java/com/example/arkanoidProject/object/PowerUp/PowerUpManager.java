@@ -32,7 +32,7 @@ public class PowerUpManager {
 
     public void onBrickDestroyed(Brick brick) {
         // 30% chance drop power-up
-        if (Math.random() < 1.0) {
+        if (Math.random() < 0.3) {
             // danh số tham số nên là (x,y,w,h) hay là (x,y)
             PowerUp powerUp = PowerUpFactory.createRandomPowerUp(
                     brick.getX(), brick.getY(), Config.diameterPowerUp, Config.diameterPowerUp
