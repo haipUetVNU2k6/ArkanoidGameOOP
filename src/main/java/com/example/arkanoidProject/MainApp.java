@@ -3,6 +3,7 @@ package com.example.arkanoidProject;
 import com.example.arkanoidProject.state_controller.state.*;
 import com.example.arkanoidProject.userAccount.User;
 import com.example.arkanoidProject.userAccount.UserManager;
+import com.example.arkanoidProject.util.Config;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -13,26 +14,22 @@ import javafx.stage.StageStyle;
 public class MainApp extends Application {
     public static UserManager userManager = new UserManager();
 
-    public static final int WIDTH = 700;
-    public static final int HEIGHT = 800;
-
     public static Stage primaryStage;
 
 
     public static StackPane root = new StackPane(); // chứa nhiều layer UI
-//    public static Scene scene = new Scene(root, WIDTH, HEIGHT);
 
     public static Scene scene = new Scene(root);
 
 
     public static StateStack stateStack = new StateStack();
 
-    public static MenuState menuState;
-    public static PlayState playState;
-    public static PauseState pauseState;
-    public static ChangeAccountState changeAccountState;
-    public static WinLevelState winLevelState;
-    public static ChooseLevelState chooseLevelState;
+//    public static MenuState menuState;
+//    public static PlayState playState;
+//    public static PauseState pauseState;
+//    public static ChangeAccountState changeAccountState;
+//    public static WinLevelState winLevelState;
+//    public static ChooseLevelState chooseLevelState;
 
     @Override
     public void start(Stage stage) {
@@ -48,26 +45,26 @@ public class MainApp extends Application {
             userManager.setCurrentUser(userManager.getUsers().get(0));
         }
 
-        menuState = new MenuState();
-        playState = new PlayState();
-        pauseState = new PauseState();
-        changeAccountState = new ChangeAccountState();
-        winLevelState = new WinLevelState();
-        chooseLevelState = new ChooseLevelState();
+//        menuState = new MenuState();
+//        playState = new PlayState();
+//        pauseState = new PauseState();
+//        changeAccountState = new ChangeAccountState();
+//        winLevelState = new WinLevelState();
+//        chooseLevelState = new ChooseLevelState();
 
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Arkanoid Game");
         primaryStage.show();
-        primaryStage.setWidth(WIDTH);
-        primaryStage.setHeight(HEIGHT);
+        primaryStage.setWidth(Config.getScreenWidth());
+        primaryStage.setHeight(Config.getScreenHeight());
         primaryStage.setResizable(false);
         primaryStage.centerOnScreen();
 
 
         // Bắt đầu với MenuState
-        stateStack.push(menuState);
+        stateStack.push(new MenuState());
 
         // Lắng nghe bàn phím trên Scene và chuyển tiếp cho state trên cùng
         scene.setOnKeyPressed(event -> {

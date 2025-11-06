@@ -9,21 +9,16 @@ public class StateStack {
 
     public void push(State state) {
         stateStack.push(state);
-        // Thêm giao diện vào root
-        if (!MainApp.root.getChildren().contains(state.getUI())) {
-            MainApp.root.getChildren().add(state.getUI());
-        }
+        state.onEnter(); // gọi onEnter cho state mới
 
-        // dòng này để lấy lại focus cho state hiện thời,
-        // tránh trường hợp bị JavaFX "ăn" mất phím Space
+        // Lấy lại focus để nhận key events
         MainApp.scene.getRoot().requestFocus();
-
     }
 
     public void pop() {
         if (!stateStack.isEmpty()) {
             State top = stateStack.pop();
-            MainApp.root.getChildren().remove(top.getUI());
+            top.onExit(); // gọi onExit trước khi remove
         }
     }
 

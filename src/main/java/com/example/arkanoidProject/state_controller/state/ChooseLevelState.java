@@ -11,7 +11,7 @@ public class ChooseLevelState extends State {
         try {
             FXMLLoader loader = new FXMLLoader(getClass()
                     .getResource("/com/example/arkanoidProject/view/fxml/chooseLevel.fxml"));
-            root = loader.load();
+            ui = loader.load();
 
             ChooseLevelCtrl controller = loader.getController();
             controller.init(this); // truyền state nếu cần

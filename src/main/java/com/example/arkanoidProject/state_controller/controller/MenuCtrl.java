@@ -1,5 +1,7 @@
 package com.example.arkanoidProject.state_controller.controller;
 
+import com.example.arkanoidProject.state_controller.state.ChangeAccountState;
+import com.example.arkanoidProject.state_controller.state.ChooseLevelState;
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.ParticleCanvas;
 import com.example.arkanoidProject.MainApp;
@@ -56,7 +58,7 @@ public class MenuCtrl {
 //        MainApp.stateStack.push(MainApp.playState);
 
 //        MainApp.stateStack.pop();
-        MainApp.stateStack.push(MainApp.chooseLevelState);
+        MainApp.stateStack.push(new ChooseLevelState());
 
     }
 
@@ -79,7 +81,7 @@ public class MenuCtrl {
     @FXML
     private void onChangeAccount(ActionEvent event) {
         System.out.println("CHANGEACCOUNT button clicked");
-        MainApp.stateStack.push(MainApp.changeAccountState);
+        MainApp.stateStack.push(new ChangeAccountState());
     }
 }
 

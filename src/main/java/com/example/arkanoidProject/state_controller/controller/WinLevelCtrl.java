@@ -1,6 +1,7 @@
 package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.state_controller.state.MenuState;
 import com.example.arkanoidProject.state_controller.state.PlayState;
 import com.example.arkanoidProject.util.FireworkCanvas;
 import com.example.arkanoidProject.util.Config;
@@ -29,6 +30,6 @@ public class WinLevelCtrl {
     @FXML
     private void onMenu(ActionEvent event) {
         MainApp.stateStack.clear();
-        MainApp.stateStack.push(MainApp.menuState);
+        MainApp.stateStack.push(new MenuState());
     }
 }

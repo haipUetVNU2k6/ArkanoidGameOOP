@@ -19,10 +19,10 @@ public class ChangeAccountState extends State {
             }
 
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            root = loader.load();
+            ui = loader.load();
             controller = loader.getController();
 
-            if (root == null || controller == null) {
+            if (ui == null || controller == null) {
                 throw new RuntimeException("Failed to load ChangeAccountState FXML or controller!");
             }
         } catch (IOException e) {

@@ -11,7 +11,7 @@ public class WinLevelState extends State{
     public WinLevelState() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/winLevel.fxml"));
-            root = loader.load();
+            ui = loader.load();
 
 
         } catch (IOException e) {

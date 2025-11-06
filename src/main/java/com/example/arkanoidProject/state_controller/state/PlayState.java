@@ -47,7 +47,7 @@ public class PlayState extends State {
     public PlayState() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/play.fxml"));
-            root = loader.load();
+            ui = loader.load();
             controller = loader.getController();
 
             gc = controller.getGameCanvas().getGraphicsContext2D();
@@ -209,7 +209,7 @@ public class PlayState extends State {
 
         // Win level
         if (allDestroyed) {
-            MainApp.stateStack.push(MainApp.winLevelState);
+            MainApp.stateStack.push(new WinLevelState());
             MainApp.userManager.getCurrentUser().setLastLevel(levelToLoad + 1);
             MainApp.userManager.saveUsers();
             levelManager.nextLevel();
@@ -227,7 +227,7 @@ public class PlayState extends State {
         } else {
             System.out.println("🎉 You win all levels!");
             MainApp.stateStack.pop();
-            MainApp.stateStack.push(MainApp.menuState);
+            MainApp.stateStack.push(new MenuState());
         }
     }
 
@@ -258,7 +258,7 @@ public class PlayState extends State {
         }
         if (event.getCode() == KeyCode.ESCAPE) {
             lastTime = 0;
-            MainApp.stateStack.push(MainApp.pauseState);
+            MainApp.stateStack.push(new PauseState());
         }
         if (event.getCode() == KeyCode.H) {
             showHitBox = !showHitBox;

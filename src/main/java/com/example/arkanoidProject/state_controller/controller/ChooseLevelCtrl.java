@@ -2,6 +2,7 @@ package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.state_controller.state.ChooseLevelState;
+import com.example.arkanoidProject.state_controller.state.PlayState;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -65,6 +66,6 @@ public class ChooseLevelCtrl {
         System.out.println("Selected Level: " + level);
         // Gọi phương thức trong MainApp để đổi sang PlayState kèm level
 //        MainApp.playState.setLevel(level);
-        MainApp.stateStack.push(MainApp.playState);
+        MainApp.stateStack.push(new PlayState());
     }
 }

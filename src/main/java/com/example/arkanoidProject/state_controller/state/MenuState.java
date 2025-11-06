@@ -12,7 +12,7 @@ public class MenuState extends State {
     public MenuState() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/menu.fxml"));
-            root = loader.load();
+            ui = loader.load();
          } catch (IOException e) {
             e.printStackTrace();
         }
@@ -23,7 +23,7 @@ public class MenuState extends State {
             System.out.println("MenuState: Nhấn Enter để Play");
             // Chuyển sang PlayState
             MainApp.stateStack.pop();
-            MainApp.stateStack.push(MainApp.playState);
+            MainApp.stateStack.push(new PlayState());
         } else if (event.getCode() == KeyCode.ESCAPE) {
             System.out.println("MenuState: Thoát game");
             System.exit(0);
