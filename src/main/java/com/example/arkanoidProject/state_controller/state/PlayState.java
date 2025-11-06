@@ -209,12 +209,18 @@ public class PlayState extends State {
         }
         // Win level
         if (allDestroyed) {
-            if (level < MainApp.userManager.getCurrentUser().getLastLevel()) {
+            System.out.println("level " + level);
+            System.out.println("lastLevel " + MainApp.userManager.getCurrentUser().getLastLevel());
+            if (level == MainApp.userManager.getCurrentUser().getLastLevel()) {
                 MainApp.userManager.getCurrentUser().setLastLevel(level + 1);
             }
             MainApp.userManager.saveUsers();
 
+            if (level == 6) level = 0; //loop
+
             MainApp.stateStack.push(new WinLevelState(level));
+            // truyền level vào WinLevelState, sau đó WLS sẽ truyền level WLCtrl để
+            // WLCtrl gọi tạo PlayState mới với level+1;
         }
     }
 
