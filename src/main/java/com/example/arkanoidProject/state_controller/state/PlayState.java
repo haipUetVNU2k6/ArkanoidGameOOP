@@ -30,21 +30,19 @@ public class PlayState extends State {
     private Paddle paddle;
     private List<Brick> bricks = new ArrayList<>();
 
-
     private boolean leftPressed = false;
     private boolean rightPressed = false;
 
     private long lastTime = 0;
 
     private LevelManager levelManager;
-    private int level = 1;
 
-    private int levelToLoad;
+    private int level;
 
     private static boolean showHitBox = false;
 
 
-    public PlayState() {
+    public PlayState(int level) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/play.fxml"));
             ui = loader.load();
@@ -64,14 +62,16 @@ public class PlayState extends State {
                     Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
 
             levelManager = new LevelManager();
-            int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
-            bricks = levelManager.loadLevel(levelToLoad);
+//            level = MainApp.userManager.getCurrentUser().getLastLevel();
+            this.level = level;
+            bricks = levelManager.loadLevel(level);
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, levelToLoad) ;
+        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, level) ;
 
     }
 
@@ -102,6 +102,7 @@ public class PlayState extends State {
         if (ball.isHeld()) {
             ball.setX(ball.getX() + (paddle.getX() - oldPaddleX));
         } else ball.update(dt);
+
 
 //        System.out.println(
 //                Math.round(Config.getScreenWidth()) + " " +
@@ -206,28 +207,14 @@ public class PlayState extends State {
                 break;
             }
         }
-
         // Win level
         if (allDestroyed) {
-            MainApp.stateStack.push(new WinLevelState());
-            MainApp.userManager.getCurrentUser().setLastLevel(levelToLoad + 1);
+            if (level < MainApp.userManager.getCurrentUser().getLastLevel()) {
+                MainApp.userManager.getCurrentUser().setLastLevel(level + 1);
+            }
             MainApp.userManager.saveUsers();
-            levelManager.nextLevel();
 
-            return;
-        }
-    }
-
-    public void loadNextLevel() {
-        if (levelManager.hasNextLevel()) {
-            bricks = levelManager.loadCurrentLevel();
-            ball.resetPosition(300, 400);
-            paddle.setX(250);
-            level++;
-        } else {
-            System.out.println("🎉 You win all levels!");
-            MainApp.stateStack.pop();
-            MainApp.stateStack.push(new MenuState());
+            MainApp.stateStack.push(new WinLevelState(level));
         }
     }
 
@@ -280,10 +267,5 @@ public class PlayState extends State {
             rightPressed = false;
         }
     }
-
-    public void onEnteredFrom(State prevState) {
-        MainApp.primaryStage.getScene().getRoot().requestFocus();
-    }
-
 
 }

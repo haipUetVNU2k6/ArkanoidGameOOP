@@ -25,8 +25,8 @@
 
 /* === LEVEL BUTTONS === */
 .button {
-    -fx-pref-width: 150;
-    -fx-pref-height: 70;
+    -fx-pref-width: 140;
+    -fx-pref-height: 67;
     -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: #ffffff;
@@ -39,22 +39,62 @@
 
 /* --- UNLOCKED LEVELS --- */
 .level-unlocked {
-    -fx-background-color: linear-gradient(to bottom, #32CD32, #2E8B57); /* Normal: xanh lá tươi */
-    -fx-text-fill: #f0fff0; /* trắng nhạt cho chữ */
-    -fx-border-color: rgba(255, 255, 255, 0.15);
-    -fx-effect: dropshadow(gaussian, rgba(50, 205, 50, 0.5), 20, 0.4, 0, 0);
+    -fx-background-color: linear-gradient(to bottom right, rgba(255,255,255,0.05) 0%, #9EE23D 30%, #4C8C1A 100%); /* chỉ sáng nhẹ góc trên bên trái */
+    -fx-text-fill: #1B3A00;
+    -fx-border-color: #DFFFA0;   /* màu border */
+    -fx-border-width: 2;          /* độ dày border */
+    -fx-border-radius: 12;        /* bo góc giống background */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0.3, 0, 3);
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 12;
 }
 
 .level-unlocked:hover {
-    -fx-background-color: linear-gradient(to bottom, #3CB371, #228B22); /* Hover: xanh lá đậm hơn */
-    -fx-effect: dropshadow(gaussian, rgba(60, 179, 113, 0.7), 28, 0.4, 0, 0);
+    -fx-background-color: linear-gradient(to bottom right, rgba(255,255,255,0.07) 0%, #B8F35D 30%, #5CA921 100%);
+    -fx-border-color: #E8FF8A;  /* border sáng hơn khi hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 12, 0.3, 0, 4);
+    -fx-translate-y: -2px;
+    -fx-scale-x: 1.04;
+    -fx-scale-y: 1.04;
 }
 
 .level-unlocked:pressed {
-    -fx-background-color: linear-gradient(to bottom, #32CD32, #2E8B57); /* Pressed: cùng gradient normal */
-    -fx-effect: dropshadow(gaussian, rgba(50, 205, 50, 0.7), 15, 0.3, 0, 0); /* Shadow xanh lá đậm hơn */
-    -fx-translate-y: 2px; /* tạo cảm giác nhấn xuống */
+    -fx-background-color: linear-gradient(to bottom right, rgba(255,255,255,0.02) 0%, #7CB72B 30%, #3F6E14 100%);
+    -fx-border-color: #C3E075;  /* border tối hơn khi nhấn */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 8, 0.3, 0, 3);
+    -fx-translate-y: 2px;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
 }
+
+/* --- CURRENT LEVELS --- */
+.level-current {
+    -fx-background-color: linear-gradient(to bottom right, rgba(255,255,255,0.05) 0%, #FFE066 30%, #FFB300 100%); /* chỉ sáng nhẹ góc trên bên trái */
+    -fx-text-fill: #664C00;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0.3, 0, 3);
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 12;
+}
+
+.level-current:hover {
+    -fx-background-color: linear-gradient(to bottom right, rgba(255,255,255,0.07) 0%, #FFE84D 30%, #FFC107 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 12, 0.3, 0, 4);
+    -fx-translate-y: -2px;
+    -fx-scale-x: 1.04;
+    -fx-scale-y: 1.04;
+}
+
+.level-current:pressed {
+    -fx-background-color: linear-gradient(to bottom right, rgba(255,255,255,0.02) 0%, #FFD633 30%, #FFAA00 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 8, 0.3, 0, 3);
+    -fx-translate-y: 2px;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
 
 
 /* --- LOCKED LEVELS --- */
@@ -76,15 +116,21 @@
     -fx-font-weight: bold;
     -fx-text-fill: #fff;
     -fx-background-radius: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0, 120, 255, 0.5), 15, 0.3, 0, 3);
+    -fx-effect: dropshadow(gaussian, rgba(0, 120, 255, 0.3), 8, 0.2, 0, 2); /* giảm blur và opacity */
     -fx-border-color: rgba(255, 255, 255, 0.2);
     -fx-border-radius: 15;
 }
 
 .back-btn:hover {
     -fx-background-color: linear-gradient(to bottom, #339dff, #0066cc);
-    -fx-effect: dropshadow(gaussian, rgba(0, 150, 255, 0.6), 25, 0.4, 0, 0);
-    -fx-translate-y: -2;
+    -fx-effect: dropshadow(gaussian, rgba(0, 150, 255, 0.4), 12, 0.2, 0, 0); /* bớt mờ */
+    -fx-translate-y: -2px;
+}
+
+.back-btn:pressed {
+    -fx-background-color: linear-gradient(to bottom, #007bff, #0056b3);
+    -fx-effect: dropshadow(gaussian, rgba(0, 120, 255, 0.5), 10, 0.2, 0, 2);
+    -fx-translate-y: 2px;
 }
 
 /* === GRID === */
@@ -92,15 +138,4 @@
     -fx-hgap: 15;
     -fx-vgap: 15;
     -fx-alignment: center;
-}
-
-/* === SMOOTH BUTTON TRANSITIONS === */
-.button:hover {
-    -fx-scale-x: 1.03;
-    -fx-scale-y: 1.03;
-}
-
-/* === GLOW EFFECT ON ACTIVE ELEMENTS === */
-.button:focused {
-    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.8), 25, 0.6, 0, 0);
 }

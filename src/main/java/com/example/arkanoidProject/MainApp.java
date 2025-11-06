@@ -24,13 +24,6 @@ public class MainApp extends Application {
 
     public static StateStack stateStack = new StateStack();
 
-//    public static MenuState menuState;
-//    public static PlayState playState;
-//    public static PauseState pauseState;
-//    public static ChangeAccountState changeAccountState;
-//    public static WinLevelState winLevelState;
-//    public static ChooseLevelState chooseLevelState;
-
     @Override
     public void start(Stage stage) {
         primaryStage = stage;
@@ -44,14 +37,6 @@ public class MainApp extends Application {
             // Nếu có user trong danh sách nhưng chưa set currentUser
             userManager.setCurrentUser(userManager.getUsers().get(0));
         }
-
-//        menuState = new MenuState();
-//        playState = new PlayState();
-//        pauseState = new PauseState();
-//        changeAccountState = new ChangeAccountState();
-//        winLevelState = new WinLevelState();
-//        chooseLevelState = new ChooseLevelState();
-
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);

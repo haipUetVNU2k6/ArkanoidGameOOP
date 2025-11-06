@@ -10,6 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
 public class WinLevelCtrl {
+    private int currentLevel;
+    public void setLevel(int level) {
+        this.currentLevel = level;
+    }
+
     @FXML
     private StackPane root;
 
@@ -22,9 +27,7 @@ public class WinLevelCtrl {
     @FXML
     private void onNextLevel(ActionEvent event) {
         MainApp.stateStack.pop();
-        if (!MainApp.stateStack.isEmpty() && MainApp.stateStack.peek() instanceof PlayState playState) {
-            playState.loadNextLevel();
-        }
+        MainApp.stateStack.push(new PlayState(++currentLevel));
     }
 
     @FXML

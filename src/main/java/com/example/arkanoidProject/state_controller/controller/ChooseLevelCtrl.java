@@ -41,8 +41,12 @@ public class ChooseLevelCtrl {
         btn.getStyleClass().removeAll("level-unlocked", "level-locked", "button");
         btn.getStyleClass().add("button");
 
-        if (level <= unlockedLevel) {
+        if (level < unlockedLevel) {
             btn.getStyleClass().add("level-unlocked");
+            btn.setDisable(false);
+            btn.setOnAction(e -> onSelectLevel(level));
+        } else if (level == unlockedLevel) {
+            btn.getStyleClass().add("level-current");
             btn.setDisable(false);
             btn.setOnAction(e -> onSelectLevel(level));
         } else {
@@ -64,8 +68,6 @@ public class ChooseLevelCtrl {
 
     private void onSelectLevel(int level) {
         System.out.println("Selected Level: " + level);
-        // Gọi phương thức trong MainApp để đổi sang PlayState kèm level
-//        MainApp.playState.setLevel(level);
-        MainApp.stateStack.push(new PlayState());
+        MainApp.stateStack.push(new PlayState(level));
     }
 }

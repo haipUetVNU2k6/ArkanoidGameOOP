@@ -18,16 +18,16 @@ public class MenuState extends State {
         }
     }
 
-    public void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            System.out.println("MenuState: Nhấn Enter để Play");
-            // Chuyển sang PlayState
-            MainApp.stateStack.pop();
-            MainApp.stateStack.push(new PlayState());
-        } else if (event.getCode() == KeyCode.ESCAPE) {
-            System.out.println("MenuState: Thoát game");
-            System.exit(0);
-        }
-    }
+//    public void handleKeyPressed(KeyEvent event) {
+//        if (event.getCode() == KeyCode.ENTER) {
+//            System.out.println("MenuState: Nhấn Enter để Play");
+//            // Chuyển sang PlayState
+//            MainApp.stateStack.pop();
+//            MainApp.stateStack.push(new PlayState());
+//        } else if (event.getCode() == KeyCode.ESCAPE) {
+//            System.out.println("MenuState: Thoát game");
+//            System.exit(0);
+//        }
+//    }
 }
 

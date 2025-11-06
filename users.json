@@ -2,12 +2,16 @@
   "users": [
     {
       "username": "Player1",
-      "lastLevel": 1
+      "lastLevel": 5
     },
     {
       "username": "HoangLong",
+      "lastLevel": 2
+    },
+    {
+      "username": "hhhh",
       "lastLevel": 1
     }
   ],
-  "lastUserUsername": "HoangLong"
+  "lastUserUsername": "Player1"
 }

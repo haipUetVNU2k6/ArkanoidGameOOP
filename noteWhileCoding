@@ -1,3 +1,4 @@
+----
 Bước tiếp theo: chuyển từ static nameSate sang các state có vòng đời rõ ràng, ví dụ:
 
     stateStack.push(new MenuState());
@@ -7,5 +8,10 @@ Todo List:
     1, xóa các biến static State ở mainApp.
     2, check hàm pop ở stateStack có cần xóa state ko
     3, tại mỗi stateCtrl, push(new State).
+    4. sử dụng onEnter, onExit
 
-sử dụng onEnter, onExit
+06_11_25  11:35AM: done
+----
+
+----
+Next: PlayState(int level)
