@@ -1,0 +1,4 @@
+Bước tiếp theo: chuyển từ static nameSate sang các state có vòng đời rõ ràng, ví dụ:
+
+    stateStack.push(new MenuState());
+    stateStack.push(new PlayState(level));
