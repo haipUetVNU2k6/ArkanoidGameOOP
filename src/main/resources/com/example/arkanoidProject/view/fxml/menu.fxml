@@ -26,8 +26,8 @@
         <Button text="Start Game" fx:id="btnStart" styleClass="menu-button" onAction="#onPLay"/>
         <Button text="High Scores" fx:id="btnScores" styleClass="menu-button" onAction="#onHighScores"/>
         <Button text="Settings" fx:id="btnSettings" styleClass="menu-button" onAction="#onSettings"/>
-        <Button text="Exit" fx:id="btnExit" styleClass="menu-button" onAction="#onExit"/>
         <Button text="Change Account" fx:id="btnChangeAccount" styleClass="menu-button" onAction="#onChangeAccount"/>
+        <Button text="Exit" fx:id="btnExit" styleClass="menu-button" onAction="#onExit"/>
 
     </VBox>
 
