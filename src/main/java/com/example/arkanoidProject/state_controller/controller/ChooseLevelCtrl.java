@@ -17,12 +17,15 @@ public class ChooseLevelCtrl {
 
     private int unlockedLevel;
 
+    // Hàm init được gọi từ ChooseLevelState khi hiển thị FXML
     public void init(ChooseLevelState state) {
+        // Lấy level hiện tại từ User
         unlockedLevel = MainApp.userManager.getCurrentUser().getLastLevel();
         setupButtons();
         setupBackButton();
     }
 
+    // Gán style và action cho từng level
     private void setupButtons() {
         setupButton(level1Btn, 1);
         setupButton(level2Btn, 2);
@@ -33,8 +36,13 @@ public class ChooseLevelCtrl {
     }
 
     private void setupButton(Button btn, int level) {
+        // Xóa style cũ trước để tránh cộng dồn khi refresh
+        btn.getStyleClass().removeAll("level-unlocked", "level-locked", "button");
+        btn.getStyleClass().add("button");
+
         if (level <= unlockedLevel) {
             btn.getStyleClass().add("level-unlocked");
+            btn.setDisable(false);
             btn.setOnAction(e -> onSelectLevel(level));
         } else {
             btn.getStyleClass().add("level-locked");
@@ -43,11 +51,20 @@ public class ChooseLevelCtrl {
     }
 
     private void setupBackButton() {
+        // Nên thêm cả class "button" để áp dụng style chung
+        if (!backBtn.getStyleClass().contains("button"))
+            backBtn.getStyleClass().add("button");
+
+        if (!backBtn.getStyleClass().contains("back-btn"))
+            backBtn.getStyleClass().add("back-btn");
+
         backBtn.setOnAction(e -> MainApp.stateStack.pop());
     }
 
     private void onSelectLevel(int level) {
         System.out.println("Selected Level: " + level);
-        MainApp.stateStack.push(MainApp.playState); // Chuyển sang PlayState
+        // Gọi phương thức trong MainApp để đổi sang PlayState kèm level
+//        MainApp.playState.setLevel(level);
+        MainApp.stateStack.push(MainApp.playState);
     }
 }
