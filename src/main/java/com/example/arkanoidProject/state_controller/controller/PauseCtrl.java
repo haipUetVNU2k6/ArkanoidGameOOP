@@ -1,6 +1,7 @@
 package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.state_controller.state.MenuState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -19,7 +20,7 @@ public class PauseCtrl {
     @FXML
     private void onMenu(ActionEvent event) {
         MainApp.stateStack.clear();
-        MainApp.stateStack.push(MainApp.menuState);
+        MainApp.stateStack.push(new MenuState());
         // làm vòng đời cho state, thay vì static
     }
 

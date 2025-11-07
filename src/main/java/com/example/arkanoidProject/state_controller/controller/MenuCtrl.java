@@ -1,17 +1,29 @@
 package com.example.arkanoidProject.state_controller.controller;
 
+import com.example.arkanoidProject.state_controller.state.ChangeAccountState;
+import com.example.arkanoidProject.state_controller.state.ChooseLevelState;
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.ParticleCanvas;
 import com.example.arkanoidProject.MainApp;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class MenuCtrl {
+    @FXML
+    private Canvas menuCanvas;
+
+    public Canvas getMenuCanvas() {
+        return menuCanvas;
+    }
+
     @FXML
     private StackPane root;
 
@@ -45,15 +57,34 @@ public class MenuCtrl {
         scaleTransition.setAutoReverse(true);  // Quay lại kích thước ban đầu sau khi phóng to
         scaleTransition.play();
 
+        Timeline jitter = new Timeline();
+        for (int i = 0; i < 1000; i++) {
+            double time = i * 0.05;
+            double offset = Math.random() * 4 - 2; // dao động ±2 px
+            jitter.getKeyFrames().add(new KeyFrame(Duration.seconds(time),
+                    new KeyValue(title.translateXProperty(), offset),
+                    new KeyValue(title.translateYProperty(), Math.random() * 2 - 1)
+            ));
+        }
+        jitter.setCycleCount(Animation.INDEFINITE);
+        jitter.play();
+
+
+
+
         // Bạn có thể thêm xử lý sự kiện ở đây hoặc trong phương thức riêng
     }
 
 
     @FXML
     private void onPLay(ActionEvent event) {
-        System.out.println("PLAY button clicked");
-        MainApp.stateStack.pop();
-        MainApp.stateStack.push(MainApp.playState);
+//        System.out.println("PLAY button clicked");
+//        MainApp.stateStack.pop();
+//        MainApp.stateStack.push(MainApp.playState);
+
+//        MainApp.stateStack.pop();
+        MainApp.stateStack.push(new ChooseLevelState());
+
     }
 
     @FXML
@@ -75,7 +106,7 @@ public class MenuCtrl {
     @FXML
     private void onChangeAccount(ActionEvent event) {
         System.out.println("CHANGEACCOUNT button clicked");
-        MainApp.stateStack.push(MainApp.changeAccountState);
+        MainApp.stateStack.push(new ChangeAccountState());
     }
 }
 

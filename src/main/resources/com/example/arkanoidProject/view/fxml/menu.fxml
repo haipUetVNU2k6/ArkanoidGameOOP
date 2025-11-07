@@ -5,12 +5,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.example.arkanoidProject.state_controller.controller.MenuCtrl"
            stylesheets="@../css/menu.css"
            fx:id="root">
+
+    <Canvas fx:id="menuCanvas" width="700" height="800" />
 
     <VBox spacing="20" alignment="CENTER">
 
@@ -26,8 +29,8 @@
         <Button text="Start Game" fx:id="btnStart" styleClass="menu-button" onAction="#onPLay"/>
         <Button text="High Scores" fx:id="btnScores" styleClass="menu-button" onAction="#onHighScores"/>
         <Button text="Settings" fx:id="btnSettings" styleClass="menu-button" onAction="#onSettings"/>
-        <Button text="Exit" fx:id="btnExit" styleClass="menu-button" onAction="#onExit"/>
         <Button text="Change Account" fx:id="btnChangeAccount" styleClass="menu-button" onAction="#onChangeAccount"/>
+        <Button text="Exit" fx:id="btnExit" styleClass="menu-button" onAction="#onExit"/>
 
     </VBox>
 

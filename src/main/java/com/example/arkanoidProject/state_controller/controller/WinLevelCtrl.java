@@ -1,6 +1,7 @@
 package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.state_controller.state.MenuState;
 import com.example.arkanoidProject.state_controller.state.PlayState;
 import com.example.arkanoidProject.util.FireworkCanvas;
 import com.example.arkanoidProject.util.Config;
@@ -9,6 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
 public class WinLevelCtrl {
+    private int currentLevel;
+    public void setLevel(int level) {
+        this.currentLevel = level;
+    }
+
     @FXML
     private StackPane root;
 
@@ -21,14 +27,12 @@ public class WinLevelCtrl {
     @FXML
     private void onNextLevel(ActionEvent event) {
         MainApp.stateStack.pop();
-        if (!MainApp.stateStack.isEmpty() && MainApp.stateStack.peek() instanceof PlayState playState) {
-            playState.loadNextLevel();
-        }
+        MainApp.stateStack.push(new PlayState(currentLevel + 1));
     }
 
     @FXML
     private void onMenu(ActionEvent event) {
         MainApp.stateStack.clear();
-        MainApp.stateStack.push(MainApp.menuState);
+        MainApp.stateStack.push(new MenuState());
     }
 }

@@ -17,6 +17,7 @@ module Game {
 //    requires Game;
 //    requires Game;
 //    requires Game;
+//    requires Game;
     //requires Game;
 
     // Mở cho JavaFX có thể load FXML và truy cập controller

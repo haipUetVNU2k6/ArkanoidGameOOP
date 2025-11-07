@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LevelManager {
-
-    private int currentLevel = 0; // index màn hiện tại
     private final List<String> levelFiles = new ArrayList<>();
     Image brick1Image;
     Image brick2Image;
@@ -31,27 +29,20 @@ public class LevelManager {
         levelFiles.add("/com/example/arkanoidProject/levels/level3.txt");
         levelFiles.add("/com/example/arkanoidProject/levels/level4.txt");
         levelFiles.add("/com/example/arkanoidProject/levels/level5.txt");
+        levelFiles.add("/com/example/arkanoidProject/levels/level6.txt");
     }
+    /** Load màn theo chỉ số levelToLoad */
+    public List<Brick> loadLevel(int levelToLoad) {
+        if (levelToLoad <= 0 || levelToLoad > levelFiles.size()) return new ArrayList<>();
 
-    /** Load màn hiện tại */
-    public List<Brick> loadCurrentLevel() {
-        if (currentLevel < 0 || currentLevel >= levelFiles.size()) return new ArrayList<>();
-        return loadLevel(currentLevel);
-    }
-
-    /** Load màn theo chỉ số levelIndex */
-    public List<Brick> loadLevel(int levelIndex) {
-        if (levelIndex < 0 || levelIndex >= levelFiles.size()) return new ArrayList<>();
-        currentLevel = levelIndex;
-
-        String path = levelFiles.get(currentLevel);
+        String path = levelFiles.get(--levelToLoad);
         int[][] layout = readLevelFromFile(path);
 
         List<Brick> bricks = new ArrayList<>();
         int brickWidth = Config.brickWidth;
         int brickHeight = Config.brickHeight;
         int startX = 0;
-        int startY = 0;
+        int startY = Config.brickHeight; // để trống dòng đầu để ghi lives, time
 
         for (int row = 0; row < Math.min(Config.maxBrickInOneRow(), layout.length); row++) {
             for (int col = 0; col < Math.min(Config.maxBrickInOneCol(), layout[row].length); col++) {
@@ -85,24 +76,7 @@ public class LevelManager {
                 }
             }
         }
-
-        System.out.println("Loaded Level " + (currentLevel + 1));
         return bricks;
-    }
-
-    /** Chuyển sang màn tiếp theo */
-    public void nextLevel() {
-        currentLevel++;
-    }
-
-    /** Kiểm tra còn màn tiếp theo không */
-    public boolean hasNextLevel() {
-        return currentLevel < levelFiles.size();
-    }
-
-    /** Lấy index màn hiện tại */
-    public int getCurrentLevelIndex() {
-        return currentLevel;
     }
 
     /** Đọc file level thành ma trận 0,1 */
@@ -126,15 +100,5 @@ public class LevelManager {
         }
 
         return rows.toArray(new int[0][]);
-    }
-
-    /** Reset về màn đầu */
-    public void reset() {
-        currentLevel = 0;
-    }
-
-    /** Tổng số màn chơi */
-    public int getTotalLevels() {
-        return levelFiles.size();
     }
 }

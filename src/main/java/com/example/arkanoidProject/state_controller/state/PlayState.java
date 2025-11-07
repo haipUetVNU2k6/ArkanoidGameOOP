@@ -1,5 +1,6 @@
 package com.example.arkanoidProject.state_controller.state;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
@@ -9,6 +10,7 @@ import com.example.arkanoidProject.object.PowerUp.PowerUp;
 import com.example.arkanoidProject.object.PowerUp.PowerUpManager;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Config;
+import com.example.arkanoidProject.util.HealthText;
 import com.example.arkanoidProject.util.StartText;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -22,6 +24,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class PlayState extends State {
+    private HealthText healthText;
+    private int lives = 3;
+    private double timeSeconds;
+    private boolean startTime = false;
+
     private StartText startText;
 
     private PlayCtrl controller;
@@ -33,27 +40,25 @@ public class PlayState extends State {
     private PowerUpManager powerUpManager;
     private List<Brick> bricks = new ArrayList<>();
 
-
     private boolean leftPressed = false;
     private boolean rightPressed = false;
 
     private long lastTime = 0;
 
     private LevelManager levelManager;
-    private int level = 1;
 
-    private int levelToLoad;
+    private int level;
 
     private static boolean showHitBox = false;
 
 
-    public PlayState() {
+    public PlayState(int level) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/play.fxml"));
-            root = loader.load();
+            ui = loader.load();
             controller = loader.getController();
 
-            gc = controller.getGameCanvas().getGraphicsContext2D();
+            gc = controller.getPlayCanvas().getGraphicsContext2D();
 
             Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle/paddleSpriteImage.png").toExternalForm());
@@ -69,17 +74,35 @@ public class PlayState extends State {
             powerUpManager = new PowerUpManager();
 
             levelManager = new LevelManager();
-            int levelToLoad = MainApp.userManager.getCurrentUser().getLastLevel();
-            bricks = levelManager.loadLevel(levelToLoad);
+//            level = MainApp.userManager.getCurrentUser().getLastLevel();
+            this.level = level;
+            bricks = levelManager.loadLevel(level);
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, levelToLoad) ;
+        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, level);
+        healthText = new HealthText(2, 10);
 
     }
 
+    public void resetBallPaddle() {
+        Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
+        Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle/paddleSpriteImage.png").toExternalForm());
+
+        paddle = new Paddle(Config.getStartPaddleX(), Config.getStartPaddleY(), Config.paddleWidth, Config.paddleHeight,
+                paddleSprite, 8, 1, 800, 640, 0.1,
+                Config.paddleHitBoxOffsetX, Config.paddleHitBoxOffsetY, Config.paddleHitBoxW, Config.paddleHitBoxH);
+
+        ball = new Ball(Config.getStartBallX(), Config.getStartBallY(), Config.ballWidth, Config.ballHeight,
+                ballSprite, 10, 1, 880, 512, 0.1,
+                Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
+
+    }
+
+    @Override
     public void update() {
         long now = System.nanoTime();
         if (lastTime == 0) {
@@ -98,6 +121,10 @@ public class PlayState extends State {
             paddle.setDx(0);
         }
 
+        startText.update(dt);
+        if (startTime) timeSeconds += dt;
+        int timeSecondsInt = (int) timeSeconds;
+        healthText.update(lives, timeSecondsInt);
         startText.update(dt);
 
         // ======== UPDATE OBJECTS ========
@@ -129,8 +156,11 @@ public class PlayState extends State {
             ball.setDy(-ball.getDy());
         }
         if (ball.getHitBox().getMaxY() >= Config.getScreenHeight()) {
-            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Config.getScreenHeight()));
-            ball.setDy(-ball.getDy());
+//            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Config.getScreenHeight()));
+//            ball.setDy(-ball.getDy());
+            lives -= 1;
+            resetBallPaddle();
+            startTime = false;
         }
 
         Iterator<PowerUp> iterator = powerUpManager.getActivePowerUps().iterator();
@@ -230,35 +260,29 @@ public class PlayState extends State {
                 break;
             }
         }
-
         // Win level
         if (allDestroyed) {
-            MainApp.stateStack.push(MainApp.winLevelState);
-            MainApp.userManager.getCurrentUser().setLastLevel(levelToLoad + 1);
+            System.out.println("level " + level);
+            System.out.println("lastLevel " + MainApp.userManager.getCurrentUser().getLastLevel());
+            if (level == MainApp.userManager.getCurrentUser().getLastLevel()) {
+                MainApp.userManager.getCurrentUser().setLastLevel(level + 1);
+            }
             MainApp.userManager.saveUsers();
-            levelManager.nextLevel();
 
-            return;
+            if (level == 6) level = 0; //loop
+
+            MainApp.stateStack.push(new WinLevelState(level));
+            // truyền level vào WinLevelState, sau đó WLS sẽ truyền level WLCtrl để
+            // WLCtrl gọi tạo PlayState mới với level+1;
         }
     }
 
-    public void loadNextLevel() {
-        if (levelManager.hasNextLevel()) {
-            bricks = levelManager.loadCurrentLevel();
-            ball.resetPosition(300, 400);
-            paddle.setX(250);
-            level++;
-        } else {
-            System.out.println("🎉 You win all levels!");
-            MainApp.stateStack.pop();
-            MainApp.stateStack.push(MainApp.menuState);
-        }
-    }
-
+    @Override
     public void render() {
         gc.clearRect(0, 0, Config.getScreenWidth(), Config.getScreenHeight());
 
         startText.render(gc);
+        healthText.render(gc);
         ball.render(gc);
         paddle.render(gc);
         for (Brick brick : bricks) {
@@ -275,10 +299,9 @@ public class PlayState extends State {
             ball.showHitBox(gc);
             paddle.showHitBox(gc);
         }
-
-        gc.fillText("LEVEL " + level, 20, 30);
     }
 
+    @Override
     public void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.A) {
             leftPressed = true;
@@ -288,17 +311,22 @@ public class PlayState extends State {
         }
         if (event.getCode() == KeyCode.ESCAPE) {
             lastTime = 0;
-            MainApp.stateStack.push(MainApp.pauseState);
+            MainApp.stateStack.push(new PauseState());
         }
         if (event.getCode() == KeyCode.H) {
             showHitBox = !showHitBox;
         }
+
+        //phím Space bị JavaFX "ăn" mất
         if (event.getCode() == KeyCode.SPACE) {
+            System.out.println("Space pressed");
             ball.stopHolding();
             startText.hide();
+            startTime = true;
         }
     }
 
+    @Override
     public void handleKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.A) {
             leftPressed = false;
@@ -307,4 +335,5 @@ public class PlayState extends State {
             rightPressed = false;
         }
     }
+
 }

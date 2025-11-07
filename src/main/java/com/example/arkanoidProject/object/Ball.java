@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Ball extends MoveableObject {
-    private static boolean isHeld = true;
+    private boolean isHeld = true;
 
     public Ball(double x, double y, double width, double height,
                 Image spriteSheet, int columns, int rows,
@@ -54,22 +54,12 @@ public class Ball extends MoveableObject {
                     -hitBoxOffsetY - hitBox.getHeight() / 2);
 
             // 🔹 Vẽ quả bóng (sprite sheet frame hiện tại)
-//            //vì khi held thì phải cho hitbox chạm nhau nên y + 10 để render tách nhau ra
-//            if (isHeld) spriteAnimation.render(gc, 0, 10, scale, scale);
-//            else
             spriteAnimation.render(gc, 0, 0, scale, scale);
 
 
 
             gc.restore();
         }
-    }
-
-    public void resetPosition(double x, double y) {
-        this.x = x;
-        this.y = y;
-        this.dx = 0;
-        this.dy = -Math.abs(this.dy); // hoặc giá trị ban đầu
     }
 
     public boolean isHeld() {
