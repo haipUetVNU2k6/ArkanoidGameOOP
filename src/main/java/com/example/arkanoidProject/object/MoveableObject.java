@@ -5,10 +5,11 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class MoveableObject extends GameObject {
+public abstract class MoveableObject extends GameObject {
     protected double dx, dy;
     protected Rectangle2D hitBox;
     protected double hitBoxOffsetX, hitBoxOffsetY;
+    protected double hitBoxW, hitBoxH;
 
     protected SpriteAnimation spriteAnimation;
 
@@ -23,8 +24,21 @@ public class MoveableObject extends GameObject {
         this.hitBoxOffsetX = hitBoxOffsetX;
         this.hitBoxOffsetY = hitBoxOffsetY;
 
-        hitBox = new Rectangle2D(x + hitBoxOffsetX, y + hitBoxOffsetY, hitBoxW, hitBoxH);
+        this.hitBoxW = hitBoxW;
+        this.hitBoxH = hitBoxH;
 
+        hitBox = new Rectangle2D(x + hitBoxOffsetX, y + hitBoxOffsetY, hitBoxW, hitBoxH);
+    }
+
+    //Có thể chưa hợp lý?
+    public MoveableObject(double x, double y, double width, double height, double dx, double dy) {
+        super(x, y, width, height);
+        this.dx = dx;
+        this.dy = dy;
+
+        this.hitBoxW = width;
+        this.hitBoxH = height;
+        this.hitBox = new Rectangle2D(x,y,width,height);
     }
 
     @Override
@@ -40,8 +54,8 @@ public class MoveableObject extends GameObject {
         hitBox = new Rectangle2D(
                 x + hitBoxOffsetX,
                 y + hitBoxOffsetY,
-                hitBox.getWidth(),
-                hitBox.getHeight()
+                hitBoxW,
+                hitBoxH
         );
 
     }
@@ -73,4 +87,28 @@ public class MoveableObject extends GameObject {
     public double getDy() { return dy; }
     public void setDx(double dx) { this.dx = dx; }
     public void setDy(double dy) { this.dy = dy; }
+
+    public void setHitBox(Rectangle2D hitBox) {
+        this.hitBox = hitBox;
+        this.hitBoxW = hitBox.getWidth();
+        this.hitBoxH = hitBox.getHeight();
+        this.hitBoxOffsetX = hitBox.getMinX() - x;
+        this.hitBoxOffsetY = hitBox.getMinY() - y;
+    }
+
+
+    public double getHitBoxOffsetX() {
+        return hitBoxOffsetX;
+    }
+
+    public double getHitBoxOffsetY() {
+        return hitBoxOffsetY;
+    }
+
+    public void setHitBoxDimensions(double w, double h) {
+        this.hitBoxW = w;
+        this.hitBoxH = h;
+        this.hitBox = new Rectangle2D(x + hitBoxOffsetX, y + hitBoxOffsetY, hitBoxW, hitBoxH);
+    }
+
 }

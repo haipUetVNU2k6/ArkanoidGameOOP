@@ -42,4 +42,10 @@ public class Brick extends GameObject {
         health--;
         if (health == 0) destroy();
     }
+
+    @Override
+    public  void update(double dt) {}
+
+    @Override
+    public void reset() {}
 }

@@ -2,7 +2,7 @@ package com.example.arkanoidProject.object;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class GameObject {
+public abstract class GameObject {
     protected double x, y;
     protected double width, height;
 
@@ -13,9 +13,11 @@ public class GameObject {
         this.height = height;
     }
 
-    public void update(double dt) {}
+    public abstract void update(double dt);
 
-    public void render(GraphicsContext gc) {}
+    public abstract void render(GraphicsContext gc);
+
+    public abstract void reset();
 
     public double getX() { return x; }
     public double getY() { return y; }
