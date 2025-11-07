@@ -42,7 +42,7 @@ public class LevelManager {
         int brickWidth = Config.brickWidth;
         int brickHeight = Config.brickHeight;
         int startX = 0;
-        int startY = 0;
+        int startY = Config.brickHeight; // để trống dòng đầu để ghi lives, time
 
         for (int row = 0; row < Math.min(Config.maxBrickInOneRow(), layout.length); row++) {
             for (int col = 0; col < Math.min(Config.maxBrickInOneCol(), layout[row].length); col++) {

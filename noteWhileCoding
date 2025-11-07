@@ -15,3 +15,11 @@ Todo List:
 
 ----
 Next: PlayState(int level)
+
+----
+Next: lossLevelState
+Note: hiện đang có lỗi:
+    khi brick cuối cùng bị phá, chưa kịp render ảnh brick đấy mất thì đã hiện
+    winlevelState.
+
+    -> dự kiến fix: dùng flag

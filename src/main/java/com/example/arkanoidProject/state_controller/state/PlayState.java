@@ -8,6 +8,7 @@ import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Config;
+import com.example.arkanoidProject.util.HealthText;
 import com.example.arkanoidProject.util.StartText;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -20,6 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayState extends State {
+    private HealthText healthText;
+    private int lives = 3;
+    private double timeSeconds;
+    private boolean startTime = false;
+
     private StartText startText;
 
     private PlayCtrl controller;
@@ -71,7 +77,22 @@ public class PlayState extends State {
             e.printStackTrace();
         }
 
-        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, level) ;
+        startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, level);
+        healthText = new HealthText(2, 10);
+
+    }
+
+    public void resetBallPaddle() {
+        Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
+        Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle/paddleSpriteImage.png").toExternalForm());
+
+        paddle = new Paddle(Config.getStartPaddleX(), Config.getStartPaddleY(), Config.paddleWidth, Config.paddleHeight,
+                paddleSprite, 8, 1, 800, 640, 0.1,
+                Config.paddleHitBoxOffsetX, Config.paddleHitBoxOffsetY, Config.paddleHitBoxW, Config.paddleHitBoxH);
+
+        ball = new Ball(Config.getStartBallX(), Config.getStartBallY(), Config.ballWidth, Config.ballHeight,
+                ballSprite, 10, 1, 880, 512, 0.1,
+                Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
 
     }
 
@@ -94,6 +115,10 @@ public class PlayState extends State {
             paddle.setDx(0);
         }
 
+        startText.update(dt);
+        if (startTime) timeSeconds += dt;
+        int timeSecondsInt = (int) timeSeconds;
+        healthText.update(lives, timeSecondsInt);
         startText.update(dt);
 
         // ======== UPDATE OBJECTS ========
@@ -126,8 +151,11 @@ public class PlayState extends State {
             ball.setDy(-ball.getDy());
         }
         if (ball.getHitBox().getMaxY() >= Config.getScreenHeight()) {
-            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Config.getScreenHeight()));
-            ball.setDy(-ball.getDy());
+//            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Config.getScreenHeight()));
+//            ball.setDy(-ball.getDy());
+            lives -= 1;
+            resetBallPaddle();
+            startTime = false;
         }
 
         // ======== BALL - PADDLE COLLISION ========
@@ -230,6 +258,7 @@ public class PlayState extends State {
         gc.clearRect(0, 0, Config.getScreenWidth(), Config.getScreenHeight());
 
         startText.render(gc);
+        healthText.render(gc);
         ball.render(gc);
         paddle.render(gc);
         for (Brick brick : bricks) {
@@ -240,8 +269,6 @@ public class PlayState extends State {
             ball.showHitBox(gc);
             paddle.showHitBox(gc);
         }
-
-        gc.fillText("LEVEL " + level, 20, 30);
     }
 
     @Override
@@ -265,6 +292,7 @@ public class PlayState extends State {
             System.out.println("Space pressed");
             ball.stopHolding();
             startText.hide();
+            startTime = true;
         }
     }
 
