@@ -22,7 +22,7 @@ import java.util.List;
 
 public class PlayState extends State {
     private HealthText healthText;
-    private int lives = 3;
+    private int lives = Config.getLives();
     private double timeSeconds;
     private boolean startTime = false;
 
@@ -238,8 +238,6 @@ public class PlayState extends State {
         }
         // Win level
         if (allDestroyed) {
-            System.out.println("level " + level);
-            System.out.println("lastLevel " + MainApp.userManager.getCurrentUser().getLastLevel());
             if (level == MainApp.userManager.getCurrentUser().getLastLevel()) {
                 MainApp.userManager.getCurrentUser().setLastLevel(level + 1);
             }
@@ -251,6 +249,12 @@ public class PlayState extends State {
             // truyền level vào WinLevelState, sau đó WLS sẽ truyền level WLCtrl để
             // WLCtrl gọi tạo PlayState mới với level+1;
         }
+
+        // ======== CHECK LOSE ========
+        if (lives == 0) {
+            MainApp.stateStack.push(new LoseLevelState(level));
+        }
+
     }
 
     @Override

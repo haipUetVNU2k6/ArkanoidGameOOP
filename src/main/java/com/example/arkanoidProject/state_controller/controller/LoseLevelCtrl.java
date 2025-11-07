@@ -5,11 +5,12 @@ import com.example.arkanoidProject.state_controller.state.MenuState;
 import com.example.arkanoidProject.state_controller.state.PlayState;
 import com.example.arkanoidProject.util.FireworkCanvas;
 import com.example.arkanoidProject.util.Config;
+import com.example.arkanoidProject.util.RainCanvas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class WinLevelCtrl {
+public class LoseLevelCtrl {
     private int currentLevel;
     public void setLevel(int level) {
         this.currentLevel = level;
@@ -19,21 +20,13 @@ public class WinLevelCtrl {
     private StackPane root;
 
     public void initialize(){
-        // Firework background
-        FireworkCanvas fireworkCanvas = new FireworkCanvas(Config.getScreenWidth(), Config.getScreenHeight());
-        root.getChildren().add(0, fireworkCanvas);
-    }
-
-    @FXML
-    private void onNextLevel(ActionEvent event) {
-        MainApp.stateStack.pop();
-        MainApp.stateStack.push(new PlayState(currentLevel + 1));
+        RainCanvas rainCanvas = new RainCanvas(Config.getScreenWidth(), Config.getScreenHeight());
+        root.getChildren().add(0, rainCanvas);
     }
 
     @FXML
     private void onRestart(ActionEvent event) {
         MainApp.stateStack.pop();
-        if (currentLevel == 0) currentLevel = 6;
         MainApp.stateStack.push(new PlayState(currentLevel));
     }
 

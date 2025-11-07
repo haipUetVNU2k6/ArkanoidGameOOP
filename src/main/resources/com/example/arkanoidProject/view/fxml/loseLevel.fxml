@@ -6,8 +6,8 @@
 <?import javafx.scene.text.Text?>
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.example.arkanoidProject.state_controller.controller.WinLevelCtrl"
-           stylesheets="@../css/winLevel.css"
+           fx:controller="com.example.arkanoidProject.state_controller.controller.LoseLevelCtrl"
+           stylesheets="@../css/loseLevel.css"
            fx:id="root">
 
     <!-- Background overlay tối -->
@@ -18,11 +18,10 @@
         <!-- Các nút và tiêu đề -->
         <VBox spacing="30" alignment="CENTER">
 
-            <Text text="YOU WIN!!!" styleClass="winLevel-title"/>
+            <Text text="YOU LOSE :((" styleClass="loseLevel-title"/>
 
-            <Button text="Next Level" fx:id="btnNextLevel" styleClass="winLevel-button" onAction="#onNextLevel"/>
-            <Button text="Restart" fx:id="btnRestart" styleClass="winLevel-button" onAction="#onRestart"/>
-            <Button text="Menu" fx:id="btnMenu" styleClass="winLevel-button" onAction="#onMenu"/>
+            <Button text="Try Again" fx:id="btnRestart" styleClass="loseLevel-button" onAction="#onRestart"/>
+            <Button text="Menu" fx:id="btnMenu" styleClass="loseLevel-button" onAction="#onMenu"/>
 
         </VBox>
     </StackPane>
