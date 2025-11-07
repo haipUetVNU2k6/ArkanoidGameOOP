@@ -19,15 +19,15 @@ public class ShrinkPaddlePowerUp extends PowerUp{
 
     @Override
     public void applyEffect(Paddle paddle) {
-        double newPaddleWidth  = paddle.getWidth() * 0.7;
-        paddle.setWidth(newPaddleWidth);
-        paddle.setHitBox(new Rectangle2D(paddle.getX() ,
-                paddle.getY(),newPaddleWidth, paddle.getHeight() ));
+        double newVisualWidth  = paddle.getWidth() * 0.5;
+        paddle.setWidth(newVisualWidth);
+        double newHitBoxW  = paddle.getHitBox().getWidth() * 0.5;
+        paddle.setHitBox(new Rectangle2D(paddle.getX() +  Config.paddleHitBoxOffsetX,
+                paddle.getY() + Config.paddleHitBoxOffsetY,newHitBoxW, paddle.getHitBox().getHeight() ));
     }
 
     @Override
     public void removeEffect(Paddle paddle) {
-        System.out.println("in here.");
         paddle.setWidth(Config.paddleWidth);
         paddle.setHeight(Config.paddleHeight);
         paddle.setHitBox(new Rectangle2D(paddle.getX() + Config.paddleHitBoxOffsetX,

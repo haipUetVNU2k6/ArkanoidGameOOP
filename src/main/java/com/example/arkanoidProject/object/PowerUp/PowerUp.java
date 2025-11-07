@@ -20,7 +20,7 @@ public abstract class PowerUp extends MoveableObject {
      */
     public PowerUp(double x, double y, double width, double height,int duration) {
         // dy = ?
-        super(x, y, width, height,0, 5);
+        super(x, y, width, height,0, 150);
         this.duration = duration;
     }
 
@@ -41,13 +41,8 @@ public abstract class PowerUp extends MoveableObject {
 
     @Override
     public void update(double dt) {
-       // if(getY() > Config.getScreenHeight())
-        setY(getY() + getDy());
-        hitBox = new Rectangle2D(
-                getX() ,
-                getY() ,
-                getWidth(),
-                getHeight()
-        );
+        setY(getY() + getDy() * dt);
+        setHitBox(new Rectangle2D(getX(), getY(), getWidth(), getHeight()));
     }
+
 }

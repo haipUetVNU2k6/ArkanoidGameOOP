@@ -22,7 +22,7 @@ public class PowerUpManager {
         // Schedule việc remove effect sau duration giây
         scheduler.schedule(() -> {
             powerUp.removeEffect(paddle);
-            activePowerUps.remove(powerUp);
+           // activePowerUps.remove(powerUp);
         }, powerUp.getDuration(), TimeUnit.SECONDS);
     }
 

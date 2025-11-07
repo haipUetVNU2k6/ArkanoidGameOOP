@@ -39,6 +39,7 @@ public class Paddle extends MoveableObject {
         // Giới hạn di chuyển trong màn hình
         if (x < 0) x = 0;
         if (x + width > Config.getScreenWidth()) x = Config.getScreenWidth() - width;
+        System.out.println(getWidth());
     }
 
     @Override
