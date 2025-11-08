@@ -2,6 +2,7 @@ package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.state_controller.state.ChangeAccountState;
 import com.example.arkanoidProject.state_controller.state.ChooseLevelState;
+import com.example.arkanoidProject.state_controller.state.HighScoreState;
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.ParticleCanvas;
 import com.example.arkanoidProject.MainApp;
@@ -90,6 +91,7 @@ public class MenuCtrl {
     @FXML
     private void onHighScores(ActionEvent event) {
         System.out.println("SETTING button clicked");
+        MainApp.stateStack.push(new HighScoreState());
     }
 
     @FXML

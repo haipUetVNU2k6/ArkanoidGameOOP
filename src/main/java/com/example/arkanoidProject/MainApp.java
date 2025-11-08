@@ -47,6 +47,12 @@ public class MainApp extends Application {
         primaryStage.setResizable(false);
         primaryStage.centerOnScreen();
 
+        // Ép Scene luôn nhận phím khi click vào
+        // tránh space bị javafx "ăn"
+        scene.setOnMouseClicked(e -> root.requestFocus());
+        root.requestFocus();
+        root.setFocusTraversable(true);
+
 
         // Bắt đầu với MenuState
         stateStack.push(new MenuState());

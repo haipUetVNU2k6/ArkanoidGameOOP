@@ -23,3 +23,10 @@ Note: hiện đang có lỗi:
     winlevelState.
 
     -> dự kiến fix: dùng flag
+
+đề xuất: update win level: in case newRecord
+
+----
+high score
+    1. lưu mảng điểm
+    2, in ra dưới dạng bảng

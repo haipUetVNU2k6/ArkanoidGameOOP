@@ -1,6 +1,10 @@
 package com.example.arkanoidProject.util;
 
 public class Config {
+    private static int lives = 1;
+    public static int getLives() {
+        return lives;
+    }
 
     // ====== SCREEN ======
     private static int screenWidth = 700;
