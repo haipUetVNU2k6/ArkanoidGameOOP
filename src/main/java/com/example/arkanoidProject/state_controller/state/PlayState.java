@@ -243,8 +243,6 @@ public class PlayState extends State {
             }
             MainApp.userManager.saveUsers();
 
-            if (level == 6) level = 0; //loop
-
             MainApp.stateStack.push(new WinLevelState(level));
             // truyền level vào WinLevelState, sau đó WLS sẽ truyền level WLCtrl để
             // WLCtrl gọi tạo PlayState mới với level+1;

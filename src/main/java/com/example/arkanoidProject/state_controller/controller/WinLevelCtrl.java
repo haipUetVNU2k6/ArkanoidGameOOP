@@ -27,13 +27,12 @@ public class WinLevelCtrl {
     @FXML
     private void onNextLevel(ActionEvent event) {
         MainApp.stateStack.pop();
-        MainApp.stateStack.push(new PlayState(currentLevel + 1));
+        MainApp.stateStack.push(new PlayState(currentLevel % 6 + 1));
     }
 
     @FXML
     private void onRestart(ActionEvent event) {
         MainApp.stateStack.pop();
-        if (currentLevel == 0) currentLevel = 6;
         MainApp.stateStack.push(new PlayState(currentLevel));
     }
 
