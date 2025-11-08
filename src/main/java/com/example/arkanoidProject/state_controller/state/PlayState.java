@@ -6,6 +6,8 @@ import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
+import com.example.arkanoidProject.sound.SoundEffect;
+import com.example.arkanoidProject.sound.SoundManager;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.HealthText;
@@ -16,8 +18,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PlayState extends State {
@@ -25,11 +29,8 @@ public class PlayState extends State {
     private int lives = Config.getLives();
     private double timeSeconds;
     private boolean startTime = false;
-
     private StartText startText;
-
     private PlayCtrl controller;
-
     private GraphicsContext gc;
 
     private Ball ball;
@@ -46,7 +47,6 @@ public class PlayState extends State {
     private int level;
 
     private static boolean showHitBox = false;
-
 
     public PlayState(int level) {
         try {
@@ -73,13 +73,13 @@ public class PlayState extends State {
             bricks = levelManager.loadLevel(level);
 
 
+            SoundManager.loopSound(SoundEffect.GAME_LOOP);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, level);
         healthText = new HealthText(2, 10);
-
     }
 
     public void resetBallPaddle() {
@@ -93,7 +93,6 @@ public class PlayState extends State {
         ball = new Ball(Config.getStartBallX(), Config.getStartBallY(), Config.ballWidth, Config.ballHeight,
                 ballSprite, 10, 1, 880, 512, 0.1,
                 Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
-
     }
 
     @Override
@@ -106,14 +105,10 @@ public class PlayState extends State {
         double dt = (now - lastTime) / 1_000_000_000.0;
         lastTime = now;
 
-        // ======== INPUT ========
-        if (leftPressed) {
-            paddle.setDx(-400);
-        } else if (rightPressed) {
-            paddle.setDx(400);
-        } else {
-            paddle.setDx(0);
-        }
+
+        if (leftPressed) paddle.setDx(-400);
+        else if (rightPressed) paddle.setDx(400);
+        else paddle.setDx(0);
 
         startText.update(dt);
         if (startTime) timeSeconds += dt;
@@ -129,13 +124,6 @@ public class PlayState extends State {
             ball.setX(ball.getX() + (paddle.getX() - oldPaddleX));
         } else ball.update(dt);
 
-
-//        System.out.println(
-//                Math.round(Config.getScreenWidth()) + " " +
-//                        Math.round(Config.getScreenHeight()) + " " +
-//                        Math.round(ball.getHitBox().getMinX()) + " " +
-//                        Math.round(ball.getHitBox().getMinY())
-//        );
 
         // ======== BALL - WALL COLLISION ========
         if (ball.getHitBox().getMinX() <= 0) {
@@ -156,10 +144,13 @@ public class PlayState extends State {
             lives -= 1;
             resetBallPaddle();
             startTime = false;
+            SoundManager.playSound(SoundEffect.BALL_LOST);
         }
 
         // ======== BALL - PADDLE COLLISION ========
         if (ball.getHitBox().intersects(paddle.getHitBox())) {
+            SoundManager.playSound(SoundEffect.BALL_PADDLE);
+
             double ballCenterX = ball.getHitBox().getMinX() + ball.getHitBox().getWidth() / 2;
             double ballCenterY = ball.getHitBox().getMinY() + ball.getHitBox().getHeight() / 2;
             double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
@@ -168,9 +159,10 @@ public class PlayState extends State {
             // Hệ số multiple dùng để tăng tốc ball.
             ball.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
             ball.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
+
         }
 
-        // ======== BALL - BRICK COLLISION ========
+        // ======== BALL - BRICK COLLISION =======
 
         // lý do dùng overlap thay cho intersect là gì, intersect chỉ trả về true/false
         // ko biết được hướng đến của ball từ đâu để tính dx, dy phản xạ
@@ -179,6 +171,8 @@ public class PlayState extends State {
             if (brick.isDestroyed()) continue;
 
             Rectangle2D brickBox = new Rectangle2D(brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
+
+            SoundManager.playSound(SoundEffect.BALL_BRICK);
 
             if (!ballBox.intersects(brickBox)) continue;
 
@@ -232,12 +226,17 @@ public class PlayState extends State {
         boolean allDestroyed = true;
         for (Brick brick : bricks) {
             if (!brick.isDestroyed()) {
+
                 allDestroyed = false;
                 break;
-            }
+            } else SoundManager.playSound(SoundEffect.BRICK_DESTROY);
+
         }
         // Win level
         if (allDestroyed) {
+            SoundManager.stopSound(SoundEffect.GAME_LOOP);
+            SoundManager.playSound(SoundEffect.GAME_WIN);
+
             if (level == MainApp.userManager.getCurrentUser().getLastLevel()) {
                 MainApp.userManager.getCurrentUser().setLastLevel(level + 1);
             }
@@ -295,6 +294,7 @@ public class PlayState extends State {
 
         //phím Space bị JavaFX "ăn" mất
         if (event.getCode() == KeyCode.SPACE) {
+            SoundManager.playSound(SoundEffect.BUTTON_CLICK);
             System.out.println("Space pressed");
             ball.stopHolding();
             startText.hide();
@@ -304,12 +304,8 @@ public class PlayState extends State {
 
     @Override
     public void handleKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.A) {
-            leftPressed = false;
-        }
-        if (event.getCode() == KeyCode.D) {
-            rightPressed = false;
-        }
+        if (event.getCode() == KeyCode.A) leftPressed = false;
+        if (event.getCode() == KeyCode.D) rightPressed = false;
     }
 
 }

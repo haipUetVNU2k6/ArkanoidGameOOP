@@ -2,6 +2,7 @@ package com.example.arkanoidProject.object;
 
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.SpriteAnimation;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
@@ -38,5 +39,18 @@ public class Paddle extends MoveableObject {
         // Giới hạn di chuyển trong màn hình
         if (x < 0) x = 0;
         if (x + width > Config.getScreenWidth()) x = Config.getScreenWidth() - width;
+        System.out.println(getWidth());
+    }
+
+    @Override
+    public void reset() {
+
+        setX(Config.getStartPaddleX());
+        setY(Config.getStartPaddleY());
+        setWidth(Config.paddleWidth);
+        setHeight(Config.paddleHeight);
+        setHitBox(new Rectangle2D(getX() + Config.paddleHitBoxOffsetX,
+                getY() + Config.paddleHitBoxOffsetY,
+                Config.paddleHitBoxW, Config.paddleHitBoxH));
     }
 }

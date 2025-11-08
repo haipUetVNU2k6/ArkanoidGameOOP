@@ -69,4 +69,12 @@ public class Ball extends MoveableObject {
     public void stopHolding() {
         isHeld = false;
     }
+
+    @Override
+    public void reset() {
+        setX(Config.getStartBallX());
+        setY(Config.getStartBallY());
+        setWidth(Config.ballWidth);
+        setHeight(Config.ballHeight);
+    }
 }
