@@ -13,6 +13,11 @@ module Game {
     requires java.desktop;
     requires jdk.compiler;
     requires com.google.gson;
+    requires javafx.media;
+//    requires Game;
+//    requires Game;
+//    requires Game;
+//    requires Game; // <--- thêm dòng này
 //    requires Game;
 //    requires Game;
 //    requires Game;

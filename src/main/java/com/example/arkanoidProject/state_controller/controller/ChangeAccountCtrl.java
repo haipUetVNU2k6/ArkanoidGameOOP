@@ -104,6 +104,8 @@
 package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.audio.SoundManager;
+import com.example.arkanoidProject.audio.SoundType;
 import com.example.arkanoidProject.userAccount.User;
 import com.example.arkanoidProject.userAccount.UserManager;
 import javafx.fxml.FXML;
@@ -147,6 +149,8 @@ public class ChangeAccountCtrl {
 
     @FXML
     private void onSwitch() {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         String username = userComboBox.getValue();
         if (username != null) {
             Optional<User> selected = userManager.getUsers().stream()
@@ -162,6 +166,8 @@ public class ChangeAccountCtrl {
 
     @FXML
     private void onCreate() {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         String name = newAccountTextField.getText().trim();
         if (name.isEmpty()) {
             messageLabel.setText("Username cannot be empty!");
@@ -183,6 +189,8 @@ public class ChangeAccountCtrl {
 
     @FXML
     private void onDelete() {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         String username = userComboBox.getValue();
         if (username == null) {
             messageLabel.setText("No user selected!");
@@ -199,6 +207,8 @@ public class ChangeAccountCtrl {
 
     @FXML
     private void onBack() {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         // Quay lại màn hình trước, ví dụ:
         MainApp.stateStack.pop();
     }

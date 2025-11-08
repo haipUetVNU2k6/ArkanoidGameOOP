@@ -54,6 +54,8 @@ public class PlayState extends State {
             ui = loader.load();
             controller = loader.getController();
 
+            controller.setLevel(level);
+
             gc = controller.getPlayCanvas().getGraphicsContext2D();
 
             Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
@@ -287,7 +289,7 @@ public class PlayState extends State {
         }
         if (event.getCode() == KeyCode.ESCAPE) {
             lastTime = 0;
-            MainApp.stateStack.push(new PauseState());
+            MainApp.stateStack.push(new PauseState(level));
         }
         if (event.getCode() == KeyCode.H) {
             showHitBox = !showHitBox;

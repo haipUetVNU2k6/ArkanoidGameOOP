@@ -1,8 +1,11 @@
 package com.example.arkanoidProject.state_controller.controller;
 
+import com.example.arkanoidProject.audio.SoundManager;
+import com.example.arkanoidProject.audio.SoundType;
 import com.example.arkanoidProject.state_controller.state.ChangeAccountState;
 import com.example.arkanoidProject.state_controller.state.ChooseLevelState;
 import com.example.arkanoidProject.state_controller.state.HighScoreState;
+import com.example.arkanoidProject.state_controller.state.SettingsState;
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.ParticleCanvas;
 import com.example.arkanoidProject.MainApp;
@@ -69,44 +72,44 @@ public class MenuCtrl {
         }
         jitter.setCycleCount(Animation.INDEFINITE);
         jitter.play();
-
-
-
-
-        // Bạn có thể thêm xử lý sự kiện ở đây hoặc trong phương thức riêng
     }
 
 
     @FXML
     private void onPLay(ActionEvent event) {
-//        System.out.println("PLAY button clicked");
-//        MainApp.stateStack.pop();
-//        MainApp.stateStack.push(MainApp.playState);
+        SoundManager.getInstance().play(SoundType.CLICK);
 
-//        MainApp.stateStack.pop();
         MainApp.stateStack.push(new ChooseLevelState());
 
     }
 
     @FXML
     private void onHighScores(ActionEvent event) {
-        System.out.println("SETTING button clicked");
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         MainApp.stateStack.push(new HighScoreState());
     }
 
     @FXML
     private void onSettings(ActionEvent event) {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         System.out.println("SETTING button clicked");
+        MainApp.stateStack.push(new SettingsState());
     }
 
     @FXML
     private void onExit(ActionEvent event) {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         System.out.println("EXIT button clicked");
         System.exit(0);
     }
 
     @FXML
     private void onChangeAccount(ActionEvent event) {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         System.out.println("CHANGEACCOUNT button clicked");
         MainApp.stateStack.push(new ChangeAccountState());
     }

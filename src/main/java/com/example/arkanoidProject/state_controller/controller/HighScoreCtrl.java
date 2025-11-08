@@ -1,6 +1,8 @@
 package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.audio.SoundManager;
+import com.example.arkanoidProject.audio.SoundType;
 import com.example.arkanoidProject.state_controller.state.HighScoreState;
 import com.example.arkanoidProject.userAccount.User;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -40,12 +42,7 @@ public class HighScoreCtrl {
     @FXML
     private TableColumn<UserScore, Number> level6Column;
 
-    private HighScoreState state;
     private ObservableList<UserScore> scoreData;
-
-    public void setState(HighScoreState state) {
-        this.state = state;
-    }
 
     @FXML
     public void initialize() {
@@ -71,6 +68,11 @@ public class HighScoreCtrl {
             FXCollections.sort(tv.getItems(), tv.getComparator());
             return true;
         });
+
+        scoreTable.getSortOrder().addListener((javafx.collections.ListChangeListener<? super TableColumn<UserScore, ?>>) change -> {
+            SoundManager.getInstance().play(SoundType.CLICK);
+        });
+
     }
 
     private void setupCellFactory(TableColumn<UserScore, Number> column) {
@@ -163,7 +165,8 @@ public class HighScoreCtrl {
 
     @FXML
     private void onBackToMenu() {
-        state.backToMenu();
+        SoundManager.getInstance().play(SoundType.CLICK);
+        MainApp.stateStack.pop();
     }
 
     public void handleKeyPressed(KeyEvent event) {

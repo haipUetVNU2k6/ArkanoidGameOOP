@@ -1,5 +1,6 @@
 package com.example.arkanoidProject;
 
+import com.example.arkanoidProject.audio.SoundManager;
 import com.example.arkanoidProject.state_controller.state.*;
 import com.example.arkanoidProject.userAccount.User;
 import com.example.arkanoidProject.userAccount.UserManager;
@@ -27,6 +28,11 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) {
         primaryStage = stage;
+
+        SoundManager.getInstance().initialize();
+
+        // Bật nhạc nền
+        SoundManager.getInstance().playBackgroundMusic();
 
         // Nếu chưa có user nào, tạo user mặc định
         if (userManager.getUsers().isEmpty()) {
@@ -82,6 +88,11 @@ public class MainApp extends Application {
         }.start();
     }
 
+    @Override
+    public void stop() {
+        // Cleanup khi thoát
+        SoundManager.getInstance().dispose();
+    }
 
     public static void main(String[] args) {
         launch(args);

@@ -1,6 +1,8 @@
 package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.audio.SoundManager;
+import com.example.arkanoidProject.audio.SoundType;
 import com.example.arkanoidProject.state_controller.state.ChooseLevelState;
 import com.example.arkanoidProject.state_controller.state.PlayState;
 import javafx.fxml.FXML;
@@ -67,6 +69,8 @@ public class ChooseLevelCtrl {
     }
 
     private void onSelectLevel(int level) {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         System.out.println("Selected Level: " + level);
         MainApp.stateStack.push(new PlayState(level));
     }

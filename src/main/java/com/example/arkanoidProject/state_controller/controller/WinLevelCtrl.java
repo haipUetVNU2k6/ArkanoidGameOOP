@@ -1,6 +1,8 @@
 package com.example.arkanoidProject.state_controller.controller;
 
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.audio.SoundManager;
+import com.example.arkanoidProject.audio.SoundType;
 import com.example.arkanoidProject.state_controller.state.MenuState;
 import com.example.arkanoidProject.state_controller.state.PlayState;
 import com.example.arkanoidProject.util.FireworkCanvas;
@@ -26,18 +28,24 @@ public class WinLevelCtrl {
 
     @FXML
     private void onNextLevel(ActionEvent event) {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         MainApp.stateStack.pop();
         MainApp.stateStack.push(new PlayState(currentLevel % 6 + 1));
     }
 
     @FXML
     private void onRestart(ActionEvent event) {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         MainApp.stateStack.pop();
         MainApp.stateStack.push(new PlayState(currentLevel));
     }
 
     @FXML
     private void onMenu(ActionEvent event) {
+        SoundManager.getInstance().play(SoundType.CLICK);
+
         MainApp.stateStack.clear();
         MainApp.stateStack.push(new MenuState());
     }

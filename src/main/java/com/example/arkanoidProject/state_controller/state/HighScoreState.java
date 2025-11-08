@@ -17,7 +17,6 @@ public class HighScoreState extends State {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/arkanoidProject/view/fxml/highScore.fxml"));
             root = loader.load();
             controller = loader.getController();
-            controller.setState(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
