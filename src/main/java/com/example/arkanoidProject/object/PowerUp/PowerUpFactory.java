@@ -4,7 +4,7 @@ import com.example.arkanoidProject.util.Config;
 
 import java.util.Random;
 
-public class PowerUpFactory {
+public abstract class PowerUpFactory {
     private static final Random random = new Random();
 
     // Tạo power-up ngẫu nhiên

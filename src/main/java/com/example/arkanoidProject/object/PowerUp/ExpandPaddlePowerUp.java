@@ -1,5 +1,6 @@
 package com.example.arkanoidProject.object.PowerUp;
 
+import com.example.arkanoidProject.object.MoveableObject;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.util.Config;
 import javafx.geometry.Rectangle2D;
@@ -12,35 +13,45 @@ public class ExpandPaddlePowerUp extends PowerUp{
     }
 
     @Override
-    public void applyEffect(Paddle paddle) {
-        double oldWidth = paddle.getWidth();
-        double newPaddleWidth = oldWidth * 1.3;
+    public void applyEffect(MoveableObject moveableObject) {
+        if(moveableObject instanceof Paddle) {
+            Paddle paddle = (Paddle) moveableObject;
+            double oldWidth = paddle.getWidth();
+            double newPaddleWidth = oldWidth * 1.3;
 
-        double centerX = paddle.getX() + oldWidth / 2.0;
-        double newX = centerX - newPaddleWidth / 2.0;
-        paddle.setX(Math.max(0, Math.min(newX, Config.getScreenWidth() - newPaddleWidth)));
+            double centerX = paddle.getX() + oldWidth / 2.0;
+            double newX = centerX - newPaddleWidth / 2.0;
+            paddle.setX(Math.max(0, Math.min(newX, Config.getScreenWidth() - newPaddleWidth)));
 
-        paddle.setWidth(newPaddleWidth);
+            paddle.setWidth(newPaddleWidth);
 
 
-        paddle.setHitBox(new Rectangle2D(paddle.getX() + paddle.getHitBoxOffsetX(),
-                paddle.getY() + paddle.getHitBoxOffsetY(),
-                newPaddleWidth, paddle.getHeight()));
+            paddle.setHitBox(new Rectangle2D(paddle.getX() + paddle.getHitBoxOffsetX(),
+                    paddle.getY() + paddle.getHitBoxOffsetY(),
+                    newPaddleWidth, paddle.getHeight()));
+        }
+        else {
+            return;
+        }
+
 
     }
 
     @Override
-    public void removeEffect(Paddle paddle) {
+    public void removeEffect(MoveableObject moveableObject) {
 
-        double oldCenterX = paddle.getX() + paddle.getWidth() / 2.0;
-        paddle.setWidth(Config.paddleWidth);
-        paddle.setHeight(Config.paddleHeight);
-        double newX = oldCenterX - Config.paddleWidth / 2.0;
-        paddle.setX(Math.max(0, Math.min(newX, Config.getScreenWidth() - Config.paddleWidth)));
+        if(moveableObject instanceof Paddle) {
+            Paddle paddle = (Paddle) moveableObject;
+            double oldCenterX = paddle.getX() + paddle.getWidth() / 2.0;
+            paddle.setWidth(Config.paddleWidth);
+            paddle.setHeight(Config.paddleHeight);
+            double newX = oldCenterX - Config.paddleWidth / 2.0;
+            paddle.setX(Math.max(0, Math.min(newX, Config.getScreenWidth() - Config.paddleWidth)));
 
-        paddle.setHitBox(new Rectangle2D(paddle.getX() + Config.paddleHitBoxOffsetX,
-                paddle.getY() + Config.paddleHitBoxOffsetY,
-                Config.paddleHitBoxW, Config.paddleHitBoxH));
+            paddle.setHitBox(new Rectangle2D(paddle.getX() + Config.paddleHitBoxOffsetX,
+                    paddle.getY() + Config.paddleHitBoxOffsetY,
+                    Config.paddleHitBoxW, Config.paddleHitBoxH));
+        }
     }
 
 

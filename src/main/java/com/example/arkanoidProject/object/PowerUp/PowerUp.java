@@ -24,9 +24,9 @@ public abstract class PowerUp extends MoveableObject {
         this.duration = duration;
     }
 
-    public abstract void applyEffect(Paddle paddle);
+    public abstract void applyEffect(MoveableObject moveableObject);
 
-    public abstract void removeEffect(Paddle paddle);
+    public abstract void removeEffect(MoveableObject moveableObject);
 
     public int getDuration() {
         return duration;
