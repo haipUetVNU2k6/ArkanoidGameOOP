@@ -1,4 +1,4 @@
 package com.example.arkanoidProject.state_controller.state;
 
-public class LossLevelState {
+public class LossLevelState extends State {
 }

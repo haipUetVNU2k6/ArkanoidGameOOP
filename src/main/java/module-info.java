@@ -13,7 +13,7 @@ module Game {
     requires java.desktop;
     requires jdk.compiler;
     requires com.google.gson;
-
+    requires javafx.media;
 
     // Mở cho JavaFX có thể load FXML và truy cập controller
     opens com.example.arkanoidProject.state_controller.controller to javafx.fxml;
