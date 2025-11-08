@@ -248,6 +248,10 @@ public class PlayState extends State {
             MainApp.stateStack.push(new WinLevelState(level));
             // truyền level vào WinLevelState, sau đó WLS sẽ truyền level WLCtrl để
             // WLCtrl gọi tạo PlayState mới với level+1;
+
+            if (timeSecondsInt < MainApp.userManager.getCurrentUser().getLevelResult(level)){
+                MainApp.userManager.getCurrentUser().setLevelResult(level, timeSecondsInt);
+            }
         }
 
         // ======== CHECK LOSE ========
