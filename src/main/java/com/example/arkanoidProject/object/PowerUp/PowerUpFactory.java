@@ -16,10 +16,14 @@ public abstract class PowerUpFactory {
     // Tạo power-up theo type cụ thể
     public static PowerUp createPowerUp(Config.PowerUpType type, double x, double y, double width, double height) {
         switch(type) {
-            case EXPAND_PADDLE:
-                return new ExpandPaddlePowerUp(x, y, width, height, 10); // 10 giây
-            case SHRINK_PADDLE:
-                return new ShrinkPaddlePowerUp(x, y, width, height, 8);
+//            case EXPAND_PADDLE:
+//                return new ExpandPaddlePowerUp(x, y, width, height, 10); // 10 giây
+//            case SHRINK_PADDLE:
+//                return new ShrinkPaddlePowerUp(x, y, width, height, 8);
+//            case MULTI_BALL:
+//                return new MultiBallPowerUp(x, y, width, height,100);
+            case MAGNET:
+                return new MagnetPowerUp(x, y, width, height,10);
             default:
                 return null;
         }

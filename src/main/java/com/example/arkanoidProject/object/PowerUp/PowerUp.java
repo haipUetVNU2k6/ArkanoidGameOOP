@@ -1,8 +1,6 @@
 package com.example.arkanoidProject.object.PowerUp;
 
-import com.example.arkanoidProject.object.GameObject;
-import com.example.arkanoidProject.object.MoveableObject;
-import com.example.arkanoidProject.object.Paddle;
+import com.example.arkanoidProject.object.*;
 import com.example.arkanoidProject.util.Config;
 import javafx.geometry.Rectangle2D;
 
@@ -24,9 +22,9 @@ public abstract class PowerUp extends MoveableObject {
         this.duration = duration;
     }
 
-    public abstract void applyEffect(MoveableObject moveableObject);
+    public abstract void applyEffect(Paddle paddle, BallManager ballManager);
 
-    public abstract void removeEffect(MoveableObject moveableObject);
+    public abstract void removeEffect(Paddle paddle, BallManager ballManager);
 
     public int getDuration() {
         return duration;

@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class Paddle extends MoveableObject {
     private Set<KeyCode> keysPressed = new HashSet<>();
-
+    private boolean holdingBall = false;
     private double speed = Config.paddleSpeed;
 
     public Paddle(double x, double y, double width, double height,
@@ -52,5 +52,13 @@ public class Paddle extends MoveableObject {
         setHitBox(new Rectangle2D(getX() + Config.paddleHitBoxOffsetX,
                 getY() + Config.paddleHitBoxOffsetY,
                 Config.paddleHitBoxW, Config.paddleHitBoxH));
+    }
+
+    public boolean isHoldingBall() {
+        return holdingBall;
+    }
+
+    public void setHoldingBall(boolean holdingBall) {
+        this.holdingBall = holdingBall;
     }
 }

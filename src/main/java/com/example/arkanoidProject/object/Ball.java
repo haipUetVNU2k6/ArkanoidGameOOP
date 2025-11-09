@@ -27,6 +27,13 @@ public class Ball extends MoveableObject {
         this.dy = Config.startBallDy;
     }
 
+    public Ball(Ball other,double dx, double dy) {
+        super(other.x, other.y, other.width, other.height,
+                other.spriteAnimation, Config.ballHitBoxOffsetX,
+                Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
+        this.dx = dx;
+        this.dy = dy;
+    }
     @Override
     public void render(GraphicsContext gc) {
         if (spriteAnimation != null) {
@@ -68,6 +75,10 @@ public class Ball extends MoveableObject {
 
     public void stopHolding() {
         isHeld = false;
+    }
+
+    public void setHeld(boolean held) {
+        isHeld = held;
     }
 
     @Override

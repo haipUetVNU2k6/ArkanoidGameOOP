@@ -1,5 +1,7 @@
 package com.example.arkanoidProject.object.PowerUp;
 
+import com.example.arkanoidProject.object.Ball;
+import com.example.arkanoidProject.object.BallManager;
 import com.example.arkanoidProject.object.MoveableObject;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.util.Config;
@@ -19,28 +21,25 @@ public class ShrinkPaddlePowerUp extends PowerUp{
     }
 
     @Override
-    public void applyEffect(MoveableObject moveableObject) {
-        if(moveableObject instanceof Paddle) {
-            Paddle paddle = (Paddle) moveableObject;
+    public void applyEffect(Paddle paddle, BallManager ballManager) {
+
+
             double newVisualWidth  = paddle.getWidth() * 0.5;
             paddle.setWidth(newVisualWidth);
             double newHitBoxW  = paddle.getHitBox().getWidth() * 0.5;
             paddle.setHitBox(new Rectangle2D(paddle.getX() +  Config.paddleHitBoxOffsetX,
                     paddle.getY() + Config.paddleHitBoxOffsetY,newHitBoxW, paddle.getHitBox().getHeight() ));
-        }
+
 
     }
 
     @Override
-    public void removeEffect(MoveableObject moveableObject) {
-        if(moveableObject instanceof Paddle) {
-            Paddle paddle = (Paddle) moveableObject;
+    public void removeEffect(Paddle paddle, BallManager ballManager) {
             paddle.setWidth(Config.paddleWidth);
             paddle.setHeight(Config.paddleHeight);
             paddle.setHitBox(new Rectangle2D(paddle.getX() + Config.paddleHitBoxOffsetX,
                     paddle.getY() + Config.paddleHitBoxOffsetY,
                     Config.paddleHitBoxW, Config.paddleHitBoxH));
-        }
 
     }
 }

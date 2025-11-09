@@ -1,5 +1,7 @@
 package com.example.arkanoidProject.object.PowerUp;
 
+import com.example.arkanoidProject.object.Ball;
+import com.example.arkanoidProject.object.BallManager;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
 import com.example.arkanoidProject.util.Config;
@@ -13,15 +15,15 @@ public class PowerUpManager {
     private final ScheduledExecutorService scheduler =
             Executors.newScheduledThreadPool(2);
 
-    public void applyPowerUp(PowerUp powerUp, Paddle paddle) {
+    public void applyPowerUp(PowerUp powerUp, Paddle paddle, BallManager ballManager) {
         // Áp dụng effect ngay lập tức
 
        // activePowerUps.add(powerUp);
-        powerUp.applyEffect(paddle);
+        powerUp.applyEffect(paddle,ballManager);
 
         // Schedule việc remove effect sau duration giây
         scheduler.schedule(() -> {
-            powerUp.removeEffect(paddle);
+            powerUp.removeEffect(paddle,ballManager);
            // activePowerUps.remove(powerUp);
         }, powerUp.getDuration(), TimeUnit.SECONDS);
     }
