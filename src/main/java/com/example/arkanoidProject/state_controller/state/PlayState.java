@@ -6,6 +6,9 @@ import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
+import com.example.arkanoidProject.object.powerup.PowerUp;
+import com.example.arkanoidProject.object.powerup.PowerUpContext;
+import com.example.arkanoidProject.object.powerup.PowerUpFactory;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.HealthText;
@@ -27,14 +30,18 @@ public class PlayState extends State {
     private boolean startTime = false;
 
     private StartText startText;
-
     private PlayCtrl controller;
-
     private GraphicsContext gc;
 
     private Ball ball;
     private Paddle paddle;
     private List<Brick> bricks = new ArrayList<>();
+
+    // PowerUp system
+    private List<PowerUp> powerUps = new ArrayList<>();
+    private List<Ball> balls = new ArrayList<>();
+    private List<Paddle> sidePaddles = new ArrayList<>();
+    private double[] triplePaddleTimer = {0};
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
@@ -42,7 +49,6 @@ public class PlayState extends State {
     private long lastTime = 0;
 
     private LevelManager levelManager;
-
     private int level;
 
     private static boolean showHitBox = false;
@@ -70,10 +76,10 @@ public class PlayState extends State {
                     Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
 
             levelManager = new LevelManager();
-//            level = MainApp.userManager.getCurrentUser().getLastLevel();
             this.level = level;
             bricks = levelManager.loadLevel(level);
 
+            balls.add(ball);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,7 +87,6 @@ public class PlayState extends State {
 
         startText = new StartText(Config.getScreenWidth() / 2, Config.getScreenHeight() * 0.8, level);
         healthText = new HealthText(2, 10);
-
     }
 
     public void resetBallPaddle() {
@@ -96,6 +101,30 @@ public class PlayState extends State {
                 ballSprite, 10, 1, 880, 512, 0.1,
                 Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH);
 
+        balls.clear();
+        balls.add(ball);
+        sidePaddles.clear();
+        triplePaddleTimer[0] = 0;
+        powerUps.clear();
+    }
+
+    private void spawnPowerUp(double x, double y) {
+        if (Math.random() > Config.POWERUP_DROP_CHANCE) return;
+
+        PowerUp powerUp = PowerUpFactory.createRandomPowerUp(x, y);
+        powerUps.add(powerUp);
+    }
+
+    private void applyPowerUp(PowerUp powerUp) {
+        PowerUpContext context = new PowerUpContext(
+                balls, ball, paddle, sidePaddles,
+                lives, timeSeconds, triplePaddleTimer
+        );
+
+        powerUp.applyEffect(context);
+
+        lives = context.getLives();
+        timeSeconds = context.getTimeSeconds();
     }
 
     @Override
@@ -110,9 +139,9 @@ public class PlayState extends State {
 
         // ======== INPUT ========
         if (leftPressed) {
-            paddle.setDx(-400);
+            paddle.setDx(-Config.paddleSpeed);
         } else if (rightPressed) {
-            paddle.setDx(400);
+            paddle.setDx(Config.paddleSpeed);
         } else {
             paddle.setDx(0);
         }
@@ -121,114 +150,222 @@ public class PlayState extends State {
         if (startTime) timeSeconds += dt;
         int timeSecondsInt = (int) timeSeconds;
         healthText.update(lives, timeSecondsInt);
-        startText.update(dt);
 
-        // ======== UPDATE OBJECTS ========
+        // ======== UPDATE PADDLE ========
+// ======== UPDATE PADDLE ========
         double oldPaddleX = paddle.getX();
         paddle.update(dt);
 
-        if (ball.isHeld()) {
-            ball.setX(ball.getX() + (paddle.getX() - oldPaddleX));
-        } else ball.update(dt);
+// ✅ Giới hạn paddle chính trong màn hình
+        if (paddle.getX() < 0) {
+            paddle.setX(0);
+        }
+        if (paddle.getX() + paddle.getWidth() > Config.getScreenWidth()) {
+            paddle.setX(Config.getScreenWidth() - paddle.getWidth());
+        }
 
+// ✅ Nếu có side paddles, kiểm tra thêm giới hạn cho chúng
+        if (!sidePaddles.isEmpty()) {
+            // Vị trí paddle trái dự kiến
+            double leftPaddleX = paddle.getX() - Config.paddleHitBoxW - (Config.paddleHitBoxOffsetX * 2);
+            if (leftPaddleX < 0) {
+                paddle.setX(paddle.getX() - leftPaddleX);
+            }
 
-//        System.out.println(
-//                Math.round(Config.getScreenWidth()) + " " +
-//                        Math.round(Config.getScreenHeight()) + " " +
-//                        Math.round(ball.getHitBox().getMinX()) + " " +
-//                        Math.round(ball.getHitBox().getMinY())
-//        );
+            // Vị trí paddle phải dự kiến
+            double rightPaddleX = paddle.getX() + Config.paddleHitBoxW + (Config.paddleHitBoxOffsetX * 2);
+            double rightPaddleMaxX = rightPaddleX + paddle.getWidth();
+            if (rightPaddleMaxX > Config.getScreenWidth()) {
+                paddle.setX(paddle.getX() - (rightPaddleMaxX - Config.getScreenWidth()));
+            }
+        }
+
+        // ======== UPDATE ALL BALLS ========
+        // FIX: Update TẤT CẢ balls, không chỉ ball chính
+        for (Ball currentBall : balls) {
+            if (currentBall.isHeld()) {
+                currentBall.setX(currentBall.getX() + (paddle.getX() - oldPaddleX));
+            } else {
+                currentBall.update(dt);
+            }
+        }
 
         // ======== BALL - WALL COLLISION ========
-        if (ball.getHitBox().getMinX() <= 0) {
-            ball.setX(ball.getX() - ball.getHitBox().getMinX());
-            ball.setDx(- ball.getDx());
+        // Kiểm tra cho TẤT CẢ balls
+        for (Ball currentBall : new ArrayList<>(balls)) {
+            Rectangle2D ballBox = currentBall.getHitBox();
+
+            // FIX: Xóa ball nếu RA NGOÀI màn hình (cả 4 hướng)
+            if (ballBox.getMaxX() < 0 || ballBox.getMinX() > Config.getScreenWidth() ||
+                    ballBox.getMaxY() < 0 || ballBox.getMinY() > Config.getScreenHeight()) {
+                balls.remove(currentBall);
+                continue; // Bỏ qua các check collision cho ball này
+            }
+
+            // Va chạm với tường trái
+            if (ballBox.getMinX() <= 0) {
+                currentBall.setX(currentBall.getX() - ballBox.getMinX());
+                currentBall.setDx(-currentBall.getDx());
+            }
+            // Va chạm với tường phải
+            if (ballBox.getMaxX() >= Config.getScreenWidth()) {
+                currentBall.setX(currentBall.getX() - (ballBox.getMaxX() - Config.getScreenWidth()));
+                currentBall.setDx(-currentBall.getDx());
+            }
+            // Va chạm với tường trên
+            if (ballBox.getMinY() <= 0) {
+                currentBall.setY(currentBall.getY() - ballBox.getMinY());
+                currentBall.setDy(-currentBall.getDy());
+            }
         }
-        if (ball.getHitBox().getMaxX() >= Config.getScreenWidth()) {
-            ball.setX(ball.getX() - (ball.getHitBox().getMaxX() - Config.getScreenWidth()));
-            ball.setDx(-ball.getDx());
-        }
-        if (ball.getHitBox().getMinY() <= 0) {
-            ball.setY(ball.getY() - ball.getHitBox().getMinY());
-            ball.setDy(-ball.getDy());
-        }
-        if (ball.getHitBox().getMaxY() >= Config.getScreenHeight()) {
-//            ball.setY(ball.getY() - (ball.getHitBox().getMaxY() - Config.getScreenHeight()));
-//            ball.setDy(-ball.getDy());
+
+        // ======== CHECK ALL BALLS LOST ========
+        // Nếu không còn ball nào trên sân -> mất mạng
+        if (balls.isEmpty()) {
             lives -= 1;
             resetBallPaddle();
             startTime = false;
         }
 
         // ======== BALL - PADDLE COLLISION ========
-        if (ball.getHitBox().intersects(paddle.getHitBox())) {
-            double ballCenterX = ball.getHitBox().getMinX() + ball.getHitBox().getWidth() / 2;
-            double ballCenterY = ball.getHitBox().getMinY() + ball.getHitBox().getHeight() / 2;
-            double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
-            double paddleCenterY = paddle.getHitBox().getMinY() + paddle.getHitBox().getHeight() / 2;
+        // FIX: Kiểm tra cho TẤT CẢ balls
+        for (Ball currentBall : balls) {
+            if (currentBall.getHitBox().intersects(paddle.getHitBox())) {
+                double ballCenterX = currentBall.getHitBox().getMinX() + currentBall.getHitBox().getWidth() / 2;
+                double ballCenterY = currentBall.getHitBox().getMinY() + currentBall.getHitBox().getHeight() / 2;
+                double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
+                double paddleCenterY = paddle.getHitBox().getMinY() + paddle.getHitBox().getHeight() / 2;
 
-            // Hệ số multiple dùng để tăng tốc ball.
-            ball.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
-            ball.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
+                currentBall.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
+                currentBall.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
+            }
         }
 
         // ======== BALL - BRICK COLLISION ========
+        for (Ball currentBall : new ArrayList<>(balls)) {
+            Rectangle2D ballBox = currentBall.getHitBox();
 
-        // lý do dùng overlap thay cho intersect là gì, intersect chỉ trả về true/false
-        // ko biết được hướng đến của ball từ đâu để tính dx, dy phản xạ
-        Rectangle2D ballBox = ball.getHitBox();
-        for (Brick brick : bricks) {
-            if (brick.isDestroyed()) continue;
+            for (Brick brick : bricks) {
+                if (brick.isDestroyed()) continue;
 
-            Rectangle2D brickBox = new Rectangle2D(brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
+                Rectangle2D brickBox = new Rectangle2D(brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
 
-            if (!ballBox.intersects(brickBox)) continue;
+                if (!ballBox.intersects(brickBox)) continue;
 
-            double ballLeft = ballBox.getMinX();
-            double ballRight = ballBox.getMaxX();
-            double ballTop = ballBox.getMinY();
-            double ballBottom = ballBox.getMaxY();
+                double ballLeft = ballBox.getMinX();
+                double ballRight = ballBox.getMaxX();
+                double ballTop = ballBox.getMinY();
+                double ballBottom = ballBox.getMaxY();
 
-            double brickLeft = brick.getX();
-            double brickRight = brick.getX() + brick.getWidth();
-            double brickTop = brick.getY();
-            double brickBottom = brick.getY() + brick.getHeight();
+                double brickLeft = brick.getX();
+                double brickRight = brick.getX() + brick.getWidth();
+                double brickTop = brick.getY();
+                double brickBottom = brick.getY() + brick.getHeight();
 
-            // Tính độ chồng lấn
-            double overlapLeft = ballRight - brickLeft;
-            double overlapRight = brickRight - ballLeft;
-            double overlapTop = ballBottom - brickTop;
-            double overlapBottom = brickBottom - ballTop;
+                double overlapLeft = ballRight - brickLeft;
+                double overlapRight = brickRight - ballLeft;
+                double overlapTop = ballBottom - brickTop;
+                double overlapBottom = brickBottom - ballTop;
 
-            boolean ballFromLeft = overlapLeft < overlapRight;
-            boolean ballFromTop = overlapTop < overlapBottom;
+                boolean ballFromLeft = overlapLeft < overlapRight;
+                boolean ballFromTop = overlapTop < overlapBottom;
 
-            double minOverlapX = ballFromLeft ? overlapLeft : overlapRight;
-            double minOverlapY = ballFromTop ? overlapTop : overlapBottom;
+                double minOverlapX = ballFromLeft ? overlapLeft : overlapRight;
+                double minOverlapY = ballFromTop ? overlapTop : overlapBottom;
 
-            // Va vào trục nào ít hơn → cạnh đó
-            if (minOverlapX < minOverlapY) {
-                // X COLLISION (trái/phải)
-                ball.setDx(-ball.getDx());
+                if (minOverlapX < minOverlapY) {
+                    currentBall.setDx(-currentBall.getDx());
 
-                if (ballFromLeft)
-                    ball.setX(brickLeft - ball.getWidth());
-                else
-                    ball.setX(brickRight);
-            } else {
-                // Y COLLISION (trên/dưới)
-                ball.setDy(-ball.getDy());
+                    if (ballFromLeft)
+                        currentBall.setX(brickLeft - currentBall.getWidth());
+                    else
+                        currentBall.setX(brickRight);
+                } else {
+                    currentBall.setDy(-currentBall.getDy());
 
-                if (ballFromTop)
-                    ball.setY(brickTop - ball.getHeight());
-                else
-                    ball.setY(brickBottom);
+                    if (ballFromTop)
+                        currentBall.setY(brickTop - currentBall.getHeight());
+                    else
+                        currentBall.setY(brickBottom);
+                }
+
+                brick.takeDamage();
+
+                if (brick.isDestroyed()) {
+                    spawnPowerUp(brick.getX() + brick.getWidth() / 2, brick.getY());
+                }
+
+                break;
             }
-
-            brick.takeDamage();
-            break; // tránh phá nhiều brick 1 frame
         }
 
+// ======== UPDATE POWERUPS ========
+        for (PowerUp powerUp : new ArrayList<>(powerUps)) {
+            powerUp.update(dt);
+
+            // ✅ Kiểm tra va chạm với paddle chính
+            if (powerUp.getHitBox().intersects(paddle.getHitBox())) {
+                applyPowerUp(powerUp);
+                powerUp.setCollected(true);
+            }
+
+            // ✅ Kiểm tra va chạm với side paddles
+            if (!powerUp.isCollected()) {
+                for (Paddle sidePaddle : sidePaddles) {
+                    if (powerUp.getHitBox().intersects(sidePaddle.getHitBox())) {
+                        applyPowerUp(powerUp);
+                        powerUp.setCollected(true);
+                        break; // Thoát khỏi vòng lặp side paddles
+                    }
+                }
+            }
+
+            if (powerUp.getY() > Config.getScreenHeight()) {
+                powerUp.setCollected(true);
+            }
+        }
+        powerUps.removeIf(PowerUp::isCollected);
+
+        // ======== UPDATE SIDE PADDLES ========
+        if (triplePaddleTimer[0] > 0) {
+            triplePaddleTimer[0] -= dt;
+
+            for (Paddle sidePaddle : sidePaddles) {
+                sidePaddle.setDx(paddle.getDx());
+                sidePaddle.update(dt);
+                sidePaddle.setY(paddle.getY());
+            }
+
+            // ✅ TÍNH TOÁN ĐỂ HITBOX SÁT NHAU
+            if (!sidePaddles.isEmpty()) {
+                // Paddle trái: lùi lại đúng bằng chiều rộng hitbox + offset 2 bên
+                sidePaddles.get(0).setX(
+                        paddle.getX() - Config.paddleHitBoxW - (Config.paddleHitBoxOffsetX * 2)
+                );
+
+                // Paddle phải: tiến về phải đúng bằng chiều rộng hitbox + offset 2 bên
+                sidePaddles.get(1).setX(
+                        paddle.getX() + Config.paddleHitBoxW + (Config.paddleHitBoxOffsetX * 2)
+                );
+            }
+        } else {
+            sidePaddles.clear();
+        }
+
+        // ======== BALL - SIDE PADDLES COLLISION ========
+        for (Ball currentBall : balls) {
+            for (Paddle sidePaddle : sidePaddles) {
+                if (currentBall.getHitBox().intersects(sidePaddle.getHitBox())) {
+                    double ballCenterX = currentBall.getHitBox().getMinX() + currentBall.getHitBox().getWidth() / 2;
+                    double ballCenterY = currentBall.getHitBox().getMinY() + currentBall.getHitBox().getHeight() / 2;
+                    double paddleCenterX = sidePaddle.getHitBox().getMinX() + sidePaddle.getHitBox().getWidth() / 2;
+                    double paddleCenterY = sidePaddle.getHitBox().getMinY() + sidePaddle.getHitBox().getHeight() / 2;
+
+                    currentBall.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
+                    currentBall.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
+                }
+            }
+        }
 
         // ======== CHECK WIN ========
         boolean allDestroyed = true;
@@ -238,7 +375,7 @@ public class PlayState extends State {
                 break;
             }
         }
-        // Win level
+
         if (allDestroyed) {
             if (level == MainApp.userManager.getCurrentUser().getLastLevel()) {
                 MainApp.userManager.getCurrentUser().setLastLevel(level + 1);
@@ -246,8 +383,6 @@ public class PlayState extends State {
             MainApp.userManager.saveUsers();
 
             MainApp.stateStack.push(new WinLevelState(level));
-            // truyền level vào WinLevelState, sau đó WLS sẽ truyền level WLCtrl để
-            // WLCtrl gọi tạo PlayState mới với level+1;
 
             if (timeSecondsInt < MainApp.userManager.getCurrentUser().getLevelResult(level)){
                 MainApp.userManager.getCurrentUser().setLevelResult(level, timeSecondsInt);
@@ -258,7 +393,6 @@ public class PlayState extends State {
         if (lives == 0) {
             MainApp.stateStack.push(new LoseLevelState(level));
         }
-
     }
 
     @Override
@@ -267,15 +401,36 @@ public class PlayState extends State {
 
         startText.render(gc);
         healthText.render(gc);
-        ball.render(gc);
+
+        for (Ball currentBall : balls) {
+            currentBall.render(gc);
+        }
+
         paddle.render(gc);
+
+        for (Paddle sidePaddle : sidePaddles) {
+            sidePaddle.render(gc);
+        }
+
         for (Brick brick : bricks) {
             brick.render(gc);
         }
 
+        for (PowerUp powerUp : powerUps) {
+            powerUp.render(gc);
+        }
+
+        // FIX: Hiển thị hitbox cho TẤT CẢ balls và side paddles
         if (showHitBox) {
-            ball.showHitBox(gc);
+            for (Ball currentBall : balls) {
+                currentBall.showHitBox(gc);
+            }
             paddle.showHitBox(gc);
+
+            // FIX: Thêm hitbox cho side paddles
+            for (Paddle sidePaddle : sidePaddles) {
+                sidePaddle.showHitBox(gc);
+            }
         }
     }
 
@@ -295,7 +450,6 @@ public class PlayState extends State {
             showHitBox = !showHitBox;
         }
 
-        //phím Space bị JavaFX "ăn" mất
         if (event.getCode() == KeyCode.SPACE) {
             System.out.println("Space pressed");
             ball.stopHolding();
@@ -313,5 +467,4 @@ public class PlayState extends State {
             rightPressed = false;
         }
     }
-
 }

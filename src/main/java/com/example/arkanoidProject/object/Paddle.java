@@ -34,9 +34,5 @@ public class Paddle extends MoveableObject {
         } else if (keysPressed.contains(KeyCode.RIGHT)) {
             dx = speed;
         }
-
-        // Giới hạn di chuyển trong màn hình
-        if (x < 0) x = 0;
-        if (x + width > Config.getScreenWidth()) x = Config.getScreenWidth() - width;
     }
 }

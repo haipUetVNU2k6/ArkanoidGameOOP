@@ -1,7 +1,7 @@
 package com.example.arkanoidProject.util;
 
 public class Config {
-    private static int lives = 1;
+    private static int lives = 100;
     public static int getLives() {
         return lives;
     }
@@ -81,4 +81,8 @@ public class Config {
         return (int) ((getScreenHeight() * 0.4) / brickHeight);
     }
 
+
+    // PowerUp settings
+    public static final double POWERUP_DROP_CHANCE = 0.8; // 30% chance
+    public static final int TIME_BONUS_SECONDS = 5; // giảm 5 giây
 }
