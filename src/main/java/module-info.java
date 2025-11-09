@@ -15,7 +15,6 @@ module Game {
     requires com.google.gson;
 
 
-
     // Mở cho JavaFX có thể load FXML và truy cập controller
     opens com.example.arkanoidProject.state_controller.controller to javafx.fxml;
     opens com.example.arkanoidProject.object to javafx.fxml;

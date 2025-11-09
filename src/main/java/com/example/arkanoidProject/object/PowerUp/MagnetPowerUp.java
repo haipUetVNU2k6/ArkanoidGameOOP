@@ -26,11 +26,9 @@ public class MagnetPowerUp extends PowerUp{
                 if (ball.isHeld()) {
                     ball.stopHolding();
 
-
                     double ballCenterX = ball.getHitBox().getMinX() + ball.getHitBox().getWidth() / 2;
                     double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
-                    ball.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
-
+                    ball.setDx(0);
                     ball.setDy(-Math.abs(Config.startBallDy));
                 }
             }

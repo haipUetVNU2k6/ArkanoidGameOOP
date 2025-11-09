@@ -7,9 +7,7 @@ import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.BallManager;
 import com.example.arkanoidProject.object.Brick;
 import com.example.arkanoidProject.object.Paddle;
-import com.example.arkanoidProject.object.PowerUp.MultiBallPowerUp;
-import com.example.arkanoidProject.object.PowerUp.PowerUp;
-import com.example.arkanoidProject.object.PowerUp.PowerUpManager;
+import com.example.arkanoidProject.object.PowerUp.*;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Config;
 import com.example.arkanoidProject.util.HealthText;
@@ -75,6 +73,9 @@ public class PlayState extends State {
                     Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY,
                     Config.ballHitBoxW, Config.ballHitBoxH);
 
+            mainBall.setDy(-384);
+            mainBall.setDx(0);
+            //System.out.println("dy: " + mainBall.getDy() + " , " +  mainBall.getDx());
             ballManager.addBall(mainBall);
 
             powerUpManager = new PowerUpManager();
@@ -102,8 +103,8 @@ public class PlayState extends State {
                 paddleSprite, 8, 1, 800, 640, 0.1,
                 Config.paddleHitBoxOffsetX, Config.paddleHitBoxOffsetY, Config.paddleHitBoxW, Config.paddleHitBoxH);
 
-                ballManager.reset();
-                ballManager.addBall(new Ball(Config.getStartBallX(), Config.getStartBallY(), Config.ballWidth, Config.ballHeight,
+        ballManager.reset();
+        ballManager.addBall(new Ball(Config.getStartBallX(), Config.getStartBallY(), Config.ballWidth, Config.ballHeight,
                 ballSprite, 10, 1, 880, 512, 0.1,
                 Config.ballHitBoxOffsetX, Config.ballHitBoxOffsetY, Config.ballHitBoxW, Config.ballHitBoxH));
 
@@ -143,7 +144,8 @@ public class PlayState extends State {
 
                 ball.setX(ball.getX() + paddle.getX() - oldPaddleX);
                 ball.setY(paddle.getHitBox().getMinY() - ball.getHeight());
-            } else {
+            }
+            else {
 
                 ball.update(dt);
             }
@@ -190,18 +192,22 @@ public class PlayState extends State {
 
 
         // ======== BALL - PADDLE COLLISION ========
-        for(Ball ball:ballManager.getBalls()) {
+        for (Ball ball : ballManager.getBalls()) {
             if (ball.isHeld()) {
                 continue;
             }
 
             if (ball.getHitBox().intersects(paddle.getHitBox())) {
-                if(paddle.isHoldingBall()) {
+                if (paddle.isHoldingBall()) {
                     ball.setHeld(true);
+                    double paddleCenterX = paddle.getX()
+                            + Config.paddleHitBoxW / 2 - Config.ballHitBoxW / 2
+                            -   Config.ballHitBoxOffsetX;
                     ball.setY(paddle.getHitBox().getMinY() - ball.getHeight());
+                    ball.setX(paddleCenterX);
+                    ball.setDx(0);
 
-                }
-                else {
+                } else {
                     double ballCenterX = ball.getHitBox().getMinX() + ball.getHitBox().getWidth() / 2;
                     double ballCenterY = ball.getHitBox().getMinY() + ball.getHitBox().getHeight() / 2;
                     double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
@@ -214,11 +220,11 @@ public class PlayState extends State {
 
         }
 
-            // ======== BALL - BRICK COLLISION ========
+        // ======== BALL - BRICK COLLISION ========
 
-            // lý do dùng overlap thay cho intersect là gì, intersect chỉ trả về true/false
-            // ko biết được hướng đến của ball từ đâu để tính dx, dy phản xạ
-            for(Ball ball: ballManager.getBalls()) {
+        // lý do dùng overlap thay cho intersect là gì, intersect chỉ trả về true/false
+        // ko biết được hướng đến của ball từ đâu để tính dx, dy phản xạ
+        for (Ball ball : ballManager.getBalls()) {
             Rectangle2D ballBox = ball.getHitBox();
             for (Brick brick : bricks) {
                 if (brick.isDestroyed()) continue;
@@ -275,19 +281,25 @@ public class PlayState extends State {
                 break; // tránh phá nhiều brick 1 frame
             }
         }
-        // duplicate iterator in update()
+        //     PowerUp-- Collision
         Iterator<PowerUp> ite = powerUpManager.getActivePowerUps().iterator();
         while (ite.hasNext()) {
             PowerUp element = ite.next();
-            if(paddle.getHitBox().intersects(element.getHitBox())) {
-                if(element instanceof MultiBallPowerUp) {
-                  if(!ballManager.getBalls().isEmpty())  ballManager.spawnExtraBalls(ballManager.getBalls().get(0));
+            if (paddle.getHitBox().intersects(element.getHitBox())) {
+                if (element instanceof MultiBallPowerUp) {
+                    if (!ballManager.getBalls().isEmpty()) ballManager.spawnExtraBalls(ballManager.getBalls().get(0));
                 }
-                else{
+                else if(element instanceof ExtraLivesPowerUp) {
+                    lives++;
+                }
+                else if(element instanceof ExtraTimePowerUp) {
+                    timeSeconds = timeSeconds / 2;
+                }
+                else {
                     powerUpManager.applyPowerUp(element, paddle, ballManager);
                 }
-               powerUpManager.getActivePowerUps().remove(element);
-           }
+                powerUpManager.getActivePowerUps().remove(element);
+            }
             element.update(dt);
         }
 
@@ -311,7 +323,7 @@ public class PlayState extends State {
             // truyền level vào WinLevelState, sau đó WLS sẽ truyền level WLCtrl để
             // WLCtrl gọi tạo PlayState mới với level+1;
 
-            if (timeSecondsInt < MainApp.userManager.getCurrentUser().getLevelResult(level)){
+            if (timeSecondsInt < MainApp.userManager.getCurrentUser().getLevelResult(level)) {
                 MainApp.userManager.getCurrentUser().setLevelResult(level, timeSecondsInt);
             }
         }
@@ -342,7 +354,7 @@ public class PlayState extends State {
         }
 
         if (showHitBox) {
-            for (Ball ball: ballManager.getBalls() ) {
+            for (Ball ball : ballManager.getBalls()) {
                 ball.showHitBox(gc);
             }
             paddle.showHitBox(gc);
@@ -365,32 +377,6 @@ public class PlayState extends State {
             showHitBox = !showHitBox;
         }
 
-        //phím Space bị JavaFX "ăn" mất
-        if (event.getCode() == KeyCode.SPACE && !ballManager.getBalls().isEmpty()) {
-            System.out.println("Space pressed");
-
-            boolean anyBallWasHeld = false;
-
-            for (Ball ball : ballManager.getBalls()) {
-                if (ball.isHeld()) {
-                    anyBallWasHeld = true;
-                    ball.stopHolding();
-
-
-                    double ballCenterX = ball.getHitBox().getMinX() + ball.getHitBox().getWidth() / 2;
-                    double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
-
-                    ball.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
-                    ball.setDy(Config.startBallDy);
-                }
-            }
-
-
-            if (anyBallWasHeld) {
-                startText.hide();
-                startTime = true;
-            }
-        }
     }
 
     @Override
@@ -401,6 +387,29 @@ public class PlayState extends State {
         if (event.getCode() == KeyCode.D) {
             rightPressed = false;
         }
+
+        //phím Space bị JavaFX "ăn" mất
+        if (event.getCode() == KeyCode.SPACE && !ballManager.getBalls().isEmpty()) {
+            System.out.println("Space pressed");
+
+          //  boolean anyBallWasHeld = false;
+
+            for (Ball ball : ballManager.getBalls()) {
+                if (paddle.isHoldingBall()) {
+                    if (ball.isHeld()) {
+                        ball.stopHolding();
+                        ball.setDx(0);
+                        ball.setDy(-Math.abs(Config.startBallDy) * 4);
+                    }
+
+                } else {
+                    ball.stopHolding();
+                    startText.hide();
+                    startTime = true;
+                }
+            }
+        }
+
     }
 
 }

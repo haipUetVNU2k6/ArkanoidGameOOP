@@ -82,9 +82,10 @@ public class Config {
     }
 
     public static enum PowerUpType {
-//        EXPAND_PADDLE, SHRINK_PADDLE,
-//        MULTI_BALL,
-        MAGNET
+        EXPAND_PADDLE, SHRINK_PADDLE,
+        MULTI_BALL,
+        MAGNET,
+        EXTRA_TIME,EXTRA_LIVES
     }
 
     public static final double diameterPowerUp = 20;
