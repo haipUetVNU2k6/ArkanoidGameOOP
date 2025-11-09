@@ -1,16 +1,11 @@
 package com.example.arkanoidProject.object.powerup;
 
+import com.example.arkanoidProject.util.Config;
 import javafx.scene.image.Image;
 import java.util.Random;
 
 public class PowerUpFactory {
     private static final Random random = new Random();
-
-    // Tỉ lệ xuất hiện của từng loại (tổng = 100)
-    private static final int EXTRA_BALL_WEIGHT = 0;
-    private static final int TRIPLE_PADDLE_WEIGHT = 50;
-    private static final int EXTRA_LIFE_WEIGHT = 50;
-    private static final int TIME_BONUS_WEIGHT = 0;
 
     // Cache sprites (sẽ load 1 lần)
     private static Image extraBallSprite;
@@ -36,11 +31,11 @@ public class PowerUpFactory {
     public static PowerUp createRandomPowerUp(double x, double y) {
         int roll = random.nextInt(100);
 
-        if (roll < EXTRA_BALL_WEIGHT) {
+        if (roll < Config.EXTRA_BALL_WEIGHT) {
             return new ExtraBallPowerUp(x, y, extraBallSprite);
-        } else if (roll < EXTRA_BALL_WEIGHT + TRIPLE_PADDLE_WEIGHT) {
+        } else if (roll < Config.EXTRA_BALL_WEIGHT + Config.TRIPLE_PADDLE_WEIGHT) {
             return new TriplePaddlePowerUp(x, y, triplePaddleSprite);
-        } else if (roll < EXTRA_BALL_WEIGHT + TRIPLE_PADDLE_WEIGHT + EXTRA_LIFE_WEIGHT) {
+        } else if (roll < Config.EXTRA_BALL_WEIGHT + Config.TRIPLE_PADDLE_WEIGHT + Config.EXTRA_LIFE_WEIGHT) {
             return new ExtraLifePowerUp(x, y, extraLifeSprite);
         } else {
             return new TimeBonusPowerUp(x, y, timeBonusSprite);

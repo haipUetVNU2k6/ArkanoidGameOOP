@@ -2,6 +2,8 @@ package com.example.arkanoidProject.state_controller.state;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.example.arkanoidProject.MainApp;
+import com.example.arkanoidProject.audio.SoundManager;
+import com.example.arkanoidProject.audio.SoundType;
 import com.example.arkanoidProject.levels.LevelManager;
 import com.example.arkanoidProject.object.Ball;
 import com.example.arkanoidProject.object.Brick;
@@ -81,6 +83,9 @@ public class PlayState extends State {
 
             balls.add(ball);
 
+            // ✅ Phát nhạc nền khi vào game
+            SoundManager.getInstance().play(SoundType.BACKGROUND_MUSIC);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,7 +156,7 @@ public class PlayState extends State {
         int timeSecondsInt = (int) timeSeconds;
         healthText.update(lives, timeSecondsInt);
 
-        // ======== UPDATE PADDLE ========
+
 // ======== UPDATE PADDLE ========
         double oldPaddleX = paddle.getX();
         paddle.update(dt);
@@ -206,16 +211,22 @@ public class PlayState extends State {
             if (ballBox.getMinX() <= 0) {
                 currentBall.setX(currentBall.getX() - ballBox.getMinX());
                 currentBall.setDx(-currentBall.getDx());
+                // ✅ Phát âm thanh bounce
+                SoundManager.getInstance().play(SoundType.BOUNCE);
             }
             // Va chạm với tường phải
             if (ballBox.getMaxX() >= Config.getScreenWidth()) {
                 currentBall.setX(currentBall.getX() - (ballBox.getMaxX() - Config.getScreenWidth()));
                 currentBall.setDx(-currentBall.getDx());
+                // ✅ Phát âm thanh bounce
+                SoundManager.getInstance().play(SoundType.BOUNCE);
             }
             // Va chạm với tường trên
             if (ballBox.getMinY() <= 0) {
                 currentBall.setY(currentBall.getY() - ballBox.getMinY());
                 currentBall.setDy(-currentBall.getDy());
+                // ✅ Phát âm thanh bounce
+                SoundManager.getInstance().play(SoundType.BOUNCE);
             }
         }
 
@@ -223,6 +234,8 @@ public class PlayState extends State {
         // Nếu không còn ball nào trên sân -> mất mạng
         if (balls.isEmpty()) {
             lives -= 1;
+            // ✅ Phát âm thanh mất bóng
+            SoundManager.getInstance().play(SoundType.LOSE_BALL);
             resetBallPaddle();
             startTime = false;
         }
@@ -238,6 +251,9 @@ public class PlayState extends State {
 
                 currentBall.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
                 currentBall.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
+
+                // ✅ Phát âm thanh bounce
+                if (!ball.isHeld()) SoundManager.getInstance().play(SoundType.BOUNCE);
             }
         }
 
@@ -292,7 +308,12 @@ public class PlayState extends State {
                 brick.takeDamage();
 
                 if (brick.isDestroyed()) {
+                    // ✅ Phát âm thanh phá gạch
+                    SoundManager.getInstance().play(SoundType.BRICK_BREAK);
                     spawnPowerUp(brick.getX() + brick.getWidth() / 2, brick.getY());
+                } else {
+                    // ✅ Phát âm thanh bounce khi đập vào gạch chưa vỡ
+                    SoundManager.getInstance().play(SoundType.BOUNCE);
                 }
 
                 break;
@@ -307,6 +328,8 @@ public class PlayState extends State {
             if (powerUp.getHitBox().intersects(paddle.getHitBox())) {
                 applyPowerUp(powerUp);
                 powerUp.setCollected(true);
+                // ✅ Phát âm thanh nhặt power-up
+                SoundManager.getInstance().play(SoundType.POWER_UP);
             }
 
             // ✅ Kiểm tra va chạm với side paddles
@@ -315,6 +338,8 @@ public class PlayState extends State {
                     if (powerUp.getHitBox().intersects(sidePaddle.getHitBox())) {
                         applyPowerUp(powerUp);
                         powerUp.setCollected(true);
+                        // ✅ Phát âm thanh nhặt power-up
+                        SoundManager.getInstance().play(SoundType.POWER_UP);
                         break; // Thoát khỏi vòng lặp side paddles
                     }
                 }
@@ -363,6 +388,9 @@ public class PlayState extends State {
 
                     currentBall.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
                     currentBall.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
+
+                    // ✅ Phát âm thanh bounce
+                    SoundManager.getInstance().play(SoundType.BOUNCE);
                 }
             }
         }
@@ -382,6 +410,9 @@ public class PlayState extends State {
             }
             MainApp.userManager.saveUsers();
 
+            // ✅ Phát âm thanh thắng
+            SoundManager.getInstance().play(SoundType.WIN);
+
             MainApp.stateStack.push(new WinLevelState(level));
 
             if (timeSecondsInt < MainApp.userManager.getCurrentUser().getLevelResult(level)){
@@ -391,6 +422,8 @@ public class PlayState extends State {
 
         // ======== CHECK LOSE ========
         if (lives == 0) {
+            // ✅ Phát âm thanh thua
+            SoundManager.getInstance().play(SoundType.LOSE);
             MainApp.stateStack.push(new LoseLevelState(level));
         }
     }

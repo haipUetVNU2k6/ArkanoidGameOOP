@@ -78,11 +78,17 @@ public class Config {
         return getScreenWidth() / brickWidth;
     }
     public static int maxBrickInOneCol() {
-        return (int) ((getScreenHeight() * 0.4) / brickHeight);
+        return (int) ((getScreenHeight() * 0.5) / brickHeight);
     }
 
 
     // PowerUp settings
     public static final double POWERUP_DROP_CHANCE = 0.8; // 30% chance
     public static final int TIME_BONUS_SECONDS = 5; // giảm 5 giây
+
+    // Tỉ lệ xuất hiện của từng loại (tổng = 100)
+    public static final int EXTRA_BALL_WEIGHT = 25;
+    public static final int TRIPLE_PADDLE_WEIGHT = 25;
+    public static final int EXTRA_LIFE_WEIGHT = 25;
+    public static final int TIME_BONUS_WEIGHT = 25;
 }

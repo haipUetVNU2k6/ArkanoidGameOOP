@@ -9,12 +9,13 @@ public enum SoundType {
     BACKGROUND_MUSIC("/com/example/arkanoidProject/view/sounds/background.wav", true),
 
     // Sound Effects
-    CLICK("/com/example/arkanoidProject/view/sounds/click.wav", false),
-    BOUNCE("/com/example/arkanoidProject/view/sounds/bounce.wav", false),
-    WIN("/com/example/arkanoidProject/view/sounds/win.wav", false),
-    LOSE("/com/example/arkanoidProject/view/sounds/lose.wav", false),
-    BRICK_BREAK("/com/example/arkanoidProject/view/sounds/brick_break.wav", false),
-    LOSE_BALL("/com/example/arkanoidProject/view/sounds/lose_ball.wav", false);
+    CLICK("/com/example/arkanoidProject/view/sounds/button_click.mp3", false),
+    BOUNCE("/com/example/arkanoidProject/view/sounds/bounce.mp3", false),
+    WIN("/com/example/arkanoidProject/view/sounds/winLevel.wav", false),
+    LOSE("/com/example/arkanoidProject/view/sounds/loseLevel.wav", false),
+    BRICK_BREAK("/com/example/arkanoidProject/view/sounds/brickBreak.mp3", false),
+    LOSE_BALL("/com/example/arkanoidProject/view/sounds/loseBall.wav", false),
+    POWER_UP("/com/example/arkanoidProject/view/sounds/powerUp.mp3", false);
 
     private final String fileName;
     private final boolean isMusic; // true = nhạc nền, false = sound effect
