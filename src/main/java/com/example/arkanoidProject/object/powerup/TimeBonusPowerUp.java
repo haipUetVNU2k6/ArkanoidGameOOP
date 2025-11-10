@@ -15,7 +15,7 @@ public class TimeBonusPowerUp extends PowerUp {
                 spriteSheet != null ? 30 : 0,
                 0.15,
                 2, 2, 26, 26,
-                Color.YELLOW);
+                Color.BROWN);
     }
 
     public TimeBonusPowerUp(double x, double y) {

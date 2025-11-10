@@ -35,7 +35,7 @@ public class TriplePaddlePowerUp extends PowerUp {
 
             Paddle mainPaddle = context.getMainPaddle();
 
-// Paddle bên trái - hitbox sát với mainPaddle
+            // Paddle bên trái - hitbox sát với mainPaddle
             Paddle leftPaddle = new Paddle(
                     mainPaddle.getX() - Config.paddleHitBoxW - (Config.paddleHitBoxOffsetX * 2),
                     mainPaddle.getY(),
@@ -45,7 +45,7 @@ public class TriplePaddlePowerUp extends PowerUp {
                     Config.paddleHitBoxW, Config.paddleHitBoxH
             );
 
-// Paddle bên phải - hitbox sát với mainPaddle
+            // Paddle bên phải - hitbox sát với mainPaddle
             Paddle rightPaddle = new Paddle(
                     mainPaddle.getX() + Config.paddleHitBoxW + (Config.paddleHitBoxOffsetX * 2),
                     mainPaddle.getY(),

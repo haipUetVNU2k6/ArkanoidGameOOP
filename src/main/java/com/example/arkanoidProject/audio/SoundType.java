@@ -1,9 +1,5 @@
 package com.example.arkanoidProject.audio;
 
-/**
- * Enum chứa tất cả các loại âm thanh trong game
- * Dễ dàng thêm/sửa/xóa sound effects
- */
 public enum SoundType {
     // Background Music
     BACKGROUND_MUSIC("/com/example/arkanoidProject/view/sounds/background.wav", true),
