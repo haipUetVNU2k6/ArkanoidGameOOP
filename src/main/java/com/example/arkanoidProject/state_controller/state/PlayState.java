@@ -53,7 +53,7 @@ public class PlayState extends State {
     private boolean leftPressed = false;
     private boolean rightPressed = false;
 
-    private long lastTime = 0;
+//    private long lastTime = 0;
 
     private LevelManager levelManager;
     private int level;
@@ -75,7 +75,8 @@ public class PlayState extends State {
                     Config.getScreenWidth(),
                     Config.getScreenHeight()
             );
-            // ✅ Thêm canvas hiệu ứng nổ vào UI
+
+            // Thêm canvas hiệu ứng nổ vào UI
             Pane rootPane = (Pane) controller.getPlayCanvas().getParent();
             rootPane.getChildren().add(explosionCanvasManager);
 
@@ -97,7 +98,6 @@ public class PlayState extends State {
 
             balls.add(ball);
 
-            // ✅ Phát nhạc nền khi vào game
             SoundManager.getInstance().play(SoundType.BACKGROUND_MUSIC);
 
         } catch (IOException e) {
@@ -148,13 +148,7 @@ public class PlayState extends State {
 
     @Override
     public void update() {
-        long now = System.nanoTime();
-        if (lastTime == 0) {
-            lastTime = now;
-            return;
-        }
-        double dt = (now - lastTime) / 1_000_000_000.0;
-        lastTime = now;
+        double dt = Config.TARGET_DT; // 60 FPS cố định
 
         // ======== INPUT ========
         if (leftPressed) {
@@ -170,12 +164,11 @@ public class PlayState extends State {
         int timeSecondsInt = (int) timeSeconds;
         healthText.update(lives, timeSecondsInt);
 
-
-// ======== UPDATE PADDLE ========
+        // ======== UPDATE PADDLE ========
         double oldPaddleX = paddle.getX();
         paddle.update(dt);
 
-// ✅ Giới hạn paddle chính trong màn hình
+        // Giới hạn paddle chính trong màn hình
         if (paddle.getX() < 0) {
             paddle.setX(0);
         }
@@ -183,7 +176,7 @@ public class PlayState extends State {
             paddle.setX(Config.getScreenWidth() - paddle.getWidth());
         }
 
-// ✅ Nếu có side paddles, kiểm tra thêm giới hạn cho chúng
+        // Nếu có side paddles, kiểm tra thêm giới hạn cho chúng
         if (!sidePaddles.isEmpty()) {
             // Vị trí paddle trái dự kiến
             double leftPaddleX = paddle.getX() - Config.paddleHitBoxW - (Config.paddleHitBoxOffsetX * 2);
@@ -225,37 +218,35 @@ public class PlayState extends State {
             if (ballBox.getMinX() <= 0) {
                 currentBall.setX(currentBall.getX() - ballBox.getMinX());
                 currentBall.setDx(-currentBall.getDx());
-                // ✅ Phát âm thanh bounce
+
                 SoundManager.getInstance().play(SoundType.BOUNCE);
             }
             // Va chạm với tường phải
             if (ballBox.getMaxX() >= Config.getScreenWidth()) {
                 currentBall.setX(currentBall.getX() - (ballBox.getMaxX() - Config.getScreenWidth()));
                 currentBall.setDx(-currentBall.getDx());
-                // ✅ Phát âm thanh bounce
+
                 SoundManager.getInstance().play(SoundType.BOUNCE);
             }
             // Va chạm với tường trên
             if (ballBox.getMinY() <= 0) {
                 currentBall.setY(currentBall.getY() - ballBox.getMinY());
                 currentBall.setDy(-currentBall.getDy());
-                // ✅ Phát âm thanh bounce
+
                 SoundManager.getInstance().play(SoundType.BOUNCE);
             }
         }
 
         // ======== CHECK ALL BALLS LOST ========
-        // Nếu không còn ball nào trên sân -> mất mạng
         if (balls.isEmpty()) {
             lives -= 1;
-            // ✅ Phát âm thanh mất bóng
+
             SoundManager.getInstance().play(SoundType.LOSE_BALL);
             resetBallPaddle();
             startTime = false;
         }
 
         // ======== BALL - PADDLE COLLISION ========
-        // FIX: Kiểm tra cho TẤT CẢ balls
         for (Ball currentBall : balls) {
             if (currentBall.getHitBox().intersects(paddle.getHitBox())) {
                 double ballCenterX = currentBall.getHitBox().getMinX() + currentBall.getHitBox().getWidth() / 2;
@@ -266,7 +257,7 @@ public class PlayState extends State {
                 currentBall.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
                 currentBall.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
 
-                // ✅ Phát âm thanh bounce
+
                 if (!ball.isHeld()) SoundManager.getInstance().play(SoundType.BOUNCE);
             }
         }
@@ -329,11 +320,11 @@ public class PlayState extends State {
                             brick.getHeight()
                     );
 
-                    // ✅ Phát âm thanh phá gạch
+
                     SoundManager.getInstance().play(SoundType.BRICK_BREAK);
                     spawnPowerUp(brick.getX() + brick.getWidth() / 2, brick.getY());
                 } else {
-                    // ✅ Phát âm thanh bounce khi đập vào gạch chưa vỡ
+
                     SoundManager.getInstance().play(SoundType.BOUNCE);
                 }
 
@@ -345,21 +336,21 @@ public class PlayState extends State {
         for (PowerUp powerUp : new ArrayList<>(powerUps)) {
             powerUp.update(dt);
 
-            // ✅ Kiểm tra va chạm với paddle chính
+
             if (powerUp.getHitBox().intersects(paddle.getHitBox())) {
                 applyPowerUp(powerUp);
                 powerUp.setCollected(true);
-                // ✅ Phát âm thanh nhặt power-up
+
                 SoundManager.getInstance().play(SoundType.POWER_UP);
             }
 
-            // ✅ Kiểm tra va chạm với side paddles
+
             if (!powerUp.isCollected()) {
                 for (Paddle sidePaddle : sidePaddles) {
                     if (powerUp.getHitBox().intersects(sidePaddle.getHitBox())) {
                         applyPowerUp(powerUp);
                         powerUp.setCollected(true);
-                        // ✅ Phát âm thanh nhặt power-up
+
                         SoundManager.getInstance().play(SoundType.POWER_UP);
                         break; // Thoát khỏi vòng lặp side paddles
                     }
@@ -382,7 +373,7 @@ public class PlayState extends State {
                 sidePaddle.setY(paddle.getY());
             }
 
-            // ✅ TÍNH TOÁN ĐỂ HITBOX SÁT NHAU
+            // TÍNH TOÁN ĐỂ HITBOX SÁT NHAU
             if (!sidePaddles.isEmpty()) {
                 // Paddle trái: lùi lại đúng bằng chiều rộng hitbox + offset 2 bên
                 sidePaddles.get(0).setX(
@@ -410,7 +401,7 @@ public class PlayState extends State {
                     currentBall.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
                     currentBall.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
 
-                    // ✅ Phát âm thanh bounce
+
                     SoundManager.getInstance().play(SoundType.BOUNCE);
                 }
             }
@@ -431,7 +422,6 @@ public class PlayState extends State {
             }
             MainApp.userManager.saveUsers();
 
-            // ✅ Phát âm thanh thắng
             SoundManager.getInstance().play(SoundType.WIN);
 
             MainApp.stateStack.push(new WinLevelState(level));
@@ -443,7 +433,6 @@ public class PlayState extends State {
 
         // ======== CHECK LOSE ========
         if (lives == 0) {
-            // ✅ Phát âm thanh thua
             SoundManager.getInstance().play(SoundType.LOSE);
             MainApp.stateStack.push(new LoseLevelState(level));
         }
@@ -497,7 +486,6 @@ public class PlayState extends State {
             rightPressed = true;
         }
         if (event.getCode() == KeyCode.ESCAPE) {
-            lastTime = 0;
             MainApp.stateStack.push(new PauseState(level));
         }
         if (event.getCode() == KeyCode.H) {

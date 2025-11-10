@@ -1,7 +1,8 @@
 package com.example.arkanoidProject.util;
 
 public class Config {
-    private static int lives = 100;
+    // ====== LIVES ======
+    private static int lives = 1;
     public static int getLives() {
         return lives;
     }
@@ -10,13 +11,8 @@ public class Config {
     private static int screenWidth = 700;
     private static int screenHeight = 800;
 
-    public static int getScreenWidth() {
-        return screenWidth;
-    }
-
-    public static int getScreenHeight() {
-        return screenHeight;
-    }
+    public static int getScreenWidth() { return screenWidth; }
+    public static int getScreenHeight() { return screenHeight; }
 
     public static void setScreenSize(int width, int height) {
         screenWidth = width;
@@ -41,7 +37,6 @@ public class Config {
         return getScreenHeight() - paddleHeight;
     }
 
-
     // ====== BALL ======
     public static int startBallDx = 100;
     public static int startBallDy = 100;
@@ -63,12 +58,11 @@ public class Config {
     public static double getStartBallY() {
         return getStartPaddleY()
                 - ballHitBoxH - ballHitBoxOffsetY
-                + 1; // +1 để đảm bảo va chạm frame đầu
+                + 1;
     }
 
     public static double ballDxMultiple = 8;
     public static double ballDyMultiple = 24;
-
 
     // ====== BRICKS ======
     public static int brickWidth = 70;
@@ -81,14 +75,14 @@ public class Config {
         return (int) ((getScreenHeight() * 0.5) / brickHeight);
     }
 
-
-    // PowerUp settings
-    public static final double POWERUP_DROP_CHANCE = 0.8; // 30% chance
-    public static final int TIME_BONUS_SECONDS = 5; // giảm 5 giây
-
-    // Tỉ lệ xuất hiện của từng loại (tổng = 100)
+    // ====== POWERUP ======
+    public static final double POWERUP_DROP_CHANCE = 0.8;
+    public static final int TIME_BONUS_SECONDS = 5;
     public static final int EXTRA_BALL_WEIGHT = 25;
     public static final int TRIPLE_PADDLE_WEIGHT = 25;
     public static final int EXTRA_LIFE_WEIGHT = 25;
     public static final int TIME_BONUS_WEIGHT = 25;
+
+    // ====== GAME LOOP ======
+    public static final double TARGET_DT = 1.0 / 60.0; // thời gian mỗi frame
 }

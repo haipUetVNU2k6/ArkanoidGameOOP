@@ -1,0 +1,731 @@
+@startuml
+class com.example.arkanoidProject.util.StartText {
+- int level
+- String text
+- boolean finished
+- double alpha
+- double time
+- double scale
+- double x
+- Font font
++ void update(double)
++ void render(GraphicsContext)
++ void hide()
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.WinLevelCtrl {
+- int currentLevel
+- StackPane root
++ void setLevel(int)
++ void initialize()
+- void onNextLevel(ActionEvent)
+- void onRestart(ActionEvent)
+- void onMenu(ActionEvent)
+}
+
+
+class com.example.arkanoidProject.state_controller.state.PlayState {
+- ExplosionCanvas explosionCanvasManager
+- HealthText healthText
+- int lives
+- double timeSeconds
+- boolean startTime
+- StartText startText
+- PlayCtrl controller
+- GraphicsContext gc
+- Ball ball
+- Paddle paddle
+- List<Brick> bricks
+- List<PowerUp> powerUps
+- List<Ball> balls
+- List<Paddle> sidePaddles
+- double[] triplePaddleTimer
+- boolean leftPressed
+- boolean rightPressed
+- long lastTime
+- LevelManager levelManager
+- int level
+- {static} boolean showHitBox
++ void resetBallPaddle()
+- void spawnPowerUp(double,double)
+- void applyPowerUp(PowerUp)
++ void update()
++ void render()
++ void handleKeyPressed(KeyEvent)
++ void handleKeyReleased(KeyEvent)
+}
+
+
+class com.example.arkanoidProject.util.HealthText {
+- String text
+- boolean finished
+- double x
+- Font font
+- double elapsedTime
++ void update(int,int)
++ void render(GraphicsContext)
++ void hide()
+}
+
+
+class com.example.arkanoidProject.userAccount.UserManager {
+- {static} String USER_FILE
+- List<User> users
+- User currentUser
+- String lastUserUsername
+- Gson gson
++ void loadUsers()
++ void saveUsers()
++ List<User> getUsers()
++ void addUser(User)
++ void setCurrentUser(User)
++ User getCurrentUser()
+}
+
+
+class com.example.arkanoidProject.userAccount.UserManager$UserData {
+~ List<User> users
+~ String lastUserUsername
+}
+
+class com.example.arkanoidProject.state_controller.controller.PlayCtrl {
+- Canvas explosionCanvas
+- int currentLevel
+- Canvas playCanvas
++ Canvas getExplosionCanvas()
++ void setLevel(int)
++ Canvas getPlayCanvas()
+- void onPause(ActionEvent)
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.ChangeAccountCtrl {
+- ComboBox<String> userComboBox
+- Button switchButton
+- Button newButton
+- Button deleteButton
+- Button backButton
+- TextField newAccountTextField
+- Label messageLabel
+- UserManager userManager
++ void initialize()
+- void refreshUsers()
+- void onSwitch()
+- void onCreate()
+- void onDelete()
+- void onBack()
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.SettingsCtrl {
+- StackPane root
+- Slider volumeSlider
+- Label volumeLabel
+- Button btnMute
+- Button btnBack
++ void initialize()
+- void onMuteToggle(ActionEvent)
+- void onBack(ActionEvent)
+- void updateVolumeLabel(double)
+- void updateMuteButton(boolean)
+}
+
+
+class com.example.arkanoidProject.object.Ball {
+- boolean isHeld
++ void render(GraphicsContext)
++ boolean isHeld()
++ void stopHolding()
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.PauseCtrl {
+- int currentLevel
++ void setLevel(int)
+- void onResume(ActionEvent)
+- void onRestart(ActionEvent)
+- void onMenu(ActionEvent)
+- void onSetting(ActionEvent)
+}
+
+
+class com.example.arkanoidProject.object.powerup.TimeBonusPowerUp {
++ void applyEffect(PowerUpContext)
++ String getName()
++ String getSymbol()
+}
+
+abstract class com.example.arkanoidProject.state_controller.state.State {
+# Pane ui
++ Pane getUI()
++ void onEnter()
++ void onExit()
++ void update()
++ void render()
++ void handleKeyPressed(KeyEvent)
++ void handleKeyReleased(KeyEvent)
+}
+
+
+class com.example.arkanoidProject.userAccount.User {
+- String username
+- int lastLevel
+- int[] levelResults
++ String getUsername()
++ int getLastLevel()
++ void setLastLevel(int)
++ int[] getLevelResults()
++ void setLevelResults(int[])
++ int getLevelResult(int)
++ void setLevelResult(int,int)
+}
+
+
+class com.example.arkanoidProject.object.powerup.PowerUpFactory {
+- {static} Random random
+- {static} Image extraBallSprite
+- {static} Image triplePaddleSprite
+- {static} Image extraLifeSprite
+- {static} Image timeBonusSprite
++ {static} PowerUp createRandomPowerUp(double,double)
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.ChooseLevelCtrl {
+- Button level1Btn
+- Button level2Btn
+- Button level3Btn
+- Button level4Btn
+- Button level5Btn
+- Button level6Btn
+- Button backBtn
+- int unlockedLevel
++ void init(ChooseLevelState)
+- void setupButtons()
+- void setupButton(Button,int)
+- void setupBackButton()
+- void onSelectLevel(int)
+}
+
+
+class com.example.arkanoidProject.util.SpriteAnimation {
+- Image spriteSheet
+- int frameWidth
+- int columns
+- double defaultFrameDuration
+- int currentFrame
+- int currentRow
+- double timer
+- double frameDuration
+- boolean loop
+- boolean running
+- Runnable onFinished
+- Map<String,Integer> rowMap
++ void update(double)
++ void render(GraphicsContext,double,double,double,double)
++ void setRow(int)
++ void mapRow(String,int)
++ void setAnimation(String)
++ void setLoop(boolean)
++ void setFrameDuration(double)
++ void reset()
++ void stop()
++ void play()
++ boolean isRunning()
++ void setOnFinished(Runnable)
++ int getCurrentFrame()
++ int getCurrentRow()
++ int getFrameWidth()
++ int getFrameHeight()
++ Image getSpriteSheet()
+}
+
+
+enum com.example.arkanoidProject.audio.SoundType {
++  BACKGROUND_MUSIC
++  CLICK
++  BOUNCE
++  WIN
++  LOSE
++  BRICK_BREAK
++  LOSE_BALL
++  POWER_UP
+- String fileName
+- boolean isMusic
++ String getFileName()
++ boolean isMusic()
++ String getPath()
+}
+
+
+class com.example.arkanoidProject.object.GameObject {
+# double x
+# double width
++ void update(double)
++ void render(GraphicsContext)
++ double getX()
++ double getY()
++ void setX(double)
++ void setY(double)
++ double getWidth()
++ double getHeight()
++ void setWidth(double)
++ void setHeight(double)
+}
+
+
+class com.example.arkanoidProject.audio.SoundManager {
+- {static} SoundManager instance
+- MediaPlayer backgroundMusicPlayer
+- Map<SoundType,Media> soundCache
+- double volume
+- boolean isMuted
++ {static} SoundManager getInstance()
++ void initialize()
++ void play(SoundType)
++ void playBackgroundMusic()
++ void stopBackgroundMusic()
++ void setVolume(double)
++ void toggleMute()
++ void dispose()
++ double getVolume()
++ boolean isMuted()
+}
+
+
+class com.example.arkanoidProject.util.Config {
+- {static} int lives
+- {static} int screenWidth
+- {static} int screenHeight
++ {static} double paddleWidth
++ {static} double paddleHeight
++ {static} double paddleSpeed
++ {static} double paddleHitBoxOffsetX
++ {static} double paddleHitBoxOffsetY
++ {static} double paddleHitBoxW
++ {static} double paddleHitBoxH
++ {static} int startBallDx
++ {static} int startBallDy
++ {static} double ballWidth
++ {static} double ballHeight
++ {static} double ballHitBoxOffsetX
++ {static} double ballHitBoxOffsetY
++ {static} double ballHitBoxW
++ {static} double ballHitBoxH
++ {static} double ballDxMultiple
++ {static} double ballDyMultiple
++ {static} int brickWidth
++ {static} int brickHeight
++ {static} double POWERUP_DROP_CHANCE
++ {static} int TIME_BONUS_SECONDS
++ {static} int EXTRA_BALL_WEIGHT
++ {static} int TRIPLE_PADDLE_WEIGHT
++ {static} int EXTRA_LIFE_WEIGHT
++ {static} int TIME_BONUS_WEIGHT
++ {static} int getLives()
++ {static} int getScreenWidth()
++ {static} int getScreenHeight()
++ {static} void setScreenSize(int,int)
++ {static} double getStartPaddleX()
++ {static} double getStartPaddleY()
++ {static} double getStartBallX()
++ {static} double getStartBallY()
++ {static} int maxBrickInOneRow()
++ {static} int maxBrickInOneCol()
+}
+
+
+class com.example.arkanoidProject.state_controller.state.SettingsState {
+}
+class com.example.arkanoidProject.object.powerup.ExtraLifePowerUp {
++ void applyEffect(PowerUpContext)
++ String getName()
++ String getSymbol()
+}
+
+class com.example.arkanoidProject.util.FireworkCanvas {
+- List<Particle> particles
+- Color randomFireColor()
+- void spawnFountainParticles()
+- void addFountainParticle(double,double,boolean)
+- void draw()
+}
+
+
+class com.example.arkanoidProject.util.FireworkCanvas$Particle {
+~ double x
+~ double size
+~ Color color
+}
+
+class com.example.arkanoidProject.util.ExplosionCanvas {
+- List<Explosion> explosions
++ void addExplosion(double,double)
++ void addExplosion(double,double,double,double)
+- void update()
+- void draw()
+}
+
+
+class com.example.arkanoidProject.util.ExplosionCanvas$FireParticle {
+~ double x
+~ double life
+~ double size
+~ Color color
+~ void update()
+~ void render(GraphicsContext)
+}
+
+
+class com.example.arkanoidProject.util.ExplosionCanvas$Spark {
+~ double x
+~ double life
+~ double size
+~ void update()
+~ void render(GraphicsContext)
+}
+
+
+class com.example.arkanoidProject.util.ExplosionCanvas$Smoke {
+~ double x
+~ double vy
+~ double life
+~ double size
+~ void update()
+~ void render(GraphicsContext)
+}
+
+
+class com.example.arkanoidProject.util.ExplosionCanvas$Explosion {
+~ List<FireParticle> fireParticles
+~ List<Spark> sparks
+~ List<Smoke> smokes
+~ int frame
+~ {static} int DURATION
+~ void update()
+~ void render(GraphicsContext)
+~ boolean isFinished()
+}
+
+
+class com.example.arkanoidProject.util.RainCanvas {
+- List<Raindrop> drops
+- {static} double BASE_DENSITY
+- {static} double MIN_SPEED
+- {static} double MAX_SPEED
+- {static} double MIN_LENGTH
+- {static} double MAX_LENGTH
+- void spawnRain()
+- void update()
+- void draw()
+}
+
+
+class com.example.arkanoidProject.util.RainCanvas$Raindrop {
+~ double x
+}
+
+class com.example.arkanoidProject.state_controller.state.ChooseLevelState {
+}
+class com.example.arkanoidProject.state_controller.state.ChangeAccountState {
+- ChangeAccountCtrl controller
+}
+
+class com.example.arkanoidProject.object.Paddle {
+- Set<KeyCode> keysPressed
+- double speed
++ void update(double)
+}
+
+
+class com.example.arkanoidProject.MainApp {
++ {static} UserManager userManager
++ {static} Stage primaryStage
++ {static} StackPane root
++ {static} Scene scene
++ {static} StateStack stateStack
++ void start(Stage)
++ void stop()
++ {static} void main(String[])
+}
+
+
+class com.example.arkanoidProject.util.WelcomeText {
+- String text
+- boolean finished
+- double alpha
+- double time
+- double scale
+- double baseAngle
+- double tiltAmplitude
+- double tiltSpeed
+- double floatAmplitude
+- double floatSpeed
+- double x
+- Font font
++ void update(double)
++ void render(GraphicsContext)
+}
+
+
+class com.example.arkanoidProject.state_controller.state.LoseLevelState {
+- int currentLevel
++ int getLevel()
+}
+
+
+class com.example.arkanoidProject.object.powerup.ExtraBallPowerUp {
++ void applyEffect(PowerUpContext)
++ String getName()
++ String getSymbol()
+}
+
+class com.example.arkanoidProject.object.powerup.TriplePaddlePowerUp {
+- {static} double DURATION
++ void applyEffect(PowerUpContext)
++ String getName()
++ String getSymbol()
+}
+
+
+class com.example.arkanoidProject.object.Brick {
+- int health
+- boolean destroyed
+# Image currentImage
+- BrickSkin brickSkin
+- int damage
++ void render(javafx.scene.canvas.GraphicsContext)
++ void destroy()
++ boolean isDestroyed()
++ void takeDamage()
+}
+
+
+class com.example.arkanoidProject.state_controller.state.MenuState {
+~ WelcomeText menu_helloText
+- GraphicsContext gc
+- long lastTime
+- MenuCtrl controller
++ void update()
++ void render()
+}
+
+
+abstract class com.example.arkanoidProject.object.powerup.PowerUp {
+# boolean collected
+# Color fallbackColor
++ void render(GraphicsContext)
++ {abstract}void applyEffect(PowerUpContext)
++ {abstract}String getName()
++ {abstract}String getSymbol()
++ boolean isCollected()
++ void setCollected(boolean)
+}
+
+
+class com.example.arkanoidProject.state_controller.state.PauseState {
+- int currentLevel
++ int getLevel()
+}
+
+
+class com.example.arkanoidProject.state_controller.state.HighScoreState {
+- Parent root
+- HighScoreCtrl controller
++ void onEnter()
++ void onExit()
++ void update()
++ void render()
++ void handleKeyPressed(KeyEvent)
++ void handleKeyReleased(KeyEvent)
++ void backToMenu()
+}
+
+
+class com.example.arkanoidProject.state_controller.state.WinLevelState {
+- int currentLevel
++ int getLevel()
+}
+
+
+class com.example.arkanoidProject.object.MoveableObject {
+# double dx
+# Rectangle2D hitBox
+# double hitBoxOffsetX
+# SpriteAnimation spriteAnimation
++ void update(double)
++ void render(GraphicsContext)
++ void showHitBox(GraphicsContext)
++ Rectangle2D getHitBox()
++ double getDx()
++ double getDy()
++ void setDx(double)
++ void setDy(double)
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.MenuCtrl {
+- Canvas menuCanvas
+- StackPane root
+- Text title
+- Button btnStart
++ Canvas getMenuCanvas()
++ void initialize()
+- void onPLay(ActionEvent)
+- void onHighScores(ActionEvent)
+- void onSettings(ActionEvent)
+- void onExit(ActionEvent)
+- void onChangeAccount(ActionEvent)
+}
+
+
+class com.example.arkanoidProject.object.powerup.PowerUpContext {
+- List<Ball> balls
+- Ball mainBall
+- Paddle mainPaddle
+- List<Paddle> sidePaddles
+- int lives
+- double timeSeconds
+- double[] triplePaddleTimer
++ List<Ball> getBalls()
++ Ball getMainBall()
++ Paddle getMainPaddle()
++ List<Paddle> getSidePaddles()
++ int getLives()
++ double getTimeSeconds()
++ double[] getTriplePaddleTimer()
++ void setLives(int)
++ void setTimeSeconds(double)
+}
+
+
+class com.example.arkanoidProject.levels.LevelManager {
+- List<String> levelFiles
+~ Image brick1Image
+~ Image brick2Image
+~ Image brick3Image
++ List<Brick> loadLevel(int)
+- int[][] readLevelFromFile(String)
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.LoseLevelCtrl {
+- int currentLevel
+- StackPane root
++ void setLevel(int)
++ void initialize()
+- void onRestart(ActionEvent)
+- void onMenu(ActionEvent)
+}
+
+
+class com.example.arkanoidProject.util.ParticleCanvas {
+- Particle[] particles
+- Random random
+- Particle createRandomParticle(double,double)
+- void update(double)
+- void draw()
+}
+
+
+class com.example.arkanoidProject.util.ParticleCanvas$Particle {
+~ double x
+~ double size
+~ double speed
+~ double opacity
+}
+
+enum com.example.arkanoidProject.object.BrickSkin {
++  BRICK1
++  BRICK2
++  BRICK3
+- String[] texturePaths
++ Image getTexture(int)
++ int getMaxState()
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.HighScoreCtrl {
+- TableView<UserScore> scoreTable
+- TableColumn<UserScore,String> usernameColumn
+- TableColumn<UserScore,Number> level1Column
+- TableColumn<UserScore,Number> level2Column
+- TableColumn<UserScore,Number> level3Column
+- TableColumn<UserScore,Number> level4Column
+- TableColumn<UserScore,Number> level5Column
+- TableColumn<UserScore,Number> level6Column
+- ObservableList<UserScore> scoreData
++ void initialize()
+- void setupCellFactory(TableColumn<UserScore,Number>)
++ void loadHighScores()
+- void onBackToMenu()
++ void handleKeyPressed(KeyEvent)
+}
+
+
+class com.example.arkanoidProject.state_controller.controller.HighScoreCtrl$UserScore {
+- SimpleStringProperty username
+- SimpleIntegerProperty level1
+- SimpleIntegerProperty level2
+- SimpleIntegerProperty level3
+- SimpleIntegerProperty level4
+- SimpleIntegerProperty level5
+- SimpleIntegerProperty level6
++ SimpleStringProperty usernameProperty()
++ SimpleIntegerProperty level1Property()
++ SimpleIntegerProperty level2Property()
++ SimpleIntegerProperty level3Property()
++ SimpleIntegerProperty level4Property()
++ SimpleIntegerProperty level5Property()
++ SimpleIntegerProperty level6Property()
++ int compareTo(UserScore)
+}
+
+
+class com.example.arkanoidProject.state_controller.state.StateStack {
+- Stack<State> stateStack
++ void push(State)
++ void pop()
++ void clear()
++ boolean isEmpty()
++ State peek()
+}
+
+
+
+
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.PlayState
+com.example.arkanoidProject.userAccount.UserManager +.. com.example.arkanoidProject.userAccount.UserManager$UserData
+com.example.arkanoidProject.object.MoveableObject <|-- com.example.arkanoidProject.object.Ball
+com.example.arkanoidProject.object.powerup.PowerUp <|-- com.example.arkanoidProject.object.powerup.TimeBonusPowerUp
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.SettingsState
+com.example.arkanoidProject.object.powerup.PowerUp <|-- com.example.arkanoidProject.object.powerup.ExtraLifePowerUp
+javafx.scene.canvas.Canvas <|-- com.example.arkanoidProject.util.FireworkCanvas
+com.example.arkanoidProject.util.FireworkCanvas +.. com.example.arkanoidProject.util.FireworkCanvas$Particle
+javafx.scene.canvas.Canvas <|-- com.example.arkanoidProject.util.ExplosionCanvas
+com.example.arkanoidProject.util.ExplosionCanvas +.. com.example.arkanoidProject.util.ExplosionCanvas$FireParticle
+com.example.arkanoidProject.util.ExplosionCanvas +.. com.example.arkanoidProject.util.ExplosionCanvas$Spark
+com.example.arkanoidProject.util.ExplosionCanvas +.. com.example.arkanoidProject.util.ExplosionCanvas$Smoke
+com.example.arkanoidProject.util.ExplosionCanvas +.. com.example.arkanoidProject.util.ExplosionCanvas$Explosion
+javafx.scene.canvas.Canvas <|-- com.example.arkanoidProject.util.RainCanvas
+com.example.arkanoidProject.util.RainCanvas +.. com.example.arkanoidProject.util.RainCanvas$Raindrop
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.ChooseLevelState
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.ChangeAccountState
+com.example.arkanoidProject.object.MoveableObject <|-- com.example.arkanoidProject.object.Paddle
+javafx.application.Application <|-- com.example.arkanoidProject.MainApp
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.LoseLevelState
+com.example.arkanoidProject.object.powerup.PowerUp <|-- com.example.arkanoidProject.object.powerup.ExtraBallPowerUp
+com.example.arkanoidProject.object.powerup.PowerUp <|-- com.example.arkanoidProject.object.powerup.TriplePaddlePowerUp
+com.example.arkanoidProject.object.GameObject <|-- com.example.arkanoidProject.object.Brick
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.MenuState
+com.example.arkanoidProject.object.MoveableObject <|-- com.example.arkanoidProject.object.powerup.PowerUp
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.PauseState
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.HighScoreState
+com.example.arkanoidProject.state_controller.state.State <|-- com.example.arkanoidProject.state_controller.state.WinLevelState
+com.example.arkanoidProject.object.GameObject <|-- com.example.arkanoidProject.object.MoveableObject
+javafx.scene.canvas.Canvas <|-- com.example.arkanoidProject.util.ParticleCanvas
+com.example.arkanoidProject.util.ParticleCanvas +.. com.example.arkanoidProject.util.ParticleCanvas$Particle
+com.example.arkanoidProject.state_controller.controller.HighScoreCtrl +.. com.example.arkanoidProject.state_controller.controller.HighScoreCtrl$UserScore
+com.example.arkanoidProject.state_controller.controller.Comparable <|.. com.example.arkanoidProject.state_controller.controller.HighScoreCtrl$UserScore
+@enduml

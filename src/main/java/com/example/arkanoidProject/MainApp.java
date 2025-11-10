@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class MainApp extends Application {
+    private double accumulator = 0.0;
+    private long lastTime = 0;
+
     public static UserManager userManager = new UserManager();
 
     public static Stage primaryStage;
@@ -80,12 +83,30 @@ public class MainApp extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
+                if (lastTime == 0) {
+                    lastTime = now;
+                    return;
+                }
+
+                double delta = (now - lastTime) / 1_000_000_000.0;
+                lastTime = now;
+                accumulator += delta;
+
+                // Update nhiều lần nếu frame trước chậm
+                while (accumulator >= Config.TARGET_DT) {
+                    if (!stateStack.isEmpty()) {
+                        stateStack.peek().update();  // dt trong PlayState là 1/60
+                    }
+                    accumulator -= Config.TARGET_DT;
+                }
+
+                // Render luôn mỗi frame
                 if (!stateStack.isEmpty()) {
-                    stateStack.peek().update();
                     stateStack.peek().render();
                 }
             }
         }.start();
+
     }
 
     @Override
