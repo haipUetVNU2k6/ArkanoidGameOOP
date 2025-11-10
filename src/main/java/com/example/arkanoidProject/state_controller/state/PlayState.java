@@ -13,6 +13,7 @@ import com.example.arkanoidProject.object.powerup.PowerUpContext;
 import com.example.arkanoidProject.object.powerup.PowerUpFactory;
 import com.example.arkanoidProject.state_controller.controller.PlayCtrl;
 import com.example.arkanoidProject.util.Config;
+import com.example.arkanoidProject.util.ExplosionCanvas;
 import com.example.arkanoidProject.util.HealthText;
 import com.example.arkanoidProject.util.StartText;
 import javafx.fxml.FXMLLoader;
@@ -21,11 +22,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayState extends State {
+    private ExplosionCanvas explosionCanvasManager;
+
     private HealthText healthText;
     private int lives = Config.getLives();
     private double timeSeconds;
@@ -65,6 +70,15 @@ public class PlayState extends State {
             controller.setLevel(level);
 
             gc = controller.getPlayCanvas().getGraphicsContext2D();
+
+            explosionCanvasManager = new ExplosionCanvas(
+                    Config.getScreenWidth(),
+                    Config.getScreenHeight()
+            );
+            // ✅ Thêm canvas hiệu ứng nổ vào UI
+            Pane rootPane = (Pane) controller.getPlayCanvas().getParent();
+            rootPane.getChildren().add(explosionCanvasManager);
+
 
             Image ballSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/ball/ballSpriteImage.png").toExternalForm());
             Image paddleSprite = new Image(getClass().getResource("/com/example/arkanoidProject/view/images/paddle/paddleSpriteImage.png").toExternalForm());
@@ -308,6 +322,13 @@ public class PlayState extends State {
                 brick.takeDamage();
 
                 if (brick.isDestroyed()) {
+                    explosionCanvasManager.addExplosion(
+                            brick.getX(),
+                            brick.getY(),
+                            brick.getWidth(),
+                            brick.getHeight()
+                    );
+
                     // ✅ Phát âm thanh phá gạch
                     SoundManager.getInstance().play(SoundType.BRICK_BREAK);
                     spawnPowerUp(brick.getX() + brick.getWidth() / 2, brick.getY());

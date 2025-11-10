@@ -13,6 +13,7 @@
            fx:controller="com.example.arkanoidProject.state_controller.controller.PlayCtrl">
 
     <Canvas fx:id="playCanvas" width="700" height="800" />
+    <Canvas fx:id="explosionCanvas" width="640" height="480"/>
 
     <!-- Nút pause overlay -->
     <AnchorPane pickOnBounds="false">

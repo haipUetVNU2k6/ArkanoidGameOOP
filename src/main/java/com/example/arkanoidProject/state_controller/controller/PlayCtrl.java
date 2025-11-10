@@ -10,6 +10,13 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 
 public class PlayCtrl {
+    @FXML
+    private Canvas explosionCanvas;
+
+    public Canvas getExplosionCanvas() {
+        return explosionCanvas;
+    }
+
     private int currentLevel;
     public void setLevel(int level) {
         this.currentLevel = level;
