@@ -8,7 +8,7 @@ Group 8 - Class INT2204 5
 - Lê Trọng Thi - 24020654
 - Phan Văn Thái Hưng - 24022798 (class INT2204 6)
 
-**Instructor:** [Tên giảng viên]  
+**Instructor:** Nguyễn Thu Trang - Trương Xuân Hiếu - Kiều Văn Tuyên
 **Semester:** HK1 - Năm học 25/26
 
 ---
