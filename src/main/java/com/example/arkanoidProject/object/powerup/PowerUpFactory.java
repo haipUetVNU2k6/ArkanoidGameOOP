@@ -4,7 +4,7 @@ import com.example.arkanoidProject.util.Config;
 import javafx.scene.image.Image;
 import java.util.Random;
 
-public class PowerUpFactory {
+public abstract class PowerUpFactory {
     private static final Random random = new Random();
 
     // Cache sprites (sẽ load 1 lần)
