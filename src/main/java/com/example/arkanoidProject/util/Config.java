@@ -2,7 +2,7 @@ package com.example.arkanoidProject.util;
 
 public class Config {
     // ====== LIVES ======
-    private static int lives = 1;
+    private static int lives = 20;
     public static int getLives() {
         return lives;
     }
@@ -78,10 +78,10 @@ public class Config {
     // ====== POWERUP ======
     public static final double POWERUP_DROP_CHANCE = 0.8;
     public static final int TIME_BONUS_SECONDS = 5;
-    public static final int EXTRA_BALL_WEIGHT = 25;
+    public static final int EXTRA_BALL_WEIGHT = 75;
     public static final int TRIPLE_PADDLE_WEIGHT = 25;
-    public static final int EXTRA_LIFE_WEIGHT = 25;
-    public static final int TIME_BONUS_WEIGHT = 25;
+    public static final int EXTRA_LIFE_WEIGHT = 0;
+    public static final int TIME_BONUS_WEIGHT = 0;
 
     // ====== GAME LOOP ======
     public static final double TARGET_DT = 1.0 / 60.0; // thời gian mỗi frame

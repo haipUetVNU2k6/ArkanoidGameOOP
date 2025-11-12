@@ -5,7 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class MoveableObject extends GameObject {
+public abstract class MoveableObject extends GameObject {
     protected double dx, dy;
     protected Rectangle2D hitBox;
     protected double hitBoxOffsetX, hitBoxOffsetY;

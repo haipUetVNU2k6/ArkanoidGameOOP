@@ -57,7 +57,7 @@ public class MainApp extends Application {
         primaryStage.centerOnScreen();
 
         // Ép Scene luôn nhận phím khi click vào
-        // tránh space bị javafx "ăn"
+        // tránh space bị javafx "ăn", do phím space thường sẽ được mặc định cho các button fxml
         scene.setOnMouseClicked(e -> root.requestFocus());
         root.requestFocus();
         root.setFocusTraversable(true);
@@ -95,18 +95,16 @@ public class MainApp extends Application {
                 // Update nhiều lần nếu frame trước chậm
                 while (accumulator >= Config.TARGET_DT) {
                     if (!stateStack.isEmpty()) {
-                        stateStack.peek().update();  // dt trong PlayState là 1/60
+                        stateStack.peek().update();
                     }
                     accumulator -= Config.TARGET_DT;
                 }
 
-                // Render luôn mỗi frame
                 if (!stateStack.isEmpty()) {
                     stateStack.peek().render();
                 }
             }
         }.start();
-
     }
 
     @Override

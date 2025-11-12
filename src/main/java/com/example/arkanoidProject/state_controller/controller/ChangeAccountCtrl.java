@@ -196,10 +196,21 @@ public class ChangeAccountCtrl {
             messageLabel.setText("No user selected!");
             return;
         }
-        userManager.getUsers().removeIf(u -> u.getUsername().equals(username));
-        if (userManager.getCurrentUser() != null && userManager.getCurrentUser().getUsername().equals(username)) {
-            userManager.setCurrentUser(null);
+
+        // Không cho xóa nếu chỉ còn 1 user
+        if (userManager.getUsers().size() <= 1) {
+            messageLabel.setText("Cannot delete the last user!");
+            return;
         }
+
+        userManager.getUsers().removeIf(u -> u.getUsername().equals(username));
+
+        // Nếu xóa current user, chuyển sang user đầu tiên
+        if (userManager.getCurrentUser() != null &&
+                userManager.getCurrentUser().getUsername().equals(username)) {
+            userManager.setCurrentUser(userManager.getUsers().get(0));
+        }
+
         userManager.saveUsers();
         refreshUsers();
         messageLabel.setText("Deleted user: " + username);
@@ -209,7 +220,6 @@ public class ChangeAccountCtrl {
     private void onBack() {
         SoundManager.getInstance().play(SoundType.CLICK);
 
-        // Quay lại màn hình trước, ví dụ:
         MainApp.stateStack.pop();
     }
 }

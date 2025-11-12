@@ -2,7 +2,7 @@ package com.example.arkanoidProject.object;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class GameObject {
+public abstract class GameObject {
     protected double x, y;
     protected double width, height;
 

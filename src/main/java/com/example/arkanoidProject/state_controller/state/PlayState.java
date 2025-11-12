@@ -1,6 +1,5 @@
 package com.example.arkanoidProject.state_controller.state;
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.example.arkanoidProject.MainApp;
 import com.example.arkanoidProject.audio.SoundManager;
 import com.example.arkanoidProject.audio.SoundType;
@@ -203,41 +202,38 @@ public class PlayState extends State {
         }
 
         // ======== BALL - WALL COLLISION ========
-        // Kiểm tra cho TẤT CẢ balls
         for (Ball currentBall : new ArrayList<>(balls)) {
             Rectangle2D ballBox = currentBall.getHitBox();
 
-            // FIX: Xóa ball nếu RA NGOÀI màn hình (cả 4 hướng)
-            if (ballBox.getMaxX() < 0 || ballBox.getMinX() > Config.getScreenWidth() ||
-                    ballBox.getMaxY() < 0 || ballBox.getMinY() > Config.getScreenHeight()) {
-                balls.remove(currentBall);
-                continue; // Bỏ qua các check collision cho ball này
-            }
-
-            // Va chạm với tường trái
             if (ballBox.getMinX() <= 0) {
                 currentBall.setX(currentBall.getX() - ballBox.getMinX());
                 currentBall.setDx(-currentBall.getDx());
 
                 SoundManager.getInstance().play(SoundType.BOUNCE);
             }
-            // Va chạm với tường phải
+
             if (ballBox.getMaxX() >= Config.getScreenWidth()) {
                 currentBall.setX(currentBall.getX() - (ballBox.getMaxX() - Config.getScreenWidth()));
                 currentBall.setDx(-currentBall.getDx());
 
                 SoundManager.getInstance().play(SoundType.BOUNCE);
             }
-            // Va chạm với tường trên
+
             if (ballBox.getMinY() <= 0) {
                 currentBall.setY(currentBall.getY() - ballBox.getMinY());
                 currentBall.setDy(-currentBall.getDy());
 
                 SoundManager.getInstance().play(SoundType.BOUNCE);
             }
+
+            // check nếu ball nào rơi xuống dưới thì mất
+            if (ballBox.getMinY() > Config.getScreenHeight()) {
+                balls.remove(currentBall);
+                continue;
+            }
         }
 
-        // ======== CHECK ALL BALLS LOST ========
+        // Check Lost
         if (balls.isEmpty()) {
             lives -= 1;
 
@@ -246,21 +242,6 @@ public class PlayState extends State {
             startTime = false;
         }
 
-        // ======== BALL - PADDLE COLLISION ========
-        for (Ball currentBall : balls) {
-            if (currentBall.getHitBox().intersects(paddle.getHitBox())) {
-                double ballCenterX = currentBall.getHitBox().getMinX() + currentBall.getHitBox().getWidth() / 2;
-                double ballCenterY = currentBall.getHitBox().getMinY() + currentBall.getHitBox().getHeight() / 2;
-                double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
-                double paddleCenterY = paddle.getHitBox().getMinY() + paddle.getHitBox().getHeight() / 2;
-
-                currentBall.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
-                currentBall.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
-
-
-                if (!ball.isHeld()) SoundManager.getInstance().play(SoundType.BOUNCE);
-            }
-        }
 
         // ======== BALL - BRICK COLLISION ========
         for (Ball currentBall : new ArrayList<>(balls)) {
@@ -406,7 +387,21 @@ public class PlayState extends State {
                 }
             }
         }
+    // ======== BALL - PADDLE COLLISION ========
+        for (Ball currentBall : balls) {
+            if (currentBall.getHitBox().intersects(paddle.getHitBox())) {
+                double ballCenterX = currentBall.getHitBox().getMinX() + currentBall.getHitBox().getWidth() / 2;
+                double ballCenterY = currentBall.getHitBox().getMinY() + currentBall.getHitBox().getHeight() / 2;
+                double paddleCenterX = paddle.getHitBox().getMinX() + paddle.getHitBox().getWidth() / 2;
+                double paddleCenterY = paddle.getHitBox().getMinY() + paddle.getHitBox().getHeight() / 2;
 
+                currentBall.setDx((ballCenterX - paddleCenterX) * Config.ballDxMultiple);
+                currentBall.setDy((ballCenterY - paddleCenterY) * Config.ballDyMultiple);
+
+
+                if (!ball.isHeld()) SoundManager.getInstance().play(SoundType.BOUNCE);
+            }
+        }
         // ======== CHECK WIN ========
         boolean allDestroyed = true;
         for (Brick brick : bricks) {
@@ -479,10 +474,10 @@ public class PlayState extends State {
 
     @Override
     public void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.A) {
+        if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
             leftPressed = true;
         }
-        if (event.getCode() == KeyCode.D) {
+        if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
             rightPressed = true;
         }
         if (event.getCode() == KeyCode.ESCAPE) {
@@ -502,10 +497,10 @@ public class PlayState extends State {
 
     @Override
     public void handleKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.A) {
+        if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
             leftPressed = false;
         }
-        if (event.getCode() == KeyCode.D) {
+        if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
             rightPressed = false;
         }
     }
